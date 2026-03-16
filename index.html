@@ -3,23 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title></title>
-  <style>
-    html, body { margin: 0; padding: 0; background: #000; }
-  </style>
+  <style>html,body{margin:0;padding:0;background:#000}</style>
 </head>
 <body>
 <script>
-  var DEST   = 'https://canvas.inspirededucationschools.com';
-  var TARGET = 'maths.html';
-  var TITLE  = 'Maths Support';
+  var DEST    = 'https://canvas.inspirededucationschools.com';
+  var TARGET  = 'maths.html';
+  var TITLE   = 'Maths Support';
   var FAVICON = 'maths-logo.png';
 
-  var win = null;
-  try { win = window.open('', '_blank'); } catch(e) {}
+  function openTab(faviconDataUrl) {
+    var win = null;
+    try { win = window.open('', '_blank'); } catch(e) {}
 
-  if (!win || win.closed) {
-    window.location.replace(TARGET);
-  } else {
+    if (!win || win.closed) {
+      window.location.replace(TARGET);
+      return;
+    }
+
     try {
       var d = win.document;
       d.open();
@@ -28,8 +29,8 @@
         '<head>' +
         '<meta charset="UTF-8">' +
         '<title>' + TITLE + '</title>' +
-        '<link rel="icon" type="image/png" href="' + FAVICON + '">' +
-        '<link rel="shortcut icon" type="image/png" href="' + FAVICON + '">' +
+        '<link rel="icon" type="image/png" href="' + faviconDataUrl + '">' +
+        '<link rel="shortcut icon" type="image/png" href="' + faviconDataUrl + '">' +
         '<style>' +
           '*{margin:0;padding:0}' +
           'html,body{width:100%;height:100%;overflow:hidden;background:#000}' +
@@ -40,18 +41,18 @@
         '<iframe src="' + TARGET + '"' +
         ' allow="fullscreen *; autoplay *; clipboard-read *; clipboard-write *"' +
         ' allowfullscreen' +
-        ' sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation allow-modals allow-pointer-lock allow-downloads">' +
+        ' sandbox="allow-same-origin allow-scripts allow-forms allow-popups' +
+        ' allow-top-navigation allow-modals allow-pointer-lock allow-downloads">' +
         '</iframe>' +
         '</body></html>'
       );
       d.close();
 
-      // Set title + favicon via the new window's DOM directly as well,
-      // in case document.write title gets overridden by the iframe
+      // Belt-and-braces: set title + favicon after write in case iframe overwrites
       try {
         win.document.title = TITLE;
-        var link = win.document.querySelector("link[rel*='icon']");
-        if (link) { link.href = FAVICON; }
+        var icons = win.document.querySelectorAll("link[rel*='icon']");
+        icons.forEach(function(el) { el.href = faviconDataUrl; });
       } catch(e) {}
 
       try { win.history.replaceState(null, '', 'about:blank'); } catch(e) {}
@@ -64,6 +65,24 @@
       window.location.href = DEST;
     }
   }
+
+  // Fetch the logo, convert to base64, then open the tab
+  // This makes the favicon work from about:blank because it's fully self-contained
+  fetch(FAVICON)
+    .then(function(r) { return r.blob(); })
+    .then(function(blob) {
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        openTab(reader.result); // reader.result is "data:image/png;base64,..."
+      };
+      reader.onerror = function() {
+        openTab(FAVICON); // fallback to path if FileReader fails
+      };
+      reader.readAsDataURL(blob);
+    })
+    .catch(function() {
+      openTab(FAVICON); // fallback if fetch fails
+    });
 </script>
 </body>
 </html>
