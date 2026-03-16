@@ -75,6 +75,20 @@
       font-size: 0.7rem; cursor: pointer; transition: border-color 0.2s, color 0.2s; text-align: center;
     }
     .ql-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .proxy-row {
+      display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem;
+    }
+    .proxy-label {
+      font-size: 0.6rem; letter-spacing: 0.15em; color: var(--muted); white-space: nowrap;
+    }
+    .proxy-tabs { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+    .ptab {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.3rem 0.6rem; color: var(--muted); font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em;
+    }
+    .ptab:hover { border-color: var(--accent); color: var(--accent); }
+    .ptab.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 700; }
     #status { font-size: 0.7rem; color: var(--accent2); margin-top: 0.5rem; min-height: 1em; text-align: center; }
     .timer-bar-wrap {
       display: none; margin-top: 1rem; background: var(--bg);
@@ -125,6 +139,15 @@
       <button class="ql-btn" onclick="quick('https://www.google.com')">Google</button>
       <button class="ql-btn" onclick="quick('https://www.mathway.com')">Mathway</button>
     </div>
+    <div class="proxy-row" id="proxyRow">
+      <span class="proxy-label">PROXY</span>
+      <div class="proxy-tabs">
+        <button class="ptab active" onclick="setProxy('none',this)">Off</button>
+        <button class="ptab" onclick="setProxy('corsproxy',this)">CorsProxy</button>
+        <button class="ptab" onclick="setProxy('allorigins',this)">AllOrigins</button>
+        <button class="ptab" onclick="setProxy('1proxy',this)">1Proxy</button>
+      </div>
+    </div>
     <div id="status"></div>
     <div class="timer-bar-wrap" id="timerWrap">
       <div class="timer-top">
@@ -150,6 +173,24 @@
   var timerSeconds = 0;
   var autoEnabled = false;
   var lastUrl = '';
+  var currentProxy = 'none';
+
+  var PROXIES = {
+    'none':       function(u) { return u; },
+    'corsproxy':  function(u) { return 'https://corsproxy.io/?' + encodeURIComponent(u); },
+    'allorigins': function(u) { return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u); },
+    '1proxy':     function(u) { return 'https://1proxy.de/?q=' + encodeURIComponent(u); }
+  };
+
+  function setProxy(name, btn) {
+    currentProxy = name;
+    document.querySelectorAll('.ptab').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  function applyProxy(url) {
+    return (PROXIES[currentProxy] || PROXIES['none'])(url);
+  }
 
   function setStatus(msg) {
     document.getElementById('status').textContent = msg;
@@ -217,7 +258,7 @@
     }
     lastUrl = url;
     setStatus('Opening...');
-    doLaunch(url);
+    doLaunch(applyProxy(url));
   }
 
   function openSite() { launch(document.getElementById('urlInput').value.trim()); }
