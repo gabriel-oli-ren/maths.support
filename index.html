@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,37 +5,81 @@
 </head>
 <body>
 <script>
-  const win = window.open("about:blank", "_blank");
+(function () {
 
-  win.document.open();
-  win.document.write(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>about:blank</title>
-      <style>
-        html, body {
-          margin: 0;
-          padding: 0;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-        }
-        iframe {
-          width: 100%;
-          height: 100%;
-          border: none;
-        }
-      </style>
-    </head>
-    <body>
-      <iframe src="maths.html"></iframe>
-    </body>
-    </html>
-  `);
-  win.document.close();
+  var DEST   = 'https://canvas.inspirededucationschools.com';
+  var TARGET = 'maths.html';
 
-  window.location.replace("https://canvas.inspirededucationschools.com");
+  // ── Method 1: open about:blank, write into it, redirect opener ──
+  function tryAboutBlank() {
+    var win;
+    try { win = window.open('', '_blank'); } catch (e) { win = null; }
+
+    // Popup was blocked or failed
+    if (!win || win.closed || typeof win.document === 'undefined') {
+      return fallback();
+    }
+
+    var doc = win.document;
+    try {
+      doc.open();
+      doc.write(
+        '<!DOCTYPE html><html>' +
+        '<head>' +
+        '<meta charset="UTF-8">' +
+        '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+        '<title>\u200B</title>' +        // zero-width space — blank title
+        '<style>' +
+          'html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#000}' +
+          'iframe{position:fixed;top:0;left:0;width:100%;height:100%;border:0}' +
+        '</style>' +
+        '</head>' +
+        '<body>' +
+        '<iframe src="' + TARGET + '"' +
+          ' allow="fullscreen *; autoplay *; clipboard-read *; clipboard-write *"' +
+          ' allowfullscreen' +
+          ' sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation allow-modals allow-pointer-lock allow-downloads"' +
+        '></iframe>' +
+        '</body></html>'
+      );
+      doc.close();
+
+      // Push a blank history entry so the tab shows about:blank in Chrome
+      try { win.history.replaceState(null, '', 'about:blank'); } catch (e) {}
+
+      // Give the write a tick to settle before killing the opener
+      setTimeout(function () {
+        try { window.location.replace(DEST); } catch (e) {}
+      }, 80);
+
+    } catch (writeErr) {
+      // document.write blocked (some strict sandbox policies)
+      try {
+        win.location.replace(TARGET);
+        setTimeout(function () {
+          try { window.location.replace(DEST); } catch (e) {}
+        }, 120);
+      } catch (locErr) {
+        win.close();
+        fallback();
+      }
+    }
+  }
+
+  // ── Fallback: same tab (popup was blocked) ──
+  function fallback() {
+    try { window.location.replace(TARGET); } catch (e) {}
+  }
+
+  // ── Run on DOMContentLoaded so the browser registers the
+  //    open() as triggered by a real navigation (not an async timer) ──
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tryAboutBlank);
+  } else {
+    tryAboutBlank();
+  }
+
+})();
 </script>
 </body>
 </html>
