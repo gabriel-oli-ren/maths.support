@@ -1,86 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Loading…</title>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    html, body { margin: 0; padding: 0; background: #000; }
+  </style>
 </head>
 <body>
 <script>
-(function () {
-
   var DEST   = 'https://canvas.inspirededucationschools.com';
   var TARGET = 'maths.html';
+  var TITLE  = 'Maths Support';
+  var FAVICON = 'maths-logo.png';
 
-  // ── Method 1: open about:blank, write into it, redirect opener ──
-  function tryAboutBlank() {
-    var win;
-    try { win = window.open('', '_blank'); } catch (e) { win = null; }
+  var win = null;
+  try { win = window.open('', '_blank'); } catch(e) {}
 
-    // Popup was blocked or failed
-    if (!win || win.closed || typeof win.document === 'undefined') {
-      return fallback();
-    }
-
-    var doc = win.document;
+  if (!win || win.closed) {
+    window.location.replace(TARGET);
+  } else {
     try {
-      doc.open();
-      doc.write(
+      var d = win.document;
+      d.open();
+      d.write(
         '<!DOCTYPE html><html>' +
         '<head>' +
         '<meta charset="UTF-8">' +
-        '<meta name="viewport" content="width=device-width,initial-scale=1">' +
-        '<title>Maths Support</title>' +        // zero-width space — blank title
-        <link rel="icon" type="image/x-icon" href="maths-logo.png"
+        '<title>' + TITLE + '</title>' +
+        '<link rel="icon" type="image/png" href="' + FAVICON + '">' +
+        '<link rel="shortcut icon" type="image/png" href="' + FAVICON + '">' +
         '<style>' +
-          'html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#000}' +
+          '*{margin:0;padding:0}' +
+          'html,body{width:100%;height:100%;overflow:hidden;background:#000}' +
           'iframe{position:fixed;top:0;left:0;width:100%;height:100%;border:0}' +
         '</style>' +
         '</head>' +
         '<body>' +
         '<iframe src="' + TARGET + '"' +
-          ' allow="fullscreen *; autoplay *; clipboard-read *; clipboard-write *"' +
-          ' allowfullscreen' +
-          ' sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation allow-modals allow-pointer-lock allow-downloads"' +
-        '></iframe>' +
+        ' allow="fullscreen *; autoplay *; clipboard-read *; clipboard-write *"' +
+        ' allowfullscreen' +
+        ' sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation allow-modals allow-pointer-lock allow-downloads">' +
+        '</iframe>' +
         '</body></html>'
       );
-      doc.close();
+      d.close();
 
-      // Push a blank history entry so the tab shows about:blank in Chrome
-      try { win.history.replaceState(null, '', 'about:blank'); } catch (e) {}
-
-      // Give the write a tick to settle before killing the opener
-      setTimeout(function () {
-        try { window.location.replace(DEST); } catch (e) {}
-      }, 80);
-
-    } catch (writeErr) {
-      // document.write blocked (some strict sandbox policies)
+      // Set title + favicon via the new window's DOM directly as well,
+      // in case document.write title gets overridden by the iframe
       try {
-        win.location.replace(TARGET);
-        setTimeout(function () {
-          try { window.location.replace(DEST); } catch (e) {}
-        }, 120);
-      } catch (locErr) {
-        win.close();
-        fallback();
-      }
+        win.document.title = TITLE;
+        var link = win.document.querySelector("link[rel*='icon']");
+        if (link) { link.href = FAVICON; }
+      } catch(e) {}
+
+      try { win.history.replaceState(null, '', 'about:blank'); } catch(e) {}
+
+    } catch(e) {
+      try { win.location.replace(TARGET); } catch(e2) {}
+    }
+
+    try { window.location.replace(DEST); } catch(e) {
+      window.location.href = DEST;
     }
   }
-
-  // ── Fallback: same tab (popup was blocked) ──
-  function fallback() {
-    try { window.location.replace(TARGET); } catch (e) {}
-  }
-
-  // ── Run on DOMContentLoaded so the browser registers the
-  //    open() as triggered by a real navigation (not an async timer) ──
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', tryAboutBlank);
-  } else {
-    tryAboutBlank();
-  }
-
-})();
 </script>
 </body>
 </html>
