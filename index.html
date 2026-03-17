@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head><title>Loading…</title></head>
+<head>
+  <title>Loading…</title>
+</head>
 <body>
 <script>
-  const win = window.open('', '_blank');
+  const win = window.open("about:blank", "_blank");
 
-  if (!win || win.closed || typeof win.closed === 'undefined') {
-    // Popup was blocked — fallback: open in same tab
-    window.location.replace('maths.html');
-  } else {
-    try {
-      win.document.open();
-      win.document.write(`<!DOCTYPE html><html><head><title>Maths Support</title>
-        <style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden}
-        iframe{width:100%;height:100%;border:none}</style></head>
-        <body><iframe src="maths.html" allow="fullscreen"></iframe></body></html>`);
-      win.document.close();
+  win.document.open();
+  win.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>about:blank</title>
+      <style>
+        html, body {
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        iframe {
+          width: 100%;
+          height: 100%;
+          border: none;
+        }
+      </style>
+    </head>
+    <body>
+      <iframe src="maths.html"></iframe>
+    </body>
+    </html>
+  `);
+  win.document.close();
 
-      // Wait for write to settle before redirecting the opener
-      setTimeout(() => {
-        window.location.replace('https://canvas.inspirededucationschools.com');
-      }, 150);
-    } catch (e) {
-      // Cross-origin write failed — fallback
-      win.location.replace('maths.html');
-      setTimeout(() => {
-        window.location.replace('https://canvas.inspirededucationschools.com');
-      }, 150);
-    }
-  }
+  window.location.replace("https://canvas.inspirededucationschools.com");
 </script>
 </body>
 </html>
