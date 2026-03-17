@@ -1,88 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-  <style>html,body{margin:0;padding:0;background:#000}</style>
-</head>
+<head><title>Loading…</title></head>
 <body>
 <script>
-  var DEST    = 'https://canvas.inspirededucationschools.com';
-  var TARGET  = 'maths.html';
-  var TITLE   = 'Maths Support';
-  var FAVICON = 'maths-logo.png';
+  const win = window.open('', '_blank');
 
-  function openTab(faviconDataUrl) {
-    var win = null;
-    try { win = window.open('', '_blank'); } catch(e) {}
-
-    if (!win || win.closed) {
-      window.location.replace(TARGET);
-      return;
-    }
-
+  if (!win || win.closed || typeof win.closed === 'undefined') {
+    // Popup was blocked — fallback: open in same tab
+    window.location.replace('maths.html');
+  } else {
     try {
-      var d = win.document;
-      d.open();
-      d.write(
-        '<!DOCTYPE html><html>' +
-        '<head>' +
-        '<meta charset="UTF-8">' +
-        '<title>' + TITLE + '</title>' +
-        '<link rel="icon" type="image/png" href="' + faviconDataUrl + '">' +
-        '<link rel="shortcut icon" type="image/png" href="' + faviconDataUrl + '">' +
-        '<style>' +
-          '*{margin:0;padding:0}' +
-          'html,body{width:100%;height:100%;overflow:hidden;background:#000}' +
-          'iframe{position:fixed;top:0;left:0;width:100%;height:100%;border:0}' +
-        '</style>' +
-        '</head>' +
-        '<body>' +
-        '<iframe src="' + TARGET + '"' +
-        ' allow="fullscreen *; autoplay *; clipboard-read *; clipboard-write *"' +
-        ' allowfullscreen' +
-        ' sandbox="allow-same-origin allow-scripts allow-forms allow-popups' +
-        ' allow-top-navigation allow-modals allow-pointer-lock allow-downloads">' +
-        '</iframe>' +
-        '</body></html>'
-      );
-      d.close();
+      win.document.open();
+      win.document.write(`<!DOCTYPE html><html><head><title>Maths Support</title>
+        <style>html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden}
+        iframe{width:100%;height:100%;border:none}</style></head>
+        <body><iframe src="maths.html" allow="fullscreen"></iframe></body></html>`);
+      win.document.close();
 
-      // Belt-and-braces: set title + favicon after write in case iframe overwrites
-      try {
-        win.document.title = TITLE;
-        var icons = win.document.querySelectorAll("link[rel*='icon']");
-        icons.forEach(function(el) { el.href = faviconDataUrl; });
-      } catch(e) {}
-
-      try { win.history.replaceState(null, '', 'about:blank'); } catch(e) {}
-
-    } catch(e) {
-      try { win.location.replace(TARGET); } catch(e2) {}
-    }
-
-    try { window.location.replace(DEST); } catch(e) {
-      window.location.href = DEST;
+      // Wait for write to settle before redirecting the opener
+      setTimeout(() => {
+        window.location.replace('https://canvas.inspirededucationschools.com');
+      }, 150);
+    } catch (e) {
+      // Cross-origin write failed — fallback
+      win.location.replace('maths.html');
+      setTimeout(() => {
+        window.location.replace('https://canvas.inspirededucationschools.com');
+      }, 150);
     }
   }
-
-  // Fetch the logo, convert to base64, then open the tab
-  // This makes the favicon work from about:blank because it's fully self-contained
-  fetch(FAVICON)
-    .then(function(r) { return r.blob(); })
-    .then(function(blob) {
-      var reader = new FileReader();
-      reader.onloadend = function() {
-        openTab(reader.result); // reader.result is "data:image/png;base64,..."
-      };
-      reader.onerror = function() {
-        openTab(FAVICON); // fallback to path if FileReader fails
-      };
-      reader.readAsDataURL(blob);
-    })
-    .catch(function() {
-      openTab(FAVICON); // fallback if fetch fails
-    });
 </script>
 </body>
 </html>
