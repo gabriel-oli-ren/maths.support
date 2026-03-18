@@ -1776,16 +1776,15 @@ function switchAuthTab(tab){
 }
 
 async function doLogin(){
-  const username=document.getElementById('loginUsername').value.trim().toLowerCase();
+  const username=document.getElementById('loginUsername').value.trim();
   const password=document.getElementById('loginPassword').value.trim();
   const errEl=document.getElementById('loginError'), btn=document.getElementById('loginBtn');
   errEl.classList.remove('show');
   if(!username||!password){errEl.textContent='Please fill in all fields.';errEl.classList.add('show');return;}
   btn.disabled=true;btn.textContent='Signing in...';
 
-  // Fetch by username only first, then compare password in JS
-  // This avoids RLS/PostgREST issues with filtering on two columns at once
-  const{data,error}=await sb.from('users').select('*').eq('username',username).maybeSingle();
+  // ilike = case-insensitive match, so GABÉ, gabé, Gabé all work
+  const{data,error}=await sb.from('users').select('*').ilike('username',username).maybeSingle();
   btn.disabled=false;btn.textContent='Sign In →';
 
   if(error){errEl.textContent='Error: '+error.message;errEl.classList.add('show');return;}
@@ -1797,7 +1796,8 @@ async function doLogin(){
 }
 
 async function doRegister(){
-  const username=document.getElementById('regUsername').value.trim().toLowerCase().replace(/[^\p{L}\p{N}_]/gu,'');
+  const rawUsername=document.getElementById('regUsername').value.trim().replace(/[^\p{L}\p{N}_]/gu,'');
+  const username=rawUsername; // keep original casing — ilike handles login matching
   const password=document.getElementById('regPassword').value.trim();
   const confirm=document.getElementById('regPasswordConfirm').value.trim();
   const errEl=document.getElementById('registerError'), okEl=document.getElementById('registerSuccess'), btn=document.getElementById('registerBtn');
@@ -1806,7 +1806,7 @@ async function doRegister(){
   if(username.length<3){errEl.textContent='Username must be at least 3 characters.';errEl.classList.add('show');return;}
   if(password.length<6){errEl.textContent='Password must be at least 6 characters.';errEl.classList.add('show');return;}
   if(password!==confirm){errEl.textContent='Passwords do not match.';errEl.classList.add('show');return;}
-  const{data:existing}=await sb.from('users').select('id').eq('username',username).maybeSingle();
+  const{data:existing}=await sb.from('users').select('id').ilike('username',username).maybeSingle();
   if(existing){errEl.textContent='That username is already taken.';errEl.classList.add('show');return;}
   btn.disabled=true;btn.textContent='Creating account...';
   const fc=genCode();
