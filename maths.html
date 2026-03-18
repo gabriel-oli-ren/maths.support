@@ -1777,22 +1777,29 @@ function switchAuthTab(tab){
 
 async function doLogin(){
   const username=document.getElementById('loginUsername').value.trim().toLowerCase();
-  const password=document.getElementById('loginPassword').value;
+  const password=document.getElementById('loginPassword').value.trim();
   const errEl=document.getElementById('loginError'), btn=document.getElementById('loginBtn');
   errEl.classList.remove('show');
   if(!username||!password){errEl.textContent='Please fill in all fields.';errEl.classList.add('show');return;}
   btn.disabled=true;btn.textContent='Signing in...';
-  const{data,error}=await sb.from('users').select('*').eq('username',username).eq('password',password).maybeSingle();
+
+  // Fetch by username only first, then compare password in JS
+  // This avoids RLS/PostgREST issues with filtering on two columns at once
+  const{data,error}=await sb.from('users').select('*').eq('username',username).maybeSingle();
   btn.disabled=false;btn.textContent='Sign In →';
-  if(error||!data){errEl.textContent='Incorrect username or password.';errEl.classList.add('show');return;}
+
+  if(error){errEl.textContent='Error: '+error.message;errEl.classList.add('show');return;}
+  if(!data){errEl.textContent='No account found with that username.';errEl.classList.add('show');return;}
+  if(data.password.trim()!==password){errEl.textContent='Incorrect password.';errEl.classList.add('show');return;}
+
   sessionStorage.setItem(AUTH_SESSION_KEY,data.id);
   await onSignedIn(data);
 }
 
 async function doRegister(){
-  const username=document.getElementById('regUsername').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
-  const password=document.getElementById('regPassword').value;
-  const confirm=document.getElementById('regPasswordConfirm').value;
+  const username=document.getElementById('regUsername').value.trim().toLowerCase().replace(/[^\p{L}\p{N}_]/gu,'');
+  const password=document.getElementById('regPassword').value.trim();
+  const confirm=document.getElementById('regPasswordConfirm').value.trim();
   const errEl=document.getElementById('registerError'), okEl=document.getElementById('registerSuccess'), btn=document.getElementById('registerBtn');
   errEl.classList.remove('show');okEl.classList.remove('show');
   if(!username||!password||!confirm){errEl.textContent='Please fill in all fields.';errEl.classList.add('show');return;}
