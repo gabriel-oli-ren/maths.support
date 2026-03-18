@@ -1004,15 +1004,15 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
       <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Sign Up</button>
     </div>
     <div id="loginForm">
-      <input type="email" class="auth-field" id="loginEmail" placeholder="Email address">
+      <input type="text" class="auth-field" id="loginUsername" placeholder="Username" autocomplete="off" spellcheck="false">
       <input type="password" class="auth-field" id="loginPassword" placeholder="Password">
       <button class="auth-submit" id="loginBtn" onclick="doLogin()">Sign In →</button>
       <div class="auth-error" id="loginError"></div>
     </div>
     <div id="registerForm" style="display:none">
-      <input type="text" class="auth-field" id="regUsername" placeholder="Username (e.g. mathswizard99)" maxlength="20">
-      <input type="email" class="auth-field" id="regEmail" placeholder="Email address">
+      <input type="text" class="auth-field" id="regUsername" placeholder="Username (e.g. mathswizard99)" maxlength="20" autocomplete="off" spellcheck="false">
       <input type="password" class="auth-field" id="regPassword" placeholder="Password (min 6 characters)">
+      <input type="password" class="auth-field" id="regPasswordConfirm" placeholder="Confirm password">
       <button class="auth-submit" id="registerBtn" onclick="doRegister()">Create Account →</button>
       <div class="auth-error" id="registerError"></div>
       <div class="auth-success" id="registerSuccess"></div>
@@ -1708,7 +1708,7 @@ async function saveRole(){
       return;
     }
   }
-  const {error} = await sb.from('profiles').update({role: val||null}).eq('id',currentUser.id);
+  const {error} = await sb.from('users').update({role: val||null}).eq('id',currentUser.id);
   if(error){ showMsg('roleMsg','Error: '+error.message,'err'); return; }
   currentProfile.role = val||null;
   showMsg('roleMsg','✅ Role saved!','ok');
@@ -1763,8 +1763,11 @@ function friendlyDate(ts){
 }
 
 // ══════════════════════════════════════════════════════════════════
-// AUTH (unchanged)
+// CUSTOM AUTH — no Supabase Auth, plain users table
+// Passwords stored in plain text so admins can look them up
 // ══════════════════════════════════════════════════════════════════
+const AUTH_SESSION_KEY = 'ms_user_id';
+
 function switchAuthTab(tab){
   document.getElementById('loginForm').style.display=tab==='login'?'':'none';
   document.getElementById('registerForm').style.display=tab==='register'?'':'none';
@@ -1773,38 +1776,39 @@ function switchAuthTab(tab){
 }
 
 async function doLogin(){
-  const email=document.getElementById('loginEmail').value.trim(), password=document.getElementById('loginPassword').value;
+  const username=document.getElementById('loginUsername').value.trim().toLowerCase();
+  const password=document.getElementById('loginPassword').value;
   const errEl=document.getElementById('loginError'), btn=document.getElementById('loginBtn');
   errEl.classList.remove('show');
-  if(!email||!password){errEl.textContent='Please fill in all fields.';errEl.classList.add('show');return;}
+  if(!username||!password){errEl.textContent='Please fill in all fields.';errEl.classList.add('show');return;}
   btn.disabled=true;btn.textContent='Signing in...';
-  const{data,error}=await sb.auth.signInWithPassword({email,password});
+  const{data,error}=await sb.from('users').select('*').eq('username',username).eq('password',password).maybeSingle();
   btn.disabled=false;btn.textContent='Sign In →';
-  if(error){errEl.textContent=error.message;errEl.classList.add('show');return;}
-  if(!data.user){errEl.textContent='Login failed.';errEl.classList.add('show');return;}
-  await onSignedIn(data.user);
+  if(error||!data){errEl.textContent='Incorrect username or password.';errEl.classList.add('show');return;}
+  sessionStorage.setItem(AUTH_SESSION_KEY,data.id);
+  await onSignedIn(data);
 }
 
 async function doRegister(){
   const username=document.getElementById('regUsername').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
-  const email=document.getElementById('regEmail').value.trim(), password=document.getElementById('regPassword').value;
+  const password=document.getElementById('regPassword').value;
+  const confirm=document.getElementById('regPasswordConfirm').value;
   const errEl=document.getElementById('registerError'), okEl=document.getElementById('registerSuccess'), btn=document.getElementById('registerBtn');
   errEl.classList.remove('show');okEl.classList.remove('show');
-  if(!username||!email||!password){errEl.textContent='Please fill in all fields.';errEl.classList.add('show');return;}
+  if(!username||!password||!confirm){errEl.textContent='Please fill in all fields.';errEl.classList.add('show');return;}
   if(username.length<3){errEl.textContent='Username must be at least 3 characters.';errEl.classList.add('show');return;}
   if(password.length<6){errEl.textContent='Password must be at least 6 characters.';errEl.classList.add('show');return;}
-  const{data:existing}=await sb.from('profiles').select('id').eq('username',username).maybeSingle();
+  if(password!==confirm){errEl.textContent='Passwords do not match.';errEl.classList.add('show');return;}
+  const{data:existing}=await sb.from('users').select('id').eq('username',username).maybeSingle();
   if(existing){errEl.textContent='That username is already taken.';errEl.classList.add('show');return;}
   btn.disabled=true;btn.textContent='Creating account...';
-  const{data,error}=await sb.auth.signUp({email,password});
-  if(error){btn.disabled=false;btn.textContent='Create Account →';errEl.textContent=error.message;errEl.classList.add('show');return;}
-  if(!data.user){btn.disabled=false;btn.textContent='Create Account →';errEl.textContent='Sign-up returned no user.';errEl.classList.add('show');return;}
-  if(!data.session){btn.disabled=false;btn.textContent='Create Account →';okEl.textContent='✅ Check your email for a confirmation link, then sign in.';okEl.classList.add('show');return;}
   const fc=genCode();
-  await sb.from('profiles').insert({id:data.user.id,username,display_name:username,friend_code:fc});
+  const{data,error}=await sb.from('users').insert({username,display_name:username,password,friend_code:fc,role:null,is_admin:false}).select().single();
   btn.disabled=false;btn.textContent='Create Account →';
+  if(error||!data){errEl.textContent='Error: '+(error?.message||'unknown');errEl.classList.add('show');return;}
   okEl.textContent='✅ Account created! Signing you in…';okEl.classList.add('show');
-  setTimeout(async()=>{document.getElementById('loginEmail').value=email;document.getElementById('loginPassword').value=password;switchAuthTab('login');await doLogin();},900);
+  sessionStorage.setItem(AUTH_SESSION_KEY,data.id);
+  setTimeout(()=>onSignedIn(data),700);
 }
 
 async function doSignOut(e){
@@ -1813,20 +1817,16 @@ async function doSignOut(e){
   if(chatPollTimer){clearInterval(chatPollTimer);chatPollTimer=null;}
   if(chatRealtime){sb.removeChannel(chatRealtime);chatRealtime=null;}
   if(typingRealtime){sb.removeChannel(typingRealtime);typingRealtime=null;}
-  await sb.auth.signOut();
+  sessionStorage.removeItem(AUTH_SESSION_KEY);
   currentUser=null;currentProfile=null;
   document.getElementById('userBadge').classList.remove('visible');
   document.getElementById('authOverlay').classList.remove('hidden');
   stopClock();
 }
 
-async function onSignedIn(user){
-  currentUser=user;
-  for(let i=0;i<3;i++){
-    const{data}=await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();
-    if(data){currentProfile=data;break;}
-    await new Promise(r=>setTimeout(r,600));
-  }
+async function onSignedIn(profile){
+  currentUser={id:profile.id,email:profile.username};
+  currentProfile=profile;
   document.getElementById('authOverlay').classList.add('hidden');
   renderUserBadge();
   populateAccountPage();
@@ -1836,10 +1836,17 @@ async function onSignedIn(user){
   subscribeToTyping();
   loadCustomApps();
   if(sessionStorage.getItem('questionnaire_done')!=='true')checkAndShowQuestionnaire();
-// Show broadcast button for admins
-  const iAmAdmin=ADMIN_USER_IDS.includes(user.id)||currentProfile?.is_admin;
+  const iAmAdmin=ADMIN_USER_IDS.includes(profile.id)||profile?.is_admin;
   const bcBtn=document.getElementById('broadcastBtn');
   if(bcBtn)bcBtn.style.display=iAmAdmin?'':'none';
+}
+
+async function restoreSession(){
+  const uid=sessionStorage.getItem(AUTH_SESSION_KEY);
+  if(!uid)return null;
+  const{data,error}=await sb.from('users').select('*').eq('id',uid).maybeSingle();
+  if(error||!data){sessionStorage.removeItem(AUTH_SESSION_KEY);return null;}
+  return data;
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1851,7 +1858,7 @@ function renderUserBadge(){
   document.getElementById('userBadge').classList.add('visible');
   document.getElementById('userAvatarSm').textContent=initials(name);
   document.getElementById('userNameSm').textContent=name.split(' ')[0];
-  document.getElementById('userEmailDrop').textContent=currentUser.email;
+  document.getElementById('userEmailDrop').textContent='@'+currentProfile.username;
 }
 function toggleDropdown(){document.getElementById('userDropdown').classList.toggle('open');}
 function closeDropdown(){document.getElementById('userDropdown').classList.remove('open');}
@@ -1868,7 +1875,7 @@ function populateAccountPage(){
   document.getElementById('acctAvatarSub').textContent='@'+currentProfile.username;
   document.getElementById('acctDisplayName').value=name;
   document.getElementById('acctUsername').value=currentProfile.username;
-  document.getElementById('acctEmail').value=currentUser.email;
+  document.getElementById('acctEmail').value=currentProfile.username;
   document.getElementById('myFriendCode').textContent=currentProfile.friend_code;
   // Set role select
   const rs=document.getElementById('roleSelect');
@@ -1885,7 +1892,7 @@ function populateAccountPage(){
 async function saveDisplayName(){
   const val=document.getElementById('acctDisplayName').value.trim();
   if(!val){showMsg('acctMsg','Display name cannot be empty.','err');return;}
-  const{error}=await sb.from('profiles').update({display_name:val}).eq('id',currentUser.id);
+  const{error}=await sb.from('users').update({display_name:val}).eq('id',currentUser.id);
   if(error){showMsg('acctMsg','Error: '+error.message,'err');return;}
   currentProfile.display_name=val;populateAccountPage();renderUserBadge();showMsg('acctMsg','✅ Saved!','ok');
 }
@@ -1904,7 +1911,7 @@ async function startFriendPolling(){await loadFriends();if(friendsPollTimer)clea
 async function loadFriends(){
   if(!currentUser)return;
   const{data:all}=await sb.from('friendships')
-    .select('id,status,user_id,friend_id,identity_revealed,requester:profiles!friendships_user_id_fkey(id,username,display_name,role,is_admin),receiver:profiles!friendships_friend_id_fkey(id,username,display_name,role,is_admin)')
+    .select('id,status,user_id,friend_id,identity_revealed,requester:users!friendships_user_id_fkey(id,username,display_name,role,is_admin),receiver:users!friendships_friend_id_fkey(id,username,display_name,role,is_admin)')
     .or(`user_id.eq.${currentUser.id},friend_id.eq.${currentUser.id}`);
   const accepted=(all||[]).filter(f=>f.status==='accepted');
   const pendingIn=(all||[]).filter(f=>f.status==='pending'&&f.friend_id===currentUser.id);
@@ -1976,7 +1983,7 @@ async function sendFriendRequest(){
   const code=document.getElementById('addCodeInput').value.trim().toUpperCase();
   if(code.length!==6){showMsg('addFriendMsg','Please enter a valid 6-character code.','err');return;}
   if(currentProfile&&code===currentProfile.friend_code){showMsg('addFriendMsg',"That's your own code!",'err');return;}
-  const{data:target}=await sb.from('profiles').select('id,username').eq('friend_code',code).maybeSingle();
+  const{data:target}=await sb.from('users').select('id,username').eq('friend_code',code).maybeSingle();
   if(!target){showMsg('addFriendMsg','No user found with that code.','err');return;}
   const{data:exists}=await sb.from('friendships').select('id').or(`and(user_id.eq.${currentUser.id},friend_id.eq.${target.id}),and(user_id.eq.${target.id},friend_id.eq.${currentUser.id})`).maybeSingle();
   if(exists){showMsg('addFriendMsg','Already friends or a request is pending.','err');return;}
@@ -2180,7 +2187,7 @@ async function contactAdmin(){
 
   try{
     // Find all admin profiles (excluding self)
-    const{data:admins,error}=await sb.from('profiles')
+    const{data:admins,error}=await sb.from('users')
       .select('id,username,display_name,role,is_admin,friend_code')
       .or('role.eq.admin,is_admin.eq.true')
       .neq('id',currentUser.id);
@@ -2653,9 +2660,9 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&document.activeElement.id==='sitePassInput')checkSitePassword();
   if(e.key==='Enter'&&!e.shiftKey&&document.activeElement.id==='chatMsgInput'){e.preventDefault();sendMessage();}
   if(e.key==='Enter'&&document.activeElement.id==='addCodeInput')sendFriendRequest();
-  if(e.key==='Enter'&&document.activeElement.id==='loginEmail')document.getElementById('loginPassword').focus();
+  if(e.key==='Enter'&&document.activeElement.id==='loginUsername')document.getElementById('loginPassword').focus();
   if(e.key==='Enter'&&document.activeElement.id==='loginPassword')doLogin();
-  if(e.key==='Enter'&&document.activeElement.id==='regPassword')doRegister();
+  if(e.key==='Enter'&&document.activeElement.id==='regPasswordConfirm')doRegister();
   if(e.key==='Escape'&&document.getElementById('chatPage').classList.contains('active'))showSection('home');
 });
 
@@ -2806,12 +2813,12 @@ async function runAppInit(){
     const d=await res.json();
     if(d.banned){document.body.innerHTML=`<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:linear-gradient(135deg,#1a1a2e,#16213e);font-family:'Plus Jakarta Sans',sans-serif;text-align:center;color:#fff"><div><div style="font-size:4em;margin-bottom:20px">🚫</div><h1 style="font-size:2em;color:#ff4444;margin-bottom:12px">Access Denied</h1><p style="color:rgba(255,255,255,.6);font-size:1.1em">Your access to this site has been revoked.</p></div></div>`;return;}
   }catch(e){}
-  const{data:{session}}=await sb.auth.getSession();
-  if(session){await onSignedIn(session.user);}else{document.getElementById('authOverlay').classList.remove('hidden');}
-  sb.auth.onAuthStateChange(async(event,session)=>{
-    if(event==='SIGNED_IN'&&session&&!currentUser)await onSignedIn(session.user);
-    if(event==='SIGNED_OUT'){document.getElementById('authOverlay').classList.remove('hidden');document.getElementById('userBadge').classList.remove('visible');}
-  });
+  const profile=await restoreSession();
+  if(profile){
+    await onSignedIn(profile);
+  }else{
+    document.getElementById('authOverlay').classList.remove('hidden');
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════
