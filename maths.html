@@ -2617,23 +2617,29 @@ function showSection(section){
   document.getElementById('chatPage').classList.remove('active');
   ['homeBtn','appsBtn','accountBtn','friendsBtn','chatBtn'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
   document.getElementById('topNav').classList.remove('minimal');
+  const cas=document.querySelector('.custom-apps-section');
   if(section==='home'){
     document.getElementById('gamesGrid').style.display='grid';
     document.getElementById('homeBtn').classList.add('active');
+    if(cas)cas.style.display='';
   }else if(section==='apps'){
     document.getElementById('appsPage').classList.add('active');
     document.getElementById('appsBtn').classList.add('active');
+    if(cas)cas.style.display='none';
   }else if(section==='account'){
     document.getElementById('accountPage').classList.add('active');
     document.getElementById('accountBtn').classList.add('active');
+    if(cas)cas.style.display='none';
     populateAccountPage();
   }else if(section==='friends'){
     document.getElementById('friendsPage').classList.add('active');
     document.getElementById('friendsBtn').classList.add('active');
+    if(cas)cas.style.display='none';
     loadFriends();
   }else if(section==='chat'){
     document.getElementById('chatPage').classList.add('active');
     document.getElementById('chatBtn').classList.add('active');
+    if(cas)cas.style.display='none';
     loadFriends();updateChatBadge();
     if(activeChatFriendId){
       if(chatPollTimer)clearInterval(chatPollTimer);
