@@ -1,576 +1,440 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MS FILMS</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --card: #1a1a24;
-      --accent: #e50914;
-      --accent2: #ff6b35;
-      --text: #f0f0f0;
-      --muted: #888;
-      --border: rgba(255,255,255,0.07);
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MS FILMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#e50914;--bg:#141414;--surface:#181818;--card:#2f2f2f;--text:#fff;--muted:#b3b3b3;--border:rgba(255,255,255,.12)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:800;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 4%;transition:background .4s;background:linear-gradient(to bottom,rgba(0,0,0,.85),transparent)}
+#nav.solid{background:#141414}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;color:var(--red);letter-spacing:3px;cursor:pointer;user-select:none}
+.nav-left{display:flex;align-items:center;gap:26px}
+.nav-links{display:flex;gap:18px}
+.nav-links a{color:var(--muted);font-size:.84rem;font-weight:500;cursor:pointer;text-decoration:none;transition:color .2s}
+.nav-links a:hover,.nav-links a.on{color:#fff}
+.nav-right{display:flex;align-items:center;gap:18px}
+.nbtn{background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;transition:color .2s}
+.nbtn:hover{color:#fff}
+.nav-ava{width:32px;height:32px;border-radius:4px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;cursor:pointer}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Outfit', sans-serif;
-      overflow-x: hidden;
-    }
+/* HERO */
+.hero{position:relative;width:100%;height:100vh;min-height:480px;display:flex;align-items:flex-end;padding:0 4% 120px;overflow:hidden}
+.h-bg{position:absolute;inset:0;background:#000}
+.h-bg img{width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .8s}
+.h-vig{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.78) 0%,rgba(0,0,0,.2) 55%,transparent 100%),linear-gradient(to top,#141414 0%,rgba(20,20,20,.5) 25%,transparent 60%)}
+.h-content{position:relative;z-index:2;max-width:44%;min-width:300px}
+.h-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.8rem,5.5vw,5.2rem);font-weight:900;line-height:.93;letter-spacing:.5px;margin-bottom:18px;text-shadow:2px 2px 16px rgba(0,0,0,.9)}
+.h-meta{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.h-match{color:#46d369;font-weight:800;font-size:.95rem}
+.h-tag{border:1px solid var(--muted);padding:1px 6px;border-radius:2px;font-size:.78rem;color:var(--muted)}
+.h-desc{font-size:1rem;line-height:1.55;color:rgba(255,255,255,.85);margin-bottom:24px;text-shadow:1px 1px 6px rgba(0,0,0,.9);font-weight:400}
+.h-btns{display:flex;gap:12px}
+.hbtn{display:flex;align-items:center;gap:8px;padding:10px 26px;border-radius:4px;font-family:'Barlow',sans-serif;font-size:1.05rem;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.hbtn.play{background:#fff;color:#000}
+.hbtn.play:hover{background:rgba(255,255,255,.78)}
+.hbtn.more{background:rgba(109,109,110,.7);color:#fff}
+.hbtn.more:hover{background:rgba(109,109,110,.4)}
 
-    /* NAVBAR */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 40px;
-      height: 64px;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
-      transition: background 0.3s;
-    }
-    nav.scrolled { background: rgba(10,10,15,0.97); border-bottom: 1px solid var(--border); }
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 4px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .logo span { color: #fff; -webkit-text-fill-color: #fff; }
-    .nav-links { display: flex; gap: 28px; font-size: 0.88rem; font-weight: 500; }
-    .nav-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; cursor: pointer; }
-    .nav-links a:hover, .nav-links a.active { color: #fff; }
-    .nav-right { display: flex; align-items: center; gap: 16px; }
-    .search-btn {
-      background: none; border: none; color: var(--muted); font-size: 1.1rem; cursor: pointer;
-      display: flex; align-items: center;
-    }
-    .search-btn:hover { color: #fff; }
+/* ROWS */
+.rows{position:relative;z-index:2;margin-top:-70px;padding-bottom:50px}
+.row{padding:0 4%;margin-bottom:4vw}
+.row-title{font-size:.95rem;font-weight:700;color:#e5e5e5;letter-spacing:.4px;margin-bottom:10px}
+.row-title em{color:var(--red);font-style:normal}
+.sw{position:relative}
+.slider{display:flex;gap:5px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:8px 0 18px}
+.slider::-webkit-scrollbar{display:none}
+.arr{position:absolute;top:0;bottom:18px;width:4%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;font-size:1.6rem;color:#fff;opacity:0;transition:opacity .2s;border:none;background:none}
+.sw:hover .arr{opacity:1}
+.arr.l{left:0;background:linear-gradient(to right,rgba(20,20,20,.92),transparent)}
+.arr.r{right:0;background:linear-gradient(to left,rgba(20,20,20,.92),transparent)}
 
-    /* HERO */
-    .hero {
-      position: relative; height: 90vh; min-height: 560px;
-      display: flex; align-items: flex-end;
-      padding: 80px 60px;
-      overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, #1a0a20 0%, #0d1a30 50%, #0a0a0f 100%);
-    }
-    .hero-bg::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, var(--bg) 0%, transparent 60%),
-                  linear-gradient(to right, rgba(0,0,0,0.8) 0%, transparent 60%);
-    }
-    .hero-noise {
-      position: absolute; inset: 0; opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-    }
-    .floating-posters {
-      position: absolute; right: 0; top: 0; bottom: 0; width: 60%;
-      display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr);
-      gap: 6px; opacity: 0.25; transform: perspective(800px) rotateY(-8deg);
-      mask-image: linear-gradient(to left, transparent 0%, rgba(0,0,0,0.8) 40%, transparent 100%);
-    }
-    .floating-poster {
-      background: linear-gradient(135deg, #1e1e2e, #2a1a3e);
-      border-radius: 6px;
-      overflow: hidden;
-    }
-    .floating-poster img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+/* CARD */
+.card{flex:0 0 calc(20% - 4px);scroll-snap-align:start;border-radius:4px;overflow:visible;cursor:pointer;position:relative;transition:transform .25s,z-index 0s .25s}
+.card:hover{transform:scale(1.1);z-index:60;transition:transform .25s,z-index 0s}
+.card-inner{border-radius:4px;overflow:hidden;position:relative;background:#000}
+.card-img{width:100%;aspect-ratio:16/9;overflow:hidden;display:block}
+.card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.card:hover .card-img img{transform:scale(1.06)}
+.card-expand{
+  position:absolute;left:0;right:0;top:100%;
+  background:#181818;border-radius:0 0 6px 6px;
+  padding:10px 12px 12px;
+  opacity:0;transform:scaleY(.85);transform-origin:top;
+  transition:opacity .2s,transform .2s;
+  pointer-events:none;box-shadow:0 12px 30px rgba(0,0,0,.8);
+  z-index:5;
+}
+.card:hover .card-expand{opacity:1;transform:scaleY(1);pointer-events:all}
+.ce-btns{display:flex;gap:6px;margin-bottom:8px;align-items:center}
+.cebtn{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.6);background:rgba(40,40,40,.8);color:#fff;font-size:.78rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
+.cebtn.p{background:#fff;color:#000;border-color:#fff}
+.cebtn:hover{border-color:#fff;background:rgba(255,255,255,.15)!important}
+.cebtn.p:hover{background:rgba(255,255,255,.78)!important}
+.ce-ml{margin-left:auto!important}
+.ce-title{font-size:.75rem;font-weight:700;margin-bottom:4px}
+.ce-tags{display:flex;gap:6px;flex-wrap:wrap}
+.cetag{font-size:.62rem;color:var(--muted)}
+.cetag.g{color:#46d369;font-weight:700}
 
-    .hero-content { position: relative; z-index: 2; max-width: 560px; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(229,9,20,0.15); border: 1px solid rgba(229,9,20,0.3);
-      color: var(--accent); padding: 5px 14px; border-radius: 20px;
-      font-size: 0.78rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      line-height: 0.95; letter-spacing: 2px;
-      margin-bottom: 16px;
-    }
-    .hero-title .accent { color: var(--accent); }
-    .hero-desc {
-      font-size: 0.98rem; color: rgba(255,255,255,0.65);
-      line-height: 1.7; margin-bottom: 32px; max-width: 440px;
-    }
-    .hero-actions { display: flex; gap: 14px; align-items: center; }
-    .btn-play {
-      display: flex; align-items: center; gap: 10px;
-      background: var(--accent); color: #fff;
-      border: none; padding: 13px 28px;
-      border-radius: 8px; font-family: 'Outfit', sans-serif;
-      font-weight: 700; font-size: 0.95rem; cursor: pointer;
-      transition: all 0.2s; letter-spacing: 0.5px;
-    }
-    .btn-play:hover { background: #f40612; transform: scale(1.03); }
-    .btn-info {
-      display: flex; align-items: center; gap: 10px;
-      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-      color: #fff; padding: 13px 24px; border-radius: 8px;
-      font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.95rem;
-      cursor: pointer; transition: all 0.2s; backdrop-filter: blur(10px);
-    }
-    .btn-info:hover { background: rgba(255,255,255,0.18); }
-    .hero-meta { display: flex; gap: 20px; margin-bottom: 20px; }
-    .hero-tag {
-      font-size: 0.8rem; color: var(--muted); font-weight: 500;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .hero-tag .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+/* PREVIEW */
+.pov{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .25s}
+.pov.on{opacity:1;pointer-events:all}
+.pm{background:#181818;border-radius:8px;width:min(880px,90vw);max-height:90vh;overflow:hidden;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent;transform:scale(.94) translateY(24px);transition:transform .3s}
+.pov.on .pm{transform:scale(1) translateY(0)}
+.pv-area{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden}
+.pv-area iframe,.pv-area .pv-still{position:absolute;inset:0;width:100%;height:100%;border:none;object-fit:cover}
+.pv-grad{position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,#181818,transparent);z-index:2;pointer-events:none}
+.pv-title-overlay{position:absolute;bottom:20px;left:28px;z-index:3}
+.pv-title{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:900;text-shadow:1px 1px 8px rgba(0,0,0,.9)}
+.pv-close{position:absolute;top:14px;right:14px;z-index:10;width:36px;height:36px;border-radius:50%;background:rgba(24,24,24,.92);border:2px solid rgba(255,255,255,.25);color:#fff;font-size:.95rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s}
+.pv-close:hover{border-color:#fff}
+.pv-body{padding:18px 28px 28px}
+.pv-row1{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.pv-match{color:#46d369;font-weight:800;font-size:.95rem}
+.pv-year{color:var(--muted);font-size:.82rem;border:1px solid var(--muted);padding:1px 6px;border-radius:2px}
+.pv-seasons{color:var(--muted);font-size:.82rem}
+.pv-play{display:flex;align-items:center;gap:8px;width:100%;padding:10px;border-radius:4px;background:#fff;color:#000;border:none;font-family:'Barlow',sans-serif;font-size:1.02rem;font-weight:700;cursor:pointer;justify-content:center;margin-bottom:14px;transition:background .15s}
+.pv-play:hover{background:rgba(255,255,255,.75)}
+.pv-grid{display:grid;grid-template-columns:1fr 260px;gap:22px}
+.pv-desc{font-size:.9rem;line-height:1.58;color:rgba(255,255,255,.8)}
+.pv-sl{color:var(--muted);font-size:.8rem;margin-bottom:6px}
+.pv-genres span{font-size:.82rem;color:var(--muted)}
+.pv-genres span:not(:last-child)::after{content:', '}
 
-    /* SECTIONS */
-    .section { padding: 40px 60px; }
-    .section-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 24px;
-    }
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem; letter-spacing: 2px;
-    }
-    .section-title .line {
-      display: inline-block; width: 24px; height: 3px;
-      background: var(--accent); margin-right: 12px;
-      vertical-align: middle; border-radius: 2px;
-    }
-    .see-all { color: var(--accent); font-size: 0.82rem; font-weight: 600; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; }
-    .see-all:hover { color: var(--accent2); }
+/* FULLSCREEN PLAYER */
+.fs{position:fixed;inset:0;z-index:1000;background:#000;display:none;flex-direction:column}
+.fs.on{display:flex}
+.fs iframe{flex:1;width:100%;border:none}
+.fs-bar{position:absolute;top:0;left:0;right:0;padding:14px 20px;background:linear-gradient(to bottom,rgba(0,0,0,.88),transparent);display:flex;align-items:center;gap:16px;z-index:5}
+.fs-back{background:none;border:none;color:#fff;font-family:'Barlow',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+.fs-back:hover{opacity:.7}
+.fs-name{color:#fff;font-size:.95rem;font-weight:600}
 
-    /* CAROUSEL */
-    .carousel-wrap { position: relative; }
-    .carousel {
-      display: flex; gap: 14px; overflow-x: auto;
-      scroll-snap-type: x mandatory; padding-bottom: 8px;
-      scrollbar-width: none;
-    }
-    .carousel::-webkit-scrollbar { display: none; }
-    .scroll-btn {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 42px; height: 42px; border-radius: 50%;
-      background: rgba(20,20,30,0.9); border: 1px solid var(--border);
-      color: #fff; font-size: 1.1rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 5; transition: all 0.2s; backdrop-filter: blur(8px);
-      opacity: 0; pointer-events: none;
-    }
-    .carousel-wrap:hover .scroll-btn { opacity: 1; pointer-events: all; }
-    .scroll-btn:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-50%) scale(1.1); }
-    .scroll-btn.left { left: -20px; }
-    .scroll-btn.right { right: -20px; }
+/* FOOTER */
+footer{padding:54px 4% 30px;border-top:1px solid var(--border)}
+.ft-logo{font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:900;color:var(--red);letter-spacing:3px;margin-bottom:20px}
+.ft-links{display:grid;grid-template-columns:repeat(4,1fr);gap:9px 0;margin-bottom:22px}
+.ft-links a{color:var(--muted);font-size:.78rem;cursor:pointer;text-decoration:none}
+.ft-links a:hover{text-decoration:underline}
+.ft-copy{color:var(--muted);font-size:.76rem}
 
-    /* CARD */
-    .card {
-      flex: 0 0 180px; scroll-snap-align: start;
-      background: var(--card); border-radius: 10px;
-      overflow: hidden; cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative; border: 1px solid var(--border);
-    }
-    .card:hover { transform: scale(1.07) translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.7); z-index: 10; }
-    .card-poster {
-      width: 100%; aspect-ratio: 2/3;
-      background: linear-gradient(135deg, #1e1e30, #2a1828);
-      overflow: hidden; position: relative;
-    }
-    .card-poster img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
-    .card:hover .card-poster img { transform: scale(1.05); }
-    .card-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
-      opacity: 0; transition: opacity 0.3s;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 14px;
-    }
-    .card:hover .card-overlay { opacity: 1; }
-    .card-play {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--accent); border: none;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; margin-bottom: 10px;
-      font-size: 0.9rem; color: #fff;
-    }
-    .card-info { padding: 12px; }
-    .card-title { font-size: 0.82rem; font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
-    .card-meta { font-size: 0.72rem; color: var(--muted); display: flex; gap: 8px; }
-    .card-badge {
-      position: absolute; top: 8px; right: 8px;
-      background: var(--accent); color: #fff;
-      font-size: 0.62rem; font-weight: 700; letter-spacing: 1px;
-      padding: 2px 7px; border-radius: 4px; text-transform: uppercase;
-    }
-
-    /* MODAL */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.92); backdrop-filter: blur(12px);
-      display: none; align-items: center; justify-content: center;
-      padding: 20px;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal {
-      background: var(--card); border-radius: 16px;
-      width: 100%; max-width: 960px;
-      overflow: hidden; border: 1px solid var(--border);
-      animation: modalIn 0.3s ease;
-      max-height: 90vh; overflow-y: auto;
-    }
-    @keyframes modalIn { from { opacity:0; transform:scale(0.95) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
-    .modal-player {
-      width: 100%; aspect-ratio: 16/9; background: #000;
-      position: relative; overflow: hidden;
-    }
-    .modal-player iframe {
-      width: 100%; height: 100%; border: none;
-    }
-    .modal-body { padding: 28px 32px; }
-    .modal-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem; letter-spacing: 2px; margin-bottom: 8px;
-    }
-    .modal-tags { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-    .modal-tag {
-      background: rgba(255,255,255,0.07); border: 1px solid var(--border);
-      padding: 3px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 500;
-    }
-    .modal-desc { color: rgba(255,255,255,0.65); font-size: 0.92rem; line-height: 1.7; margin-bottom: 24px; }
-    .modal-actions { display: flex; gap: 12px; }
-    .close-btn {
-      position: absolute; top: 16px; right: 16px;
-      background: rgba(0,0,0,0.6); border: 1px solid var(--border);
-      color: #fff; width: 38px; height: 38px; border-radius: 50%;
-      cursor: pointer; font-size: 1rem;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 10; transition: background 0.2s;
-    }
-    .close-btn:hover { background: var(--accent); }
-    .modal-player-wrap { position: relative; }
-
-    /* FOOTER */
-    footer {
-      padding: 48px 60px 32px;
-      border-top: 1px solid var(--border);
-      margin-top: 40px;
-    }
-    .footer-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem; letter-spacing: 4px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      margin-bottom: 24px; display: inline-block;
-    }
-    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
-    .footer-links a { color: var(--muted); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; cursor: pointer; }
-    .footer-links a:hover { color: #fff; }
-    .footer-copy { color: var(--muted); font-size: 0.78rem; }
-
-    /* LOADING */
-    .loading-bar {
-      position: fixed; top: 0; left: 0; height: 3px;
-      background: linear-gradient(to right, var(--accent), var(--accent2));
-      transition: width 0.3s; z-index: 999; width: 0;
-    }
-
-    @media (max-width: 768px) {
-      nav { padding: 0 20px; }
-      .nav-links { display: none; }
-      .hero { padding: 60px 24px; }
-      .section { padding: 30px 24px; }
-      .card { flex: 0 0 140px; }
-      footer { padding: 32px 24px; }
-    }
-  </style>
+@media(max-width:900px){.card{flex:0 0 calc(33.33% - 4px)}.h-content{max-width:65%}.pv-grid{grid-template-columns:1fr}.ft-links{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.card{flex:0 0 calc(50% - 3px)}.h-content{max-width:92%}.nav-links{display:none}}
+</style>
 </head>
 <body>
 
-<div class="loading-bar" id="loadingBar"></div>
-
-<!-- NAVBAR -->
-<nav id="navbar">
-  <div class="logo">MS <span style="-webkit-text-fill-color:inherit">FILMS</span></div>
-  <div class="nav-links">
-    <a class="active" onclick="filterSection('all')">Inicio</a>
-    <a onclick="filterSection('movie')">Películas</a>
-    <a onclick="filterSection('serie')">Series</a>
-    <a onclick="filterSection('anime')">Anime</a>
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-left">
+    <div class="nav-logo">MS FILMS</div>
+    <div class="nav-links">
+      <a class="on" onclick="doNav('all',this)">Inicio</a>
+      <a onclick="doNav('movie',this)">Películas</a>
+      <a onclick="doNav('serie',this)">Series</a>
+      <a onclick="doNav('anime',this)">Anime</a>
+      <a onclick="doNav('new',this)">Novedades</a>
+    </div>
   </div>
   <div class="nav-right">
-    <button class="search-btn" onclick="toggleSearch()">🔍</button>
+    <button class="nbtn" onclick="doSearch()">🔍</button>
+    <button class="nbtn">🔔</button>
+    <div class="nav-ava">U</div>
   </div>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-noise"></div>
-  <div class="floating-posters" id="heroPosters"></div>
-  <div class="hero-content">
-    <div class="hero-badge">⚡ EN TENDENCIA AHORA</div>
-    <div class="hero-meta">
-      <span class="hero-tag"><span class="dot"></span> 2024</span>
-      <span class="hero-tag"><span class="dot"></span> Acción</span>
-      <span class="hero-tag"><span class="dot"></span> HD</span>
+<div class="hero" id="hero">
+  <div class="h-bg"><img id="hbg" src="https://image.tmdb.org/t/p/original/56v2KjBlU4XaOv9rVYEQypROD7P.jpg" alt=""/></div>
+  <div class="h-vig"></div>
+  <div class="h-content">
+    <div class="h-meta">
+      <span class="h-match" id="hMatch">97% match</span>
+      <span class="h-tag" id="hYear">2016</span>
+      <span class="h-tag" id="hSeas">4 Temporadas</span>
     </div>
-    <h1 class="hero-title">STRANGER <span class="accent">THINGS</span></h1>
-    <p class="hero-desc">Cuando un niño desaparece, sus amigos, familia y la policía local descubren un misterio extraordinario que involucra experimentos secretos, fuerzas sobrenaturales y una niña muy extraña.</p>
-    <div class="hero-actions">
-      <button class="btn-play" onclick="openModal('serie', 'tt4574334', null, null, 'Stranger Things', '2016', ['Sci-Fi','Terror','Drama'], 'Cuando un niño desaparece, sus amigos descubren un misterio extraordinario con fuerzas sobrenaturales.')">
-        ▶ Ver ahora
-      </button>
-      <button class="btn-info">+ Mi lista</button>
+    <h1 class="h-title" id="hTitle">STRANGER<br/>THINGS</h1>
+    <p class="h-desc" id="hDesc">Un niño desaparece y sus amigos descubren experimentos secretos, fuerzas sobrenaturales y una niña con poderes telequinéticos.</p>
+    <div class="h-btns">
+      <button class="hbtn play" id="hPlay" onclick="playFS('serie','tt4574334',66732,'Stranger Things')">▶ Reproducir</button>
+      <button class="hbtn more" id="hMore">ℹ Más info</button>
     </div>
   </div>
 </div>
 
-<!-- SECTION: Películas Populares -->
-<section class="section" id="sec-movies">
-  <div class="section-header">
-    <h2 class="section-title"><span class="line"></span>🎬 PELÍCULAS POPULARES</h2>
-    <span class="see-all">Ver todas →</span>
+<!-- ROWS -->
+<div class="rows" id="rows">
+  <div class="row" data-cat="all">
+    <div class="row-title"><em>🔥 En Tendencia</em></div>
+    <div class="sw"><button class="arr l" onclick="slide(this,-1)">❮</button><div class="slider" id="sl-hot"></div><button class="arr r" onclick="slide(this,1)">❯</button></div>
   </div>
-  <div class="carousel-wrap">
-    <button class="scroll-btn left" onclick="scroll(this, -1)">‹</button>
-    <div class="carousel" id="movies-carousel">
-      <!-- Cards inserted by JS -->
+  <div class="row" data-cat="movie">
+    <div class="row-title"><em>🎬</em> Películas Populares</div>
+    <div class="sw"><button class="arr l" onclick="slide(this,-1)">❮</button><div class="slider" id="sl-movies"></div><button class="arr r" onclick="slide(this,1)">❯</button></div>
+  </div>
+  <div class="row" data-cat="serie">
+    <div class="row-title"><em>📺</em> Series Recomendadas</div>
+    <div class="sw"><button class="arr l" onclick="slide(this,-1)">❮</button><div class="slider" id="sl-series"></div><button class="arr r" onclick="slide(this,1)">❯</button></div>
+  </div>
+  <div class="row" data-cat="anime">
+    <div class="row-title"><em>⛩️</em> Anime</div>
+    <div class="sw"><button class="arr l" onclick="slide(this,-1)">❮</button><div class="slider" id="sl-anime"></div><button class="arr r" onclick="slide(this,1)">❯</button></div>
+  </div>
+  <div class="row" data-cat="all">
+    <div class="row-title"><em>💥</em> Acción y Aventura</div>
+    <div class="sw"><button class="arr l" onclick="slide(this,-1)">❮</button><div class="slider" id="sl-action"></div><button class="arr r" onclick="slide(this,1)">❯</button></div>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="pov" id="pov" onclick="closePOV(event)">
+  <div class="pm">
+    <div class="pv-area" id="pvArea">
+      <div id="pvMedia" style="position:absolute;inset:0;z-index:1"></div>
+      <div class="pv-grad"></div>
+      <div class="pv-title-overlay"><div class="pv-title" id="pvTitle"></div></div>
+      <button class="pv-close" onclick="closePV()">✕</button>
     </div>
-    <button class="scroll-btn right" onclick="scroll(this, 1)">›</button>
-  </div>
-</section>
-
-<!-- SECTION: Series Recomendadas -->
-<section class="section" id="sec-series">
-  <div class="section-header">
-    <h2 class="section-title"><span class="line"></span>📺 SERIES RECOMENDADAS</h2>
-    <span class="see-all">Ver todas →</span>
-  </div>
-  <div class="carousel-wrap">
-    <button class="scroll-btn left" onclick="scroll(this, -1)">‹</button>
-    <div class="carousel" id="series-carousel"></div>
-    <button class="scroll-btn right" onclick="scroll(this, 1)">›</button>
-  </div>
-</section>
-
-<!-- SECTION: Anime -->
-<section class="section" id="sec-anime">
-  <div class="section-header">
-    <h2 class="section-title"><span class="line"></span>⛩️ ANIME</h2>
-    <span class="see-all">Ver todas →</span>
-  </div>
-  <div class="carousel-wrap">
-    <button class="scroll-btn left" onclick="scroll(this, -1)">‹</button>
-    <div class="carousel" id="anime-carousel"></div>
-    <button class="scroll-btn right" onclick="scroll(this, 1)">›</button>
-  </div>
-</section>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
-  <div class="modal">
-    <div class="modal-player-wrap">
-      <div class="modal-player" id="modalPlayer">
-        <iframe id="modalIframe" src="" allowfullscreen referrerpolicy="origin"></iframe>
+    <div class="pv-body">
+      <div class="pv-row1">
+        <span class="pv-match" id="pvMatch"></span>
+        <span class="pv-year" id="pvYear"></span>
+        <span class="pv-seasons" id="pvSeas"></span>
       </div>
-      <button class="close-btn" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <h2 class="modal-title" id="modalTitle">Título</h2>
-      <div class="modal-tags" id="modalTags"></div>
-      <p class="modal-desc" id="modalDesc">Descripción</p>
-      <div class="modal-actions">
-        <button class="btn-play">▶ Reproducir</button>
-        <button class="btn-info">+ Mi lista</button>
+      <button class="pv-play" onclick="playFromPV()">▶&nbsp; Reproducir</button>
+      <div class="pv-grid">
+        <p class="pv-desc" id="pvDesc"></p>
+        <div>
+          <p class="pv-sl">Géneros:</p>
+          <div class="pv-genres" id="pvGenres"></div>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- FULLSCREEN PLAYER -->
+<div class="fs" id="fs">
+  <div class="fs-bar">
+    <button class="fs-back" onclick="closeFS()">← Volver</button>
+    <span class="fs-name" id="fsName"></span>
+  </div>
+  <iframe id="fsFrame" src="" allowfullscreen allow="autoplay; fullscreen; encrypted-media"></iframe>
 </div>
 
 <footer>
-  <div class="footer-logo">MS FILMS</div>
-  <div class="footer-links">
-    <a>Inicio</a><a>Películas</a><a>Series</a><a>Anime</a>
-    <a>Términos de uso</a><a>Privacidad</a><a>Ayuda</a>
+  <div class="ft-logo">MS FILMS</div>
+  <div class="ft-links">
+    <a>Audio y subtítulos</a><a>Centro multimedia</a><a>Relaciones inversores</a><a>Empleo</a>
+    <a>Términos de uso</a><a>Privacidad</a><a>Cookies</a><a>Información corporativa</a>
+    <a>Ayuda</a><a>Contáctanos</a><a>Prueba de velocidad</a><a>Aviso legal</a>
   </div>
-  <p class="footer-copy">© 2025 MS Films. Todos los derechos reservados.</p>
+  <p class="ft-copy">© 2025 MS Films. Todos los derechos reservados.</p>
 </footer>
 
 <script>
-  const VIEW_KEY = '3YF47htvHwRO-EfiQw4swR0rz9FIk6I3sHQwMltMKzs';
-  const API_KEY  = 'ak_WsFIp6ZYPHJfzbUMMt5B8dXeg3GR95YS';
-  const IMG_BASE = 'https://image.tmdb.org/t/p/w342';
+const VK = '3YF47htvHwRO-EfiQw4swR0rz9FIk6I3sHQwMltMKzs';
+const T = 'https://image.tmdb.org/t/p/w500';
+const TO = 'https://image.tmdb.org/t/p/original';
 
-  // Curated content for 15-17 year olds
-  const moviesData = [
-    { imdb:'tt6791350', tmdb:299534, title:'Avengers: Endgame',    year:'2019', genres:['Acción','Aventura'],  poster:'https://image.tmdb.org/t/p/w342/or06FN3Dka5tukK1e9sl16pB3iy.jpg', desc:'Los Vengadores restantes deben encontrar una manera de recuperar a sus aliados para una batalla épica contra Thanos.' },
-    { imdb:'tt10872600',tmdb:634649, title:'Spider-Man: No Way Home',year:'2021',genres:['Acción','Superhéroe'],poster:'https://image.tmdb.org/t/p/w342/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg', desc:'Peter Parker pide al Doctor Strange que revele su identidad, abriendo el multiverso a villanos de otras dimensiones.' },
-    { imdb:'tt1375666', tmdb:27205,  title:'Inception',             year:'2010', genres:['Sci-Fi','Thriller'],  poster:'https://image.tmdb.org/t/p/w342/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg', desc:'Un ladrón que roba secretos corporativos a través de sueños recibe la misión de plantar una idea en la mente de alguien.' },
-    { imdb:'tt0816692', tmdb:157336, title:'Interstellar',          year:'2014', genres:['Sci-Fi','Drama'],     poster:'https://image.tmdb.org/t/p/w342/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg', desc:'Un equipo de exploradores viaja a través de un agujero de gusano en el espacio en busca de un nuevo hogar para la humanidad.' },
-    { imdb:'tt7286456', tmdb:475557, title:'Joker',                 year:'2019', genres:['Drama','Thriller'],  poster:'https://image.tmdb.org/t/p/w342/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg', desc:'Arthur Fleck, un comediante fracasado, desciende a la locura y se convierte en el icónico villano del crimen.' },
-    { imdb:'tt4154756', tmdb:299536, title:'Avengers: Infinity War',year:'2018', genres:['Acción','Aventura'],  poster:'https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg', desc:'Los Vengadores luchan contra Thanos, quien quiere reunir las Gemas del Infinito para rehacer el universo.' },
-    { imdb:'tt9032400', tmdb:508442, title:'Soul',                  year:'2020', genres:['Animación','Drama'],  poster:'https://image.tmdb.org/t/p/w342/hm58Jw4Lw8OIeECIq5qyPYhAeRJ.jpg', desc:'Un músico de jazz descubre el Gran Antes, el lugar donde las almas desarrollan sus personalidades antes de nacer.' },
-    { imdb:'tt6334354', tmdb:460465, title:'Mortal Kombat',         year:'2021', genres:['Acción','Fantasía'],  poster:'https://image.tmdb.org/t/p/w342/xGuOF1T3WmPsAcQEQJfnG7W4MWK.jpg', desc:'Cole Young compite en el torneo Mortal Kombat para defender la Tierra de los guerreros del Inframundo.' },
-  ];
+function vUrl(type, imdb, tmdb){
+  const id = tmdb ? `tmdb=${tmdb}` : `imdb=${imdb}`;
+  return `https://vimeus.com/e/${type}?${id}&view_key=${VK}&title=MSPLAYER&theme=blue&loader=v2&font=v3&overlay=v5&selector=v3&playUI=v3&epanel=v3&splash=v3`;
+}
 
-  const seriesData = [
-    { imdb:'tt4574334', tmdb:66732, title:'Stranger Things',  year:'2016', seasons:4, genres:['Terror','Sci-Fi'],    poster:'https://image.tmdb.org/t/p/w342/49WJfeN0moxb9IPfGn8AIqMGskD.jpg', desc:'Un grupo de amigos descubre fuerzas sobrenaturales y experimentos secretos del gobierno en su pequeño pueblo.' },
-    { imdb:'tt5071412', tmdb:66788, title:'Outer Banks',      year:'2020', seasons:4, genres:['Aventura','Drama'],   poster:'https://image.tmdb.org/t/p/w342/b0WmHGc8LiqKiRjFkxiStDBTtLA.jpg', desc:'Un grupo de adolescentes busca un tesoro legendario mientras evita a sus ricos rivales y la ley.' },
-    { imdb:'tt3581920', tmdb:60574, title:'The 100',          year:'2014', seasons:7, genres:['Sci-Fi','Drama'],     poster:'https://image.tmdb.org/t/p/w342/wcaDIAGJdWNMxMVNCRqFSEYJoVp.jpg', desc:'Cien años después del apocalipsis nuclear, 100 jóvenes delincuentes regresan a la Tierra para ver si es habitable.' },
-    { imdb:'tt1520211', tmdb:1402,  title:'The Walking Dead', year:'2010', seasons:11, genres:['Horror','Drama'],   poster:'https://image.tmdb.org/t/p/w342/xf9wuDcqlUPWABZNeDKPbZUjWx0.jpg', desc:'Un sheriff despierta de un coma en un mundo devastado por zombis y debe encontrar a su familia.' },
-    { imdb:'tt0903747', tmdb:1396,  title:'Breaking Bad',     year:'2008', seasons:5, genres:['Drama','Crimen'],    poster:'https://image.tmdb.org/t/p/w342/ggFHVNu6YYI5L9pCfOacjizRGt.jpg', desc:'Un profesor de química con cáncer se convierte en productor de metanfetaminas con su ex alumno.' },
-    { imdb:'tt3205802', tmdb:61889, title:'Shadow and Bone',  year:'2021', seasons:2, genres:['Fantasía','Aventura'],poster:'https://image.tmdb.org/t/p/w342/rjkmN1dniUHVYAtwuV3Tji7FsDO.jpg', desc:'Una joven huérfana descubre que tiene un raro poder que podría liberar a su mundo de una oscuridad que avanza.' },
-    { imdb:'tt1190634', tmdb:57243, title:'The Boys',         year:'2019', seasons:4, genres:['Acción','Comedia'],  poster:'https://image.tmdb.org/t/p/w342/2zmTngn1tYC1AvfnrFLhxeD82hz.jpg', desc:'Un grupo de vigilantes busca derrocar a un equipo de superhéroes corruptos que abusan de sus poderes.' },
-    { imdb:'tt7661390', tmdb:76479, title:'The Umbrella Academy',year:'2019',seasons:3,genres:['Superhéroe','Sci-Fi'],poster:'https://image.tmdb.org/t/p/w342/scZlQQYnDVlnpxFTxaIv2g0BWnL.jpg', desc:'Hijos adoptivos con superpoderes se reúnen tras la muerte de su padre para resolver el misterio de su muerte.' },
-  ];
+const movies = [
+  {t:'movie',imdb:'tt6791350',tmdb:299534,title:'Avengers: Endgame',year:'2019',match:98,seas:null,genres:['Acción','Aventura'],poster:T+'/or06FN3Dka5tukK1e9sl16pB3iy.jpg',back:TO+'/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg',yt:'TcMBFSGVi1c',desc:'Los Vengadores deben revertir las acciones de Thanos en una batalla épica por el destino del universo.'},
+  {t:'movie',imdb:'tt10872600',tmdb:634649,title:'Spider-Man: No Way Home',year:'2021',match:97,seas:null,genres:['Acción','Superhéroe'],poster:T+'/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg',back:TO+'/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg',yt:'JfVOs4VSpmA',desc:'Peter Parker pide al Doctor Strange que el mundo olvide que es Spider-Man, abriendo el multiverso a villanos.'},
+  {t:'movie',imdb:'tt1375666',tmdb:27205,title:'Inception',year:'2010',match:96,seas:null,genres:['Sci-Fi','Thriller'],poster:T+'/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg',back:TO+'/s2bT29y0ngXxxu2IA8AOzzXTRhd.jpg',yt:'YoHD9XEInc0',desc:'Un ladrón especializado en robar secretos dentro de los sueños recibe una misión casi imposible.'},
+  {t:'movie',imdb:'tt0816692',tmdb:157336,title:'Interstellar',year:'2014',match:95,seas:null,genres:['Sci-Fi','Drama'],poster:T+'/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',back:TO+'/xJHokMbljvjADYdit5fK5VQsXEG.jpg',yt:'zSWdZVtXT7E',desc:'Un equipo de exploradores viaja por un agujero de gusano en busca de un nuevo hogar para la humanidad.'},
+  {t:'movie',imdb:'tt7286456',tmdb:475557,title:'Joker',year:'2019',match:93,seas:null,genres:['Drama','Thriller'],poster:T+'/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg',back:TO+'/n6bUvigpRFqSwmPp1m2YADdbRBc.jpg',yt:'zAGVQLHvwOY',desc:'Arthur Fleck, un comediante fracasado, desciende a la locura y nace el legendario Joker.'},
+  {t:'movie',imdb:'tt9032400',tmdb:508442,title:'Soul',year:'2020',match:96,seas:null,genres:['Animación','Drama'],poster:T+'/hm58Jw4Lw8OIeECIq5qyPYhAeRJ.jpg',back:TO+'/kf456ZqeC45XTvo6W9pW5clYKfQ.jpg',yt:'xOsLIiBStEs',desc:'Un músico descubre el Gran Antes, donde las almas desarrollan su personalidad antes de nacer.'},
+  {t:'movie',imdb:'tt1745960',tmdb:361743,title:'Top Gun: Maverick',year:'2022',match:97,seas:null,genres:['Acción','Drama'],poster:T+'/62HCnUTziyWcpDaBO2i1DX17ljH.jpg',back:TO+'/AkB2ElMCLKOe63nLeqEcmAyVect.jpg',yt:'giXco2jaZ_4',desc:'Tras 30 años, Maverick regresa como instructor y debe superar sus fantasmas del pasado.'},
+  {t:'movie',imdb:'tt4154796',tmdb:284054,title:'Black Panther',year:'2018',match:94,seas:null,genres:['Acción','Aventura'],poster:T+'/uxzzxijgPIY7slzFvMotPv8wjKA.jpg',back:TO+'/6ELJEzQJ3Y45HczvreRadj4xCno.jpg',yt:'xjDjIWPwcPU',desc:'T\'Challa regresa a Wakanda y su reinado es desafiado por un poderoso enemigo con el mismo origen.'},
+];
 
-  const animeData = [
-    { imdb:'tt2560140', tmdb:1429,  title:'Attack on Titan',       year:'2013', genres:['Acción','Drama'],       poster:'https://image.tmdb.org/t/p/w342/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg', desc:'La humanidad vive dentro de ciudades rodeadas de gigantes muros para protegerse de los Titanes devoradores de hombres.' },
-    { imdb:'tt0988824', tmdb:31911, title:'Fullmetal Alchemist: Brotherhood', year:'2009', genres:['Acción','Aventura'],poster:'https://image.tmdb.org/t/p/w342/5ZFUEOULaVml7pQuXxhpR2SmVUw.jpg', desc:'Dos hermanos buscan la piedra filosofal para recuperar sus cuerpos tras un experimento alquímico fallido.' },
-    { imdb:'tt0388629', tmdb:37854, title:'One Piece',             year:'1999', genres:['Aventura','Acción'],     poster:'https://image.tmdb.org/t/p/w342/cMD9Ygz11zjJzAovURpO75Gc68y.jpg', desc:'Monkey D. Luffy navega los mares en busca del legendario tesoro One Piece para convertirse en el Rey de los Piratas.' },
-    { imdb:'tt0421951', tmdb:46260, title:'Naruto Shippuden',      year:'2007', genres:['Acción','Aventura'],     poster:'https://image.tmdb.org/t/p/w342/xppeysfvDKVx775MFuH8Z9BlpMk.jpg', desc:'Naruto Uzumaki, un joven ninja, continúa su entrenamiento para convertirse en el Hokage y salvar a su amigo Sasuke.' },
-    { imdb:'tt7374948', tmdb:65930, title:'My Hero Academia',      year:'2016', genres:['Acción','Superhéroe'],   poster:'https://image.tmdb.org/t/p/w342/ivOLM47yJt90P19RH826RmPKJFX.jpg', desc:'En un mundo donde casi todos tienen superpoderes, un chico sin poderes sueña con ser el mejor héroe del mundo.' },
-    { imdb:'tt9335498', tmdb:85937, title:'Demon Slayer',          year:'2019', genres:['Acción','Fantasía'],     poster:'https://image.tmdb.org/t/p/w342/wrqUiMSPSMNeA9OqDPHnstpMCVH.jpg', desc:'Tanjiro Kamado se convierte en cazador de demonios para encontrar la cura para su hermana convertida en demonio.' },
-    { imdb:'tt11080016',tmdb:95557, title:'Jujutsu Kaisen',        year:'2020', genres:['Acción','Sobrenatural'], poster:'https://image.tmdb.org/t/p/w342/2SBUvwOCHJOUUSklcyAXJUKXGJt.jpg', desc:'Yuji Itadori ingresa al mundo de los hechiceros después de tragar un dedo maldito para proteger a sus amigos.' },
-    { imdb:'tt0417299', tmdb:246,   title:'Avatar: The Last Airbender',year:'2005',genres:['Aventura','Fantasía'],poster:'https://image.tmdb.org/t/p/w342/cHbEkFHZOQzjCPfyaPhAe8FE18S.jpg', desc:'Aang, el Avatar, debe dominar los cuatro elementos para salvar al mundo del tiránico Imperio del Fuego.' },
-  ];
+const series = [
+  {t:'serie',imdb:'tt4574334',tmdb:66732,title:'Stranger Things',year:'2016',match:97,seas:4,genres:['Terror','Sci-Fi','Drama'],poster:T+'/49WJfeN0moxb9IPfGn8AIqMGskD.jpg',back:TO+'/56v2KjBlU4XaOv9rVYEQypROD7P.jpg',yt:'b9EkMc79ZSU',desc:'Un niño desaparece y sus amigos descubren experimentos secretos del gobierno y fuerzas sobrenaturales.'},
+  {t:'serie',imdb:'tt5071412',tmdb:66788,title:'Outer Banks',year:'2020',match:95,seas:4,genres:['Aventura','Drama','Misterio'],poster:T+'/b0WmHGc8LiqKiRjFkxiStDBTtLA.jpg',back:TO+'/1JiyQlQkQD7pcU6qKDRR7PkTRNM.jpg',yt:'oQdYQJKMrNQ',desc:'Adolescentes buscan un tesoro legendario mientras evitan a sus ricos rivales y a las autoridades.'},
+  {t:'serie',imdb:'tt0903747',tmdb:1396,title:'Breaking Bad',year:'2008',match:99,seas:5,genres:['Drama','Crimen','Thriller'],poster:T+'/ggFHVNu6YYI5L9pCfOacjizRGt.jpg',back:TO+'/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg',yt:'HhesaQXLuRY',desc:'Un profesor de química con cáncer se convierte en productor de drogas con su exalumno.'},
+  {t:'serie',imdb:'tt1190634',tmdb:76479,title:'The Boys',year:'2019',match:96,seas:4,genres:['Acción','Comedia','Thriller'],poster:T+'/2zmTngn1tYC1AvfnrFLhxeD82hz.jpg',back:TO+'/mY7SeH4HFFxW1hiI6cWuwCRKptN.jpg',yt:'M1bhOaLV4FU',desc:'Un grupo de vigilantes intenta derrocar a superhéroes corruptos que abusan de sus poderes.'},
+  {t:'serie',imdb:'tt7661390',tmdb:69050,title:'The Umbrella Academy',year:'2019',match:93,seas:3,genres:['Superhéroe','Comedia','Sci-Fi'],poster:T+'/scZlQQYnDVlnpxFTxaIv2g0BWnL.jpg',back:TO+'/2RocLHBBMlnHhWUlgBb8YgH8ZzX.jpg',yt:'0DAmWHxeoKw',desc:'Hijos adoptivos con superpoderes se reúnen para salvar el mundo y resolver la muerte de su padre.'},
+  {t:'serie',imdb:'tt3205802',tmdb:61889,title:'Shadow and Bone',year:'2021',match:92,seas:2,genres:['Fantasía','Aventura','Romance'],poster:T+'/rjkmN1dniUHVYAtwuV3Tji7FsDO.jpg',back:TO+'/2S14FZhFRHWGsXPQGiKfMnkOHND.jpg',yt:'hDZ2EZxhYJI',desc:'Una joven descubre que tiene el poder de manipular la luz y podría salvar a su mundo de la oscuridad.'},
+  {t:'serie',imdb:'tt11198330',tmdb:100088,title:'The Last of Us',year:'2023',match:98,seas:2,genres:['Drama','Terror','Acción'],poster:T+'/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg',back:TO+'/uDgy6hyPd9qvFPBw8OJHIlzlPUy.jpg',yt:'uLtkt8BonwM',desc:'Joel escolta a Ellie, inmune a un hongo apocalíptico, a través de una América devastada.'},
+  {t:'serie',imdb:'tt3581920',tmdb:60574,title:'The 100',year:'2014',match:91,seas:7,genres:['Sci-Fi','Drama','Aventura'],poster:T+'/wcaDIAGJdWNMxMVNCRqFSEYJoVp.jpg',back:TO+'/Ypkh3oKyWQkMoMNBvVGJsFXp2jF.jpg',yt:'ia1Fbg8lXeo',desc:'Cien años después del apocalipsis nuclear, 100 jóvenes regresan a la Tierra para ver si es habitable.'},
+];
 
-  function buildEmbedUrl(type, imdb, tmdb, se, ep) {
-    let base = `https://vimeus.com/e/${type}?`;
-    if (imdb) base += `imdb=${imdb}`;
-    else if (tmdb) base += `tmdb=${tmdb}`;
-    base += `&view_key=${VIEW_KEY}`;
-    if (se) base += `&se=${se}`;
-    if (ep) base += `&ep=${ep}`;
-    return base;
-  }
+const animes = [
+  {t:'anime',imdb:'tt2560140',tmdb:1429,title:'Attack on Titan',year:'2013',match:99,seas:4,genres:['Acción','Drama','Fantasía'],poster:T+'/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg',back:TO+'/drAlODjKBGCj5GusEOAixUGvbBm.jpg',yt:'MGRm4IzK1SQ',desc:'La humanidad vive dentro de muros para sobrevivir a los Titanes, gigantes devoradores de humanos.'},
+  {t:'anime',imdb:'tt9335498',tmdb:85937,title:'Demon Slayer',year:'2019',match:98,seas:4,genres:['Acción','Fantasía','Drama'],poster:T+'/wrqUiMSPSMNeA9OqDPHnstpMCVH.jpg',back:TO+'/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg',yt:'VQGCKyvzIM4',desc:'Tanjiro se convierte en cazador de demonios para curar a su hermana convertida en uno de ellos.'},
+  {t:'anime',imdb:'tt11080016',tmdb:95557,title:'Jujutsu Kaisen',year:'2020',match:97,seas:2,genres:['Acción','Sobrenatural'],poster:T+'/2SBUvwOCHJOUUSklcyAXJUKXGJt.jpg',back:TO+'/5gKFM3EIcMYMV4bNIPoQUTFEUcB.jpg',yt:'pkKu9hLT-t8',desc:'Yuji ingresa al mundo de los hechiceros tras tragar un dedo maldito para proteger a sus amigos.'},
+  {t:'anime',imdb:'tt7374948',tmdb:65930,title:'My Hero Academia',year:'2016',match:95,seas:6,genres:['Acción','Superhéroe'],poster:T+'/ivOLM47yJt90P19RH826RmPKJFX.jpg',back:TO+'/9uhWmJPmUWcEoLUbGc3aXrx0YOBC.jpg',yt:'EPVkcwyLQQ8',desc:'En un mundo de superhéroes, un chico sin poderes sueña con convertirse en el mayor héroe.'},
+  {t:'anime',imdb:'tt0988824',tmdb:31911,title:'Fullmetal Alchemist: Brotherhood',year:'2009',match:99,seas:1,genres:['Acción','Aventura','Drama'],poster:T+'/5ZFUEOULaVml7pQuXxhpR2SmVUw.jpg',back:TO+'/wnnPTjfAMbMVYKlf5n1yaDEyeBm.jpg',yt:'--IcmZkvL0Q',desc:'Dos hermanos buscan la piedra filosofal para recuperar sus cuerpos tras un experimento fallido.'},
+  {t:'anime',imdb:'tt0388629',tmdb:37854,title:'One Piece',year:'1999',match:96,seas:21,genres:['Aventura','Acción','Comedia'],poster:T+'/cMD9Ygz11zjJzAovURpO75Gc68y.jpg',back:TO+'/LDaqPPPwwEGbEtLTBT3lXNiZNa.jpg',yt:'S8_YwFLCh4U',desc:'Luffy navega los mares con su tripulación en busca del legendario tesoro One Piece.'},
+  {t:'anime',imdb:'tt0417299',tmdb:246,title:'Avatar: La Leyenda de Aang',year:'2005',match:98,seas:3,genres:['Aventura','Fantasía','Acción'],poster:T+'/cHbEkFHZOQzjCPfyaPhAe8FE18S.jpg',back:TO+'/bkFBNNMI6ZbM9YvB2ZC5mMlMh2c.jpg',yt:'d1EnW4kn1kg',desc:'Aang debe dominar los cuatro elementos para salvar al mundo del Imperio del Fuego.'},
+  {t:'anime',imdb:'tt0421951',tmdb:46260,title:'Naruto Shippuden',year:'2007',match:94,seas:21,genres:['Acción','Aventura'],poster:T+'/xppeysfvDKVx775MFuH8Z9BlpMk.jpg',back:TO+'/jkBtfFkMRN4JnkQZ3gfOLeT8dWK.jpg',yt:'2S5mBXKCLWk',desc:'Naruto continúa su entrenamiento para ser Hokage mientras busca rescatar a Sasuke.'},
+];
 
-  function createCard(item, type, badge) {
-    const div = document.createElement('div');
-    div.className = 'card';
-    const embedType = type === 'anime' ? 'anime' : (type === 'serie' ? 'serie' : 'movie');
-    div.innerHTML = `
-      <div class="card-poster">
-        <img src="${item.poster}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/342x513/1a1a24/666?text=MS+FILMS'"/>
-        <div class="card-overlay">
-          <button class="card-play" onclick="event.stopPropagation(); openModal('${embedType}', '${item.imdb}', ${item.tmdb || null}, null, \`${item.title.replace(/`/g,"'")}\`, '${item.year}', ${JSON.stringify(item.genres)}, \`${item.desc.replace(/`/g,"'")}\`)">▶</button>
+const all = [...movies,...series,...animes];
+
+// ── BUILD CARD ──
+function mkCard(item){
+  const d = document.createElement('div');
+  d.className='card';
+  d.innerHTML=`
+    <div class="card-inner">
+      <div class="card-img">
+        <img src="${item.poster}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/500x281/181818/444?text=MS+FILMS'"/>
+      </div>
+      <div class="card-expand">
+        <div class="ce-btns">
+          <button class="cebtn p" title="Reproducir" onclick="event.stopPropagation();playFS('${item.t}','${item.imdb}',${item.tmdb},'${esc(item.title)}')">▶</button>
+          <button class="cebtn" title="Mi lista" onclick="event.stopPropagation()">＋</button>
+          <button class="cebtn" title="Me gusta" onclick="event.stopPropagation()">👍</button>
+          <button class="cebtn ce-ml" title="Más info" onclick="event.stopPropagation();openPV(${item.tmdb},'${item.t}')">⌄</button>
         </div>
-        ${badge ? `<span class="card-badge">${badge}</span>` : ''}
+        <div class="ce-title">${item.title}</div>
+        <div class="ce-tags">
+          <span class="cetag g">${item.match}%</span>
+          <span class="cetag">${item.year}</span>
+          ${item.seas?`<span class="cetag">${item.seas}T</span>`:''}
+        </div>
       </div>
-      <div class="card-info">
-        <div class="card-title">${item.title}</div>
-        <div class="card-meta"><span>${item.year}</span><span>${item.genres[0]}</span>${item.seasons ? `<span>T:${item.seasons}</span>` : ''}</div>
-      </div>
-    `;
-    div.onclick = () => openModal(embedType, item.imdb, item.tmdb || null, null, item.title, item.year, item.genres, item.desc);
-    return div;
-  }
+    </div>
+  `;
+  d.addEventListener('click',()=>openPV(item.tmdb,item.t));
+  return d;
+}
 
-  function populateCarousel(id, data, type) {
-    const c = document.getElementById(id);
-    const badges = ['HD', 'NUEVO', 'TOP', null, null, 'HD', 'POPULAR', null];
-    data.forEach((item, i) => c.appendChild(createCard(item, type, badges[i])));
-  }
+function esc(s){return s.replace(/'/g,"\\'")}
 
-  populateCarousel('movies-carousel', moviesData, 'movie');
-  populateCarousel('series-carousel', seriesData, 'serie');
-  populateCarousel('anime-carousel', animeData, 'anime');
+function fill(id,data){
+  const sl=document.getElementById(id);
+  if(!sl)return;
+  data.forEach(i=>sl.appendChild(mkCard(i)));
+}
 
-  // Hero floating posters
-  const allPosters = [...moviesData, ...seriesData, ...animeData].slice(0,12);
-  const heroPosters = document.getElementById('heroPosters');
-  allPosters.forEach(item => {
-    const d = document.createElement('div');
-    d.className = 'floating-poster';
-    d.innerHTML = `<img src="${item.poster}" alt="" loading="lazy"/>`;
-    heroPosters.appendChild(d);
-  });
+fill('sl-hot',[...series.slice(0,3),...movies.slice(0,3),...animes.slice(0,2)]);
+fill('sl-movies',movies);
+fill('sl-series',series);
+fill('sl-anime',animes);
+fill('sl-action',[...movies.slice(0,4),...series.slice(0,4)]);
 
-  function openModal(type, imdb, tmdb, se, ep, title, year, genres, desc) {
-    if (typeof year === 'object') { desc = genres; genres = year; year = ep; ep = se; se = null; }
-    const url = buildEmbedUrl(type, imdb, tmdb, se, ep);
-    document.getElementById('modalIframe').src = url;
-    document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalDesc').textContent = desc;
-    const tagsEl = document.getElementById('modalTags');
-    tagsEl.innerHTML = '';
-    if (year) tagsEl.innerHTML += `<span class="modal-tag">${year}</span>`;
-    (genres || []).forEach(g => tagsEl.innerHTML += `<span class="modal-tag">${g}</span>`);
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
+// ── PREVIEW ──
+let curItem=null, tTimer=null;
 
-  // Fix openModal call signature for card clicks
-  window.openModal = function(type, imdb, tmdb, se, title, year, genres, desc) {
-    const url = buildEmbedUrl(type, imdb, tmdb, se, null);
-    document.getElementById('modalIframe').src = url;
-    document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalDesc').textContent = desc;
-    const tagsEl = document.getElementById('modalTags');
-    tagsEl.innerHTML = '';
-    if (year) tagsEl.innerHTML += `<span class="modal-tag">${year}</span>`;
-    (genres || []).forEach(g => tagsEl.innerHTML += `<span class="modal-tag">${g}</span>`);
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  };
+function getItem(tmdb,t){
+  return all.find(i=>i.tmdb==tmdb && i.t===t) || all[0];
+}
+window.openPV=function(tmdb,t){
+  const item=getItem(tmdb,t);
+  curItem=item;
+  document.getElementById('pvTitle').textContent=item.title;
+  document.getElementById('pvMatch').textContent=item.match+'% match';
+  document.getElementById('pvYear').textContent=item.year;
+  document.getElementById('pvSeas').textContent=item.seas?item.seas+' Temporadas':'';
+  document.getElementById('pvDesc').textContent=item.desc;
+  const pg=document.getElementById('pvGenres');
+  pg.innerHTML='';
+  item.genres.forEach(g=>{const s=document.createElement('span');s.textContent=g;pg.appendChild(s)});
 
-  function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-    document.getElementById('modalIframe').src = '';
-    document.body.style.overflow = '';
-  }
+  // Show still first
+  const m=document.getElementById('pvMedia');
+  m.innerHTML=`<img class="pv-still" src="${item.back||item.poster}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>`;
 
-  function closeModalOutside(e) {
-    if (e.target === document.getElementById('modal')) closeModal();
-  }
+  document.getElementById('pov').classList.add('on');
+  document.body.style.overflow='hidden';
 
-  function scroll(btn, dir) {
-    const carousel = btn.parentElement.querySelector('.carousel');
-    carousel.scrollBy({ left: dir * 600, behavior: 'smooth' });
-  }
-
-  function filterSection(type) {
-    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-    event.target.classList.add('active');
-    const sections = { movie: 'sec-movies', serie: 'sec-series', anime: 'sec-anime' };
-    if (type === 'all') {
-      document.querySelectorAll('.section').forEach(s => s.style.display = '');
-    } else {
-      document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-      const target = document.getElementById(sections[type]);
-      if (target) target.style.display = '';
+  // After 4s idle → autoplay trailer
+  clearTimeout(tTimer);
+  tTimer=setTimeout(()=>{
+    if(item.yt){
+      m.innerHTML=`<iframe src="https://www.youtube.com/embed/${item.yt}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0" allow="autoplay;encrypted-media" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>`;
     }
-  }
+  },4000);
+};
 
-  function toggleSearch() {
-    const q = prompt('🔍 Buscar película, serie o anime:');
-    if (!q) return;
-    const all = [...moviesData, ...seriesData, ...animeData];
-    const found = all.find(i => i.title.toLowerCase().includes(q.toLowerCase()));
-    if (found) {
-      const type = seriesData.includes(found) ? 'serie' : animeData.includes(found) ? 'anime' : 'movie';
-      openModal(type, found.imdb, found.tmdb, null, found.title, found.year, found.genres, found.desc);
-    } else {
-      alert('No encontrado. Intenta con otro título.');
-    }
-  }
+function closePV(){
+  clearTimeout(tTimer);
+  document.getElementById('pov').classList.remove('on');
+  document.getElementById('pvMedia').innerHTML='';
+  document.body.style.overflow='';
+  curItem=null;
+}
+function closePOV(e){if(e.target===document.getElementById('pov'))closePV()}
+function playFromPV(){if(!curItem)return;const i=curItem;closePV();playFS(i.t,i.imdb,i.tmdb,i.title)}
 
-  // Scroll navbar
-  window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+// ── FULLSCREEN PLAYER ──
+window.playFS=function(type,imdb,tmdb,title){
+  document.getElementById('fsFrame').src=vUrl(type,imdb,tmdb);
+  document.getElementById('fsName').textContent=title||'';
+  document.getElementById('fs').classList.add('on');
+  document.body.style.overflow='hidden';
+};
+function closeFS(){
+  document.getElementById('fs').classList.remove('on');
+  document.getElementById('fsFrame').src='';
+  document.body.style.overflow='';
+}
+
+// ── HERO ROTATION ──
+const heroPool=[...series.slice(0,3),...movies.slice(0,3)];
+let hIdx=0;
+function setHero(item){
+  const bg=document.getElementById('hbg');
+  bg.style.opacity=0;
+  setTimeout(()=>{
+    bg.src=item.back||item.poster;
+    bg.style.opacity=.75;
+  },500);
+  document.getElementById('hMatch').textContent=item.match+'% match';
+  document.getElementById('hYear').textContent=item.year;
+  document.getElementById('hSeas').textContent=item.seas?item.seas+' Temporadas':'';
+  document.getElementById('hTitle').textContent=item.title.toUpperCase();
+  document.getElementById('hDesc').textContent=item.desc;
+  document.getElementById('hPlay').onclick=()=>playFS(item.t,item.imdb,item.tmdb,item.title);
+  document.getElementById('hMore').onclick=()=>openPV(item.tmdb,item.t);
+}
+// Init hero
+setHero(heroPool[0]);
+setInterval(()=>{hIdx=(hIdx+1)%heroPool.length;setHero(heroPool[hIdx])},9000);
+
+// ── SLIDER ──
+function slide(btn,dir){
+  const sl=btn.parentElement.querySelector('.slider');
+  sl.scrollBy({left:dir*(sl.offsetWidth*.78),behavior:'smooth'});
+}
+
+// ── NAV FILTER ──
+function doNav(cat,el){
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.row').forEach(r=>{
+    r.style.display=(cat==='all'||cat==='new'||r.dataset.cat===cat||r.dataset.cat==='all')?'':'none';
   });
+}
+
+// ── SEARCH ──
+function doSearch(){
+  const q=prompt('Buscar en MS FILMS:');
+  if(!q)return;
+  const f=all.find(i=>i.title.toLowerCase().includes(q.toLowerCase()));
+  if(f)openPV(f.tmdb,f.t);
+  else alert(`No se encontró "${q}"`);
+}
+
+// ── NAVBAR SOLID ──
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('solid',scrollY>60));
+
+// ── ESC ──
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePV();closeFS()}});
 </script>
 </body>
 </html>
