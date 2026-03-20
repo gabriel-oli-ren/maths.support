@@ -967,6 +967,16 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 #unity-warning{position:absolute;left:50%;top:5%;transform:translateX(-50%);background:#fff;padding:10px;display:none;border:1px solid #ccc;border-radius:5px}
 .granny-close-btn{position:fixed;top:20px;right:20px;background:#ff4444;border:none;color:#fff;width:50px;height:50px;border-radius:50%;font-size:1.5em;cursor:pointer;z-index:99999;box-shadow:0 4px 8px rgba(0,0,0,.2);transition:all .3s;font-weight:bold}
 .granny-close-btn:hover{background:#cc0000;transform:scale(1.1)}
+
+/* ── SAVED USER BADGE ── */
+.auth-saved-badge{display:flex;align-items:center;gap:10px;padding:12px 16px;background:linear-gradient(135deg,#f0f4ff,#f5f0ff);border:2px solid rgba(102,126,234,.3);border-radius:13px;margin-bottom:14px;cursor:pointer;transition:all .2s;width:100%;box-sizing:border-box}
+.auth-saved-badge:hover{background:linear-gradient(135deg,#e8efff,#ede8ff);border-color:#667eea;transform:translateY(-1px);box-shadow:0 4px 14px rgba(102,126,234,.2)}
+.auth-saved-badge-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.05em;font-weight:800;flex-shrink:0}
+.auth-saved-badge-text{flex:1;text-align:left}
+.auth-saved-badge-name{font-weight:800;color:#333;font-size:.93em}
+.auth-saved-badge-sub{color:#aaa;font-size:.76em;margin-top:2px}
+.auth-saved-badge-clear{color:#ccc;font-size:.88em;padding:5px 8px;border-radius:7px;transition:all .15s;flex-shrink:0;font-weight:700;background:none;border:none;cursor:pointer;line-height:1}
+.auth-saved-badge-clear:hover{color:#f64f59;background:#fff0f1}
 </style>
 <script type="text/javascript">
 window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a){switch(a.name){case"SDK_GAME_PAUSE":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','MuteAudio');break;case"SDK_GAME_START":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','UnmuteAudio');break;}}};
@@ -1004,8 +1014,9 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
       <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Sign Up</button>
     </div>
     <div id="loginForm">
-      <input type="text" class="auth-field" id="loginUsername" placeholder="Username" autocomplete="off" spellcheck="false">
-      <input type="password" class="auth-field" id="loginPassword" placeholder="Password">
+      <div class="auth-saved-badge" id="authSavedBadge" style="display:none"><div class="auth-saved-badge-avatar" id="authSavedAvatar">?</div><div class="auth-saved-badge-text"><div class="auth-saved-badge-name" id="authSavedName">User</div><div class="auth-saved-badge-sub">Continue as this user</div></div><button class="auth-saved-badge-clear" onclick="clearSavedUser(event)" title="Forget">x</button></div>
+      <input type="text" class="auth-field" id="loginUsername" placeholder="Username" autocomplete="username" spellcheck="false">
+      <input type="password" class="auth-field" id="loginPassword" placeholder="Password" autocomplete="current-password">
       <button class="auth-submit" id="loginBtn" onclick="doLogin()">Sign In →</button>
       <div class="auth-error" id="loginError"></div>
     </div>
@@ -1735,7 +1746,7 @@ async function checkSitePassword(){
     if(!rows.length){errEl.textContent='No passwords found in database.';errEl.classList.add('show');btn.disabled=false;btn.innerHTML='Unlock Site →';return;}
     const allValues=rows.flatMap(row=>Object.values(row)).filter(v=>typeof v==='string'&&v.length>0);
     if(allValues.includes(entered)){
-      sessionStorage.setItem(SP_SESSION_KEY,'true');
+      localStorage.setItem(SP_SESSION_KEY,'true');
       const card=document.querySelector('.sitepass-card');
       card.style.transition='opacity .4s ease,transform .4s ease';card.style.opacity='0';card.style.transform='scale(.95) translateY(-10px)';
       setTimeout(()=>{document.getElementById('sitePassOverlay').classList.add('hidden');runAppInit();},420);
@@ -1791,7 +1802,8 @@ async function doLogin(){
   if(!data){errEl.textContent='No account found with that username.';errEl.classList.add('show');return;}
   if(data.password.trim()!==password){errEl.textContent='Incorrect password.';errEl.classList.add('show');return;}
 
-  sessionStorage.setItem(AUTH_SESSION_KEY,data.id);
+  localStorage.setItem(AUTH_SESSION_KEY,data.id);
+  localStorage.setItem('ms_saved_username',data.username);
   await onSignedIn(data);
 }
 
@@ -1814,7 +1826,8 @@ async function doRegister(){
   btn.disabled=false;btn.textContent='Create Account →';
   if(error||!data){errEl.textContent='Error: '+(error?.message||'unknown');errEl.classList.add('show');return;}
   okEl.textContent='✅ Account created! Signing you in…';okEl.classList.add('show');
-  sessionStorage.setItem(AUTH_SESSION_KEY,data.id);
+  localStorage.setItem(AUTH_SESSION_KEY,data.id);
+  localStorage.setItem('ms_saved_username',data.username);
   setTimeout(()=>onSignedIn(data),700);
 }
 
@@ -1824,7 +1837,7 @@ async function doSignOut(e){
   if(chatPollTimer){clearInterval(chatPollTimer);chatPollTimer=null;}
   if(chatRealtime){sb.removeChannel(chatRealtime);chatRealtime=null;}
   if(typingRealtime){sb.removeChannel(typingRealtime);typingRealtime=null;}
-  sessionStorage.removeItem(AUTH_SESSION_KEY);
+  localStorage.removeItem(AUTH_SESSION_KEY);
   currentUser=null;currentProfile=null;
   document.getElementById('userBadge').classList.remove('visible');
   document.getElementById('authOverlay').classList.remove('hidden');
@@ -1843,16 +1856,17 @@ async function onSignedIn(profile){
   subscribeToTyping();
   loadCustomApps();
   if(sessionStorage.getItem('questionnaire_done')!=='true')checkAndShowQuestionnaire();
+  setTimeout(updateChatBadge,800);
   const iAmAdmin=ADMIN_USER_IDS.includes(profile.id)||profile?.is_admin;
   const bcBtn=document.getElementById('broadcastBtn');
   if(bcBtn)bcBtn.style.display=iAmAdmin?'':'none';
 }
 
 async function restoreSession(){
-  const uid=sessionStorage.getItem(AUTH_SESSION_KEY);
+  const uid=localStorage.getItem(AUTH_SESSION_KEY);
   if(!uid)return null;
   const{data,error}=await sb.from('users').select('*').eq('id',uid).maybeSingle();
-  if(error||!data){sessionStorage.removeItem(AUTH_SESSION_KEY);return null;}
+  if(error||!data){localStorage.removeItem(AUTH_SESSION_KEY);return null;}
   return data;
 }
 
@@ -2250,6 +2264,7 @@ async function contactAdmin(){
 function openChatWith(friendId, friendName){
   activeChatFriendId=friendId;activeChatFriendName=friendName;
   renderedMsgIds=new Set();lastMsgId=null;
+  document.getElementById('typingIndicator')?.classList.remove('visible');
   document.querySelectorAll('.chat-list-item').forEach(el=>el.classList.remove('active'));
   const cli=document.getElementById('cli-'+friendId);if(cli)cli.classList.add('active');
   document.getElementById('chatNoConvo').style.display='none';
@@ -2669,6 +2684,33 @@ document.addEventListener('fullscreenchange',()=>{const btn=document.querySelect
 // ══════════════════════════════════════════════════════════════════
 // KEYBOARD SHORTCUTS (unchanged)
 // ══════════════════════════════════════════════════════════════════
+
+// ── SAVED USER BADGE helpers ──
+function renderSavedUserBadge(username){
+  const badge=document.getElementById('authSavedBadge');
+  const avatar=document.getElementById('authSavedAvatar');
+  const name=document.getElementById('authSavedName');
+  if(!badge)return;
+  badge.style.display='flex';
+  if(avatar)avatar.textContent=(username||'?').charAt(0).toUpperCase();
+  if(name)name.textContent=username||'User';
+  badge.onclick=function(){
+    const lp=document.getElementById('loginPassword');
+    if(lp){lp.focus();}
+  };
+}
+
+function clearSavedUser(e){
+  if(e){e.stopPropagation();e.preventDefault();}
+  localStorage.removeItem('ms_saved_username');
+  const badge=document.getElementById('authSavedBadge');
+  if(badge)badge.style.display='none';
+  const lu=document.getElementById('loginUsername');
+  if(lu){lu.value='';lu.focus();}
+  const lp=document.getElementById('loginPassword');
+  if(lp)lp.value='';
+}
+
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&document.activeElement.id==='sitePassInput')checkSitePassword();
   if(e.key==='Enter'&&!e.shiftKey&&document.activeElement.id==='chatMsgInput'){e.preventDefault();sendMessage();}
@@ -2831,6 +2873,13 @@ async function runAppInit(){
     await onSignedIn(profile);
   }else{
     document.getElementById('authOverlay').classList.remove('hidden');
+    const savedUser=localStorage.getItem('ms_saved_username');
+    if(savedUser){
+      const lu=document.getElementById('loginUsername');
+      if(lu){lu.value=savedUser;}
+      renderSavedUserBadge(savedUser);
+      setTimeout(()=>document.getElementById('loginPassword')?.focus(),200);
+    }
   }
 }
 
@@ -3572,6 +3621,7 @@ function switchDevTab(tab){
 })();
 
 window.addEventListener('load',async()=>{
+  if(localStorage.getItem(SP_SESSION_KEY)==='true'){sessionStorage.setItem(SP_SESSION_KEY,'true');}
   if(sessionStorage.getItem(SP_SESSION_KEY)==='true'){
     const overlay=document.getElementById('sitePassOverlay');
     const card=overlay.querySelector('.sitepass-card');
