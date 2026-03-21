@@ -1714,6 +1714,159 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 .x2xp-badge.show{display:block}
 @keyframes x2Pulse{0%,100%{box-shadow:0 4px 18px rgba(217,119,6,.4)}50%{box-shadow:0 6px 28px rgba(217,119,6,.7)}}
 
+
+/* ════════════════════════════════
+   DAILY GIFT CARD
+════════════════════════════════ */
+.daily-gift-card{
+  position:relative;overflow:hidden;
+  background:linear-gradient(145deg,#1a0a2e,#0d1535);
+  border:2px solid rgba(139,92,246,.35);border-radius:22px;
+  padding:22px 24px;margin-bottom:18px;
+  box-shadow:0 8px 32px rgba(79,70,229,.2)
+}
+.daily-gift-glow{
+  position:absolute;top:-40%;left:50%;transform:translateX(-50%);
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);
+  pointer-events:none
+}
+.daily-gift-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.daily-gift-streak-chip{
+  font-size:.72em;font-weight:900;letter-spacing:1px;
+  color:#fb923c;background:rgba(251,146,60,.15);
+  border:1px solid rgba(251,146,60,.35);
+  padding:5px 14px;border-radius:20px
+}
+.daily-gift-title{
+  font-size:.7em;font-weight:900;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.4)
+}
+.daily-gift-box{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  cursor:pointer;padding:16px 0;transition:transform .2s
+}
+.daily-gift-box:hover{transform:scale(1.04)}
+.daily-gift-present{
+  font-size:4em;line-height:1;
+  filter:drop-shadow(0 0 20px rgba(139,92,246,.6));
+  animation:giftFloat 2s ease-in-out infinite
+}
+@keyframes giftFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+.daily-gift-label{
+  font-size:.88em;font-weight:800;color:rgba(255,255,255,.6);
+  background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.3);
+  padding:6px 20px;border-radius:20px;letter-spacing:.5px
+}
+/* Claimed state */
+.daily-gift-claimed{text-align:center;padding:8px 0}
+.daily-gift-result-icon{font-size:3em;margin-bottom:6px}
+.daily-gift-result-val{font-size:1.6em;font-weight:900;color:#fff;margin-bottom:4px}
+.daily-gift-result-rarity{
+  font-size:.68em;font-weight:900;letter-spacing:2px;text-transform:uppercase;
+  padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:10px
+}
+.rarity-common{background:rgba(156,163,175,.15);color:#9ca3af;border:1px solid rgba(156,163,175,.3)}
+.rarity-uncommon{background:rgba(52,211,153,.12);color:#34d399;border:1px solid rgba(52,211,153,.3)}
+.rarity-rare{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.3)}
+.rarity-epic{background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.3)}
+.rarity-legendary{
+  background:linear-gradient(135deg,rgba(251,191,36,.15),rgba(245,158,11,.1));
+  color:#fbbf24;border:1px solid rgba(251,191,36,.4);
+  animation:legendaryGlow 2s ease-in-out infinite
+}
+@keyframes legendaryGlow{0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,0)}50%{box-shadow:0 0 12px rgba(251,191,36,.3)}}
+.daily-gift-next{font-size:.76em;color:rgba(255,255,255,.3);font-weight:600}
+/* 7-day calendar dots */
+.daily-gift-calendar{display:flex;justify-content:center;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}
+.dg-day{display:flex;flex-direction:column;align-items:center;gap:4px}
+.dg-day-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.15)}
+.dg-day-dot.claimed{background:linear-gradient(135deg,#7c3aed,#4f46e5);border-color:#818cf8;box-shadow:0 0 8px rgba(99,102,241,.5)}
+.dg-day-dot.today{border-color:#fbbf24;animation:todayPulse 1.5s ease-in-out infinite}
+@keyframes todayPulse{0%,100%{box-shadow:0 0 0 0 rgba(251,191,36,.5)}50%{box-shadow:0 0 0 5px rgba(251,191,36,0)}}
+.dg-day-label{font-size:.58em;font-weight:800;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.5px}
+
+/* ════════════════════════════════
+   COMMUNITY EGG
+════════════════════════════════ */
+.comm-egg-card{
+  background:rgba(255,255,255,.97);border-radius:22px;
+  padding:22px 24px;box-shadow:0 6px 24px rgba(0,0,0,.09)
+}
+.comm-egg-header{margin-bottom:16px}
+.comm-egg-title{font-size:.82em;font-weight:900;color:#4f46e5;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.comm-egg-sub{font-size:.76em;color:#9ca3af;font-weight:600}
+/* Egg display */
+.comm-egg-arena{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  height:150px;margin-bottom:18px;
+  background:linear-gradient(180deg,#f0f4ff 0%,#e0e7ff 100%);
+  border-radius:16px;overflow:hidden
+}
+.comm-egg-glow{
+  position:absolute;width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle,rgba(99,102,241,.25),transparent 70%);
+  animation:eggGlow 3s ease-in-out infinite;pointer-events:none
+}
+@keyframes eggGlow{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+.comm-egg-char{
+  font-size:5em;line-height:1;position:relative;z-index:1;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.15));
+  transition:all .5s cubic-bezier(.34,1.56,.64,1)
+}
+.comm-egg-char.shaking{animation:eggShake .4s ease}
+@keyframes eggShake{0%,100%{transform:rotate(0)}20%{transform:rotate(-8deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(5deg)}}
+.comm-egg-cracks{position:absolute;inset:0;pointer-events:none;z-index:2}
+.comm-egg-crack{
+  position:absolute;font-size:1.2em;opacity:0;
+  animation:crackAppear .3s ease forwards
+}
+@keyframes crackAppear{to{opacity:.6}}
+/* Progress */
+.comm-egg-progress-wrap{margin-bottom:14px}
+.comm-egg-progress-labels{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.comm-egg-stage-label{font-size:.78em;font-weight:800;color:#4f46e5}
+.comm-egg-pct{font-size:.82em;font-weight:900;color:#7c3aed}
+.comm-egg-bar-track{
+  height:12px;background:#e0e7ff;border-radius:6px;overflow:hidden;
+  position:relative;margin-bottom:6px
+}
+.comm-egg-bar-fill{
+  height:100%;border-radius:6px;
+  background:linear-gradient(90deg,#6366f1,#8b5cf6,#a78bfa);
+  transition:width .8s cubic-bezier(.34,1.56,.64,1);
+  position:relative
+}
+.comm-egg-bar-shine{
+  position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+  animation:barShine 2.5s linear infinite
+}
+@keyframes barShine{0%{left:-100%}100%{left:200%}}
+.comm-egg-progress-sub{font-size:.74em;color:#9ca3af;font-weight:600;text-align:center}
+.comm-egg-progress-sub span{color:#4f46e5;font-weight:900}
+/* Contribution */
+.comm-egg-contrib{
+  display:flex;align-items:center;justify-content:space-between;
+  background:#f5f3ff;border:1.5px solid #e0e7ff;border-radius:12px;
+  padding:10px 16px;margin-bottom:16px
+}
+.comm-egg-contrib-label{font-size:.78em;font-weight:700;color:#6b7280}
+.comm-egg-contrib-val{font-size:.9em;font-weight:900;color:#4f46e5}
+/* Stages row */
+.comm-egg-stages-row{
+  display:flex;justify-content:center;gap:10px;padding-top:14px;
+  border-top:1.5px solid #f0f4ff
+}
+.comm-egg-stage-pip{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  opacity:.35;transition:opacity .3s
+}
+.comm-egg-stage-pip.reached{opacity:1}
+.comm-egg-stage-pip.current{opacity:1;transform:scale(1.15)}
+.comm-egg-stage-emoji{font-size:1.6em;line-height:1}
+.comm-egg-stage-name{font-size:.6em;font-weight:800;color:#6b7280;text-align:center;max-width:50px}
+
 </style>
 <script type="text/javascript">
 window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a){switch(a.name){case"SDK_GAME_PAUSE":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','MuteAudio');break;case"SDK_GAME_START":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','UnmuteAudio');break;}}};
@@ -2176,31 +2329,64 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
         <button class="pet-subbtn" id="petSub-missions" onclick="petShowSub('missions')">📋 Missions</button>
         <button class="pet-subbtn" id="petSub-community" onclick="petShowSub('community')">🌍 Community</button>
       </div>
-      <!-- MY PET -->
+      <!-- MY PET — Community Egg + Daily Gift -->
       <div class="pet-subpanel active" id="petSubPanel-mypet">
-        <div id="petPlaySection">
-          <div class="bp-pet-header">
-            <div class="bp-pet-stage" id="bpPetStage"></div>
-            <h3 class="bp-pet-name-title">🐾 <span id="playPetName">Mystery Egg</span></h3>
-            <div class="bp-pet-happiness-row">
-              <span class="bp-pet-hap-label">Happiness</span>
-              <div class="pet-happiness-track" style="flex:1"><div class="pet-happiness-fill" id="petHappinessFill" style="width:60%"></div></div>
-              <span class="pet-happiness-emoji" id="petHappinessEmoji">😊</span>
+
+        <!-- DAILY LOGIN GIFT -->
+        <div class="daily-gift-card" id="dailyGiftCard">
+          <div class="daily-gift-glow"></div>
+          <div class="daily-gift-top">
+            <div class="daily-gift-streak-chip">🔥 Day <span id="dgStreakNum">1</span> streak</div>
+            <div class="daily-gift-title">DAILY REWARD</div>
+          </div>
+          <div class="daily-gift-box" id="dailyGiftBox" onclick="claimDailyGift()">
+            <div class="daily-gift-present" id="dailyGiftPresent">🎁</div>
+            <div class="daily-gift-label" id="dailyGiftLabel">Tap to claim!</div>
+          </div>
+          <div class="daily-gift-claimed" id="dailyGiftClaimed" style="display:none">
+            <div class="daily-gift-result-icon" id="dgResultIcon">🪙</div>
+            <div class="daily-gift-result-val" id="dgResultVal">+10 Coins</div>
+            <div class="daily-gift-result-rarity" id="dgResultRarity">COMMON</div>
+            <div class="daily-gift-next">Come back tomorrow!</div>
+          </div>
+          <div class="daily-gift-calendar" id="dailyGiftCalendar"><!-- 7 day dots --></div>
+        </div>
+
+        <!-- COMMUNITY PET EGG -->
+        <div class="comm-egg-card">
+          <div class="comm-egg-header">
+            <div class="comm-egg-title">🌍 Community Pet</div>
+            <div class="comm-egg-sub">Everyone hatches it together</div>
+          </div>
+          <!-- Egg display -->
+          <div class="comm-egg-arena" id="commEggArena">
+            <div class="comm-egg-glow" id="commEggGlow"></div>
+            <div class="comm-egg-char" id="commEggChar">🥚</div>
+            <div class="comm-egg-cracks" id="commEggCracks"></div>
+          </div>
+          <!-- Community progress bar -->
+          <div class="comm-egg-progress-wrap">
+            <div class="comm-egg-progress-labels">
+              <span class="comm-egg-stage-label" id="commEggStageLabel">Stage 1: Egg</span>
+              <span class="comm-egg-pct" id="commEggPct">0%</span>
+            </div>
+            <div class="comm-egg-bar-track">
+              <div class="comm-egg-bar-fill" id="commEggBarFill" style="width:0%"></div>
+              <div class="comm-egg-bar-shine"></div>
+            </div>
+            <div class="comm-egg-progress-sub" id="commEggProgressSub">
+              <span id="commEggPoints">0</span> / <span id="commEggTarget">100</span> community points
             </div>
           </div>
-          <div class="pet-play-arena" id="petArena" onclick="petArenaClick(event)">
-            <div class="pet-play-bubble" id="petBubble">Hello!</div>
-            <div class="pet-play-char" id="petPlayChar">🥚</div>
-            <div class="pet-play-ground"></div>
+          <!-- My contribution today -->
+          <div class="comm-egg-contrib">
+            <div class="comm-egg-contrib-label">Your contribution today</div>
+            <div class="comm-egg-contrib-val" id="commEggMyContrib">0 pts</div>
           </div>
-          <div class="pet-play-actions">
-            <button class="pet-action-btn" onclick="petAction('feed')">🍎 Feed</button>
-            <button class="pet-action-btn" onclick="petAction('play')">🎮 Play</button>
-            <button class="pet-action-btn" onclick="petAction('pet')">🤗 Pet</button>
-            <button class="pet-action-btn" onclick="petAction('dance')">💃 Dance</button>
-            <button class="pet-action-btn" onclick="openPetModal()" id="renameBtn">✏️ Rename</button>
-          </div>
+          <!-- Stage preview row -->
+          <div class="comm-egg-stages-row" id="commEggStagesRow"><!-- filled by JS --></div>
         </div>
+
       </div>
       <!-- DAILY MISSIONS -->
       <div class="pet-subpanel" id="petSubPanel-missions">
@@ -2354,7 +2540,7 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
         <!-- Streak Bar -->
         <div class="streak-bar" id="streakBar">
           <div class="streak-pet-wrap">
-            <div class="streak-pet-emoji" id="streakPetEmoji" onclick="openPetModal()" title="Click to rename your pet!">🥚</div>
+            <div class="streak-pet-emoji" id="streakPetEmoji" onclick="bouncePet()" title="Chat streak pet">🥚</div>
             <div class="streak-pet-info">
               <div class="streak-pet-name" id="streakPetName">Mystery Egg</div>
               <div class="streak-pet-mood" id="streakPetMood">Chat to start your streak</div>
@@ -2951,6 +3137,7 @@ async function onSignedIn(profile){
   if(iAmAdmin){ hasPremiumPass=true; passLevel=PASS_LEVELS.length; mathsCoins=Math.max(mathsCoins,9999); }
   loadMissionProgress();
   updatePodiumScore(0);
+  loadCommunityPet();
 }
 
 async function restoreSession(){
@@ -3609,6 +3796,7 @@ async function sendMessage(){
     updateLastMsgPreview(activeChatFriendId,{...data,content});
     earnPassXp(3,'sent message');
     trackMission('messages',1);
+    addCommunityPetPoints(1);
   }
 }
 
@@ -4376,7 +4564,7 @@ function bpShowTab(tab){
   if(panel) panel.classList.add('active');
   if(navBtn) navBtn.classList.add('active');
   if(tab==='rewards') renderPassTrack();
-  if(tab==='pet') renderPassPetSection();
+  if(tab==='pet'){ renderPassPetSection(); if(!_commPetData) loadCommunityPet().then(renderCommunityEgg); }
 }
 
 function bpToggleRow(row){
@@ -4610,35 +4798,9 @@ let petBubbleTimeout=null;
 let petDancing=false;
 
 function renderPassPetSection(){
-  // Update pet stage label
-  const stageEl=document.getElementById('bpPetStage');
-  if(stageEl && typeof currentStreakData !== 'undefined' && typeof PET_STAGES !== 'undefined'){
-    const xp=(currentStreakData?.xp)||0;
-    const stage=getPetStage(xp);
-    stageEl.textContent='Stage '+(stage+1)+' of '+PET_STAGES.length+' · '+PET_STAGES[stage].name;
-  }
-  if(!currentStreakData&&passLevel<1) return;
-  const xp=(currentStreakData?.xp)||0;
-  const streak=(currentStreakData?.streak)||0;
-  const stage=getPetStage(xp);
-  const pet=PET_STAGES[stage];
-  const petName=currentStreakData?.pet_name||pet.name;
-
-  const charEl=document.getElementById('petPlayChar');
-  const nameEl=document.getElementById('playPetName');
-  if(charEl) charEl.textContent=pet.emoji;
-  if(nameEl) nameEl.textContent=petName;
-
-  // Happiness bar
-  const hapFill=document.getElementById('petHappinessFill');
-  const hapEmoji=document.getElementById('petHappinessEmoji');
-  if(hapFill) hapFill.style.width=petHappiness+'%';
-  if(hapEmoji){
-    if(petHappiness>=80) hapEmoji.textContent='😄';
-    else if(petHappiness>=50) hapEmoji.textContent='😊';
-    else if(petHappiness>=25) hapEmoji.textContent='😐';
-    else hapEmoji.textContent='😢';
-  }
+  // This now just renders the community pet + daily gift
+  renderCommunityEgg();
+  renderDailyGiftCard();
 }
 
 function showPetBubble(msg){
@@ -4920,28 +5082,26 @@ document.getElementById('fprofileOverlay').addEventListener('click',function(e){
 // PET RENAME MODAL
 // ══════════════════════════════════════════════════════════════════
 function openPetModal(){
-  if(!currentStreakData && !activeChatFriendId) {
-    showToast('💬 Chat with a friend first to hatch your pet!');
-    return;
-  }
+  // Pet modal now names the community pet stage the user is at personally
   const overlay=document.getElementById('petModalOverlay');
   overlay.classList.add('active');
 
-  const xp=(currentStreakData?.xp)||0;
-  const streak=(currentStreakData?.streak)||0;
-  const stage=getPetStage(xp);
-  const pet=PET_STAGES[stage];
-  const xpInfo=getXpInStage(xp,stage);
-  const petName=currentStreakData?.pet_name||pet.name;
+  const stageIdx=_commPetData?(_commPetData.stage||0):0;
+  const stage=COMM_PET_STAGES[stageIdx]||COMM_PET_STAGES[0];
+  const total=_commPetData?.total_points||0;
+  let stageStart=0;
+  for(let i=0;i<stageIdx;i++) stageStart+=COMM_PET_STAGES[i].target;
+  const stageTotal=stage.target;
+  const stageProgress=Math.max(0,total-stageStart);
+  const pct=Math.min(100,Math.round((stageProgress/stageTotal)*100));
 
-  document.getElementById('petModalEmoji').textContent=pet.emoji;
-  document.getElementById('petModalStage').textContent='Stage '+(stage+1)+' of '+PET_STAGES.length;
-  document.getElementById('petModalTitle').textContent=petName;
-  document.getElementById('petModalDesc').textContent=pet.mood(streak);
-  document.getElementById('petNameInput').value=petName;
-  document.getElementById('petModalXpCur').textContent=xpInfo.current+' XP';
-  document.getElementById('petModalXpNext').textContent='/ '+xpInfo.max+' XP to next stage';
-  const pct=Math.min(100,Math.round((xpInfo.current/xpInfo.max)*100));
+  document.getElementById('petModalEmoji').textContent=stage.emoji;
+  document.getElementById('petModalStage').textContent='Stage '+(stageIdx+1)+' of '+COMM_PET_STAGES.length+' — '+stage.name;
+  document.getElementById('petModalTitle').textContent=_commPetData?.name||stage.name;
+  document.getElementById('petModalDesc').textContent=stage.desc;
+  document.getElementById('petNameInput').value=_commPetData?.name||stage.name;
+  document.getElementById('petModalXpCur').textContent=stageProgress+' pts';
+  document.getElementById('petModalXpNext').textContent='/ '+stageTotal+' pts to evolve';
   document.getElementById('petModalXpFill').style.width=pct+'%';
 
   setTimeout(()=>{ const inp=document.getElementById('petNameInput'); inp.focus(); inp.select(); },100);
@@ -4950,18 +5110,15 @@ function openPetModal(){
 async function savePetName(){
   const name=document.getElementById('petNameInput').value.trim();
   if(!name){ showToast('Please enter a name!'); return; }
-  if(!activeChatFriendId){ closePetModal(); return; }
-
-  const uA=streakUserA(currentUser.id,activeChatFriendId);
-  const uB=streakUserB(currentUser.id,activeChatFriendId);
-  const{error}=await sb.from('chat_streaks').update({pet_name:name}).eq('user_a',uA).eq('user_b',uB);
-  if(error){ showToast('❌ Could not save name'); return; }
-
-  if(currentStreakData) currentStreakData.pet_name=name;
-  if(streakCache[activeChatFriendId]) streakCache[activeChatFriendId].pet_name=name;
-  renderStreakBar(currentStreakData);
+  if(_commPetData){
+    _commPetData.name=name;
+    try{
+      await sb.from('community_pet').upsert({id:1,name:name,updated_at:new Date().toISOString()},{onConflict:'id'});
+    }catch(e){}
+    renderCommunityEgg();
+  }
   closePetModal();
-  showToast('✅ Pet renamed to "'+name+'"!');
+  showToast('Community pet renamed to "'+name+'"!');
 }
 
 function closePetModal(){
@@ -5086,7 +5243,7 @@ function petShowSub(sub){
   if(btn) btn.classList.add('active');
   if(sub==='missions') renderDailyMissions();
   if(sub==='community') renderCommunity();
-  if(sub==='mypet') renderPassPetSection();
+  if(sub==='mypet'){ renderDailyGiftCard(); if(_commPetData) renderCommunityEgg(); else loadCommunityPet().then(renderCommunityEgg); }
 }
 
 // ════════════════════════════════════════════════════════
@@ -5174,6 +5331,7 @@ function trackMission(type,amount){
         earnPassXpDirect(xpAmt,'mission:'+m.id);
         showToast('Mission done: '+m.title+' '+m.reward);
         updatePodiumScore(1);
+        addCommunityPetPoints(5);
         changed=true;
       } else { changed=true; }
     }
@@ -5348,6 +5506,298 @@ async function renderXpLeaderboard(){
       list.appendChild(div);
     });
   }catch(e){list.innerHTML='<div class="community-empty">Could not load</div>';}
+}
+
+
+
+// ════════════════════════════════════════════════════════════════
+// COMMUNITY PET SYSTEM
+// Completely separate from chat streaks.
+// One shared pet per server — everyone hatches it together.
+// Stored in Supabase table: community_pet
+// ════════════════════════════════════════════════════════════════
+
+const COMM_PET_STAGES = [
+  {emoji:'🥚', name:'Egg',          target:50,   desc:'A mysterious egg appears...'},
+  {emoji:'🐣', name:'Cracking',     target:200,  desc:'Something is moving inside!'},
+  {emoji:'🐥', name:'Hatchling',    target:500,  desc:'A tiny creature has hatched!'},
+  {emoji:'🐦', name:'Fledgling',    target:1200, desc:'Growing wings and feathers!'},
+  {emoji:'🦅', name:'Eagle',        target:2500, desc:'A majestic eagle soars!'},
+  {emoji:'🐉', name:'Dragon',       target:5000, desc:'LEGENDARY! The dragon is born!'},
+];
+
+let _commPetData = null; // { total_points, stage, hatched, name, updated_at }
+let _myContribToday = 0;
+
+function _commContribKey(){
+  const d=new Date();
+  return 'cp_contrib_'+currentUser?.id+'_'+d.getFullYear()+'_'+d.getMonth()+'_'+d.getDate();
+}
+
+async function loadCommunityPet(){
+  try{
+    const{data}=await sb.from('community_pet').select('*').eq('id',1).maybeSingle();
+    _commPetData = data || {id:1,total_points:0,stage:0,hatched:false,name:'Community Pet'};
+  }catch(e){
+    _commPetData = {id:1,total_points:0,stage:0,hatched:false,name:'Community Pet'};
+  }
+  const stored=parseInt(localStorage.getItem(_commContribKey())||'0',10);
+  _myContribToday=stored;
+}
+
+async function addCommunityPetPoints(pts){
+  if(!currentUser||!_commPetData) return;
+  // Rate-limit: max 50 pts per minute from one user
+  const rlKey='cp_rl_'+currentUser.id;
+  const last=parseInt(localStorage.getItem(rlKey)||'0',10);
+  const now=Date.now();
+  if(now-last<60000){
+    // Accumulate but cap
+    const sinceLastMin=parseInt(localStorage.getItem('cp_min_pts_'+currentUser.id)||'0',10);
+    if(sinceLastMin>=50) return;
+    localStorage.setItem('cp_min_pts_'+currentUser.id,String(sinceLastMin+pts));
+  } else {
+    localStorage.setItem(rlKey,String(now));
+    localStorage.setItem('cp_min_pts_'+currentUser.id,String(pts));
+  }
+  // Add to my daily contrib
+  _myContribToday+=pts;
+  localStorage.setItem(_commContribKey(),String(_myContribToday));
+  // Update Supabase
+  try{
+    const newTotal=(_commPetData.total_points||0)+pts;
+    _commPetData.total_points=newTotal;
+    // Check if we advanced a stage
+    let stage=0;
+    let cumulative=0;
+    for(let i=0;i<COMM_PET_STAGES.length;i++){
+      cumulative+=COMM_PET_STAGES[i].target;
+      if(newTotal>=cumulative) stage=i+1;
+      else break;
+    }
+    stage=Math.min(stage,COMM_PET_STAGES.length-1);
+    if(stage!==_commPetData.stage){
+      _commPetData.stage=stage;
+      showToast('COMMUNITY PET EVOLVED! '+COMM_PET_STAGES[stage].emoji+' '+COMM_PET_STAGES[stage].name+'!');
+      shakeCommEgg();
+    }
+    await sb.from('community_pet').upsert({
+      id:1,
+      total_points:newTotal,
+      stage:_commPetData.stage,
+      updated_at:new Date().toISOString()
+    },{onConflict:'id'});
+  }catch(e){}
+  renderCommunityEgg();
+}
+
+function shakeCommEgg(){
+  const el=document.getElementById('commEggChar');
+  if(!el) return;
+  el.classList.remove('shaking');void el.offsetWidth;
+  el.classList.add('shaking');
+  setTimeout(()=>el.classList.remove('shaking'),500);
+}
+
+function renderCommunityEgg(){
+  if(!_commPetData) return;
+  const total=_commPetData.total_points||0;
+  const stageIdx=_commPetData.stage||0;
+  const stage=COMM_PET_STAGES[stageIdx];
+  // Find progress within this stage
+  let stageStart=0;
+  for(let i=0;i<stageIdx;i++) stageStart+=COMM_PET_STAGES[i].target;
+  const stageTotal=stage.target;
+  const stageProgress=Math.max(0,total-stageStart);
+  const pct=stageIdx>=COMM_PET_STAGES.length-1?100:Math.min(100,Math.round((stageProgress/stageTotal)*100));
+  // Update egg emoji
+  const charEl=document.getElementById('commEggChar');
+  if(charEl) charEl.textContent=stage.emoji;
+  // Progress bar
+  const barFill=document.getElementById('commEggBarFill');
+  if(barFill) barFill.style.width=pct+'%';
+  const pctEl=document.getElementById('commEggPct');
+  if(pctEl) pctEl.textContent=pct+'%';
+  const slEl=document.getElementById('commEggStageLabel');
+  if(slEl) slEl.textContent='Stage '+(stageIdx+1)+': '+stage.name;
+  const ptEl=document.getElementById('commEggPoints');
+  if(ptEl) ptEl.textContent=stageProgress.toLocaleString();
+  const tgEl=document.getElementById('commEggTarget');
+  if(tgEl) tgEl.textContent=stageTotal.toLocaleString();
+  // My contribution
+  const mcEl=document.getElementById('commEggMyContrib');
+  if(mcEl) mcEl.textContent=_myContribToday+' pts';
+  // Glow color changes with stage
+  const glowEl=document.getElementById('commEggGlow');
+  if(glowEl){
+    const colors=['rgba(99,102,241,.25)','rgba(251,191,36,.25)','rgba(251,146,60,.25)','rgba(52,211,153,.25)','rgba(59,130,246,.25)','rgba(239,68,68,.3)'];
+    glowEl.style.background='radial-gradient(circle,'+colors[stageIdx%colors.length]+',transparent 70%)';
+  }
+  // Stage pip row
+  const stagesRow=document.getElementById('commEggStagesRow');
+  if(stagesRow){
+    stagesRow.innerHTML='';
+    COMM_PET_STAGES.forEach((s,i)=>{
+      const pip=document.createElement('div');
+      pip.className='comm-egg-stage-pip'+(i<stageIdx?' reached':i===stageIdx?' reached current':'');
+      pip.innerHTML='<div class="comm-egg-stage-emoji">'+s.emoji+'</div><div class="comm-egg-stage-name">'+s.name+'</div>';
+      stagesRow.appendChild(pip);
+    });
+  }
+  // Cracks at high pct
+  const cracksEl=document.getElementById('commEggCracks');
+  if(cracksEl){
+    if(pct>=80&&stageIdx===0){
+      if(!cracksEl.innerHTML) cracksEl.innerHTML='<div class="comm-egg-crack" style="top:30%;left:40%">⚡</div><div class="comm-egg-crack" style="top:50%;left:55%">⚡</div>';
+    } else if(stageIdx>0){
+      cracksEl.innerHTML='';
+    }
+  }
+}
+
+// Hook missions into community pet points
+// Every mission completion = +5 community points
+const _origTrackMission=window.trackMission;
+
+// ════════════════════════════════════════════════════════════════
+// DAILY LOGIN GIFT SYSTEM
+// Based on days logged in (consecutive or not — tracks per-user)
+// ════════════════════════════════════════════════════════════════
+
+// Reward table: [minCoins, maxCoins, weight, rarity, rarityClass]
+const GIFT_TIERS = [
+  {min:1,   max:5,   weight:40, rarity:'COMMON',    cls:'rarity-common'},
+  {min:6,   max:15,  weight:28, rarity:'UNCOMMON',  cls:'rarity-uncommon'},
+  {min:16,  max:40,  weight:16, rarity:'RARE',       cls:'rarity-rare'},
+  {min:41,  max:100, weight:10, rarity:'EPIC',       cls:'rarity-epic'},
+  {min:101, max:250, weight:5,  rarity:'LEGENDARY!', cls:'rarity-legendary'},
+  {min:251, max:500, weight:1,  rarity:'MYTHIC!!!',  cls:'rarity-legendary'},
+];
+
+function _rollGiftTier(){
+  const total=GIFT_TIERS.reduce((s,t)=>s+t.weight,0);
+  let r=Math.random()*total;
+  for(const t of GIFT_TIERS){r-=t.weight;if(r<=0)return t;}
+  return GIFT_TIERS[0];
+}
+
+function _giftKey(){ return 'dg_'+currentUser?.id; }
+function _giftStreakKey(){ return 'dg_streak_'+currentUser?.id; }
+
+function _getDailyGiftData(){
+  try{
+    const raw=localStorage.getItem(_giftKey());
+    return raw?JSON.parse(raw):{lastClaimed:null,streak:0};
+  }catch(e){return{lastClaimed:null,streak:0};}
+}
+
+function _todayStr(){
+  const d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+function claimDailyGift(){
+  const data=_getDailyGiftData();
+  const today=_todayStr();
+  if(data.lastClaimed===today){
+    // Already claimed — show claimed state
+    _showGiftClaimedState(data);
+    return;
+  }
+  // Roll reward
+  const tier=_rollGiftTier();
+  const coins=Math.floor(Math.random()*(tier.max-tier.min+1))+tier.min;
+  // Update streak
+  const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
+  const yStr=yesterday.getFullYear()+'-'+String(yesterday.getMonth()+1).padStart(2,'0')+'-'+String(yesterday.getDate()).padStart(2,'0');
+  const newStreak=(data.lastClaimed===yStr)?data.streak+1:1;
+  const newData={lastClaimed:today,streak:newStreak,lastCoins:coins,lastRarity:tier.rarity,lastCls:tier.cls};
+  localStorage.setItem(_giftKey(),JSON.stringify(newData));
+  // Grant coins
+  mathsCoins+=coins;
+  refreshAllPassUI();
+  savePassData();
+  // Add community pet points (3 per daily login)
+  addCommunityPetPoints(3);
+  // Animate
+  _animateGiftReveal(coins,tier,newStreak);
+}
+
+function _animateGiftReveal(coins,tier,streak){
+  const box=document.getElementById('dailyGiftBox');
+  const claimed=document.getElementById('dailyGiftClaimed');
+  const present=document.getElementById('dailyGiftPresent');
+  if(!box||!claimed) return;
+  // Animate gift box
+  present.style.animation='none';
+  present.textContent='✨';
+  setTimeout(()=>{
+    box.style.display='none';
+    claimed.style.display='';
+    document.getElementById('dgResultIcon').textContent='🪙';
+    document.getElementById('dgResultVal').textContent='+'+coins+' Coins!';
+    const rarEl=document.getElementById('dgResultRarity');
+    rarEl.textContent=tier.rarity;
+    rarEl.className='daily-gift-result-rarity '+tier.cls;
+    document.getElementById('dgStreakNum').textContent=streak;
+    _renderGiftCalendar(streak);
+  },400);
+  showToast('Daily gift: +'+coins+' coins! ('+tier.rarity+')');
+}
+
+function _showGiftClaimedState(data){
+  const box=document.getElementById('dailyGiftBox');
+  const claimed=document.getElementById('dailyGiftClaimed');
+  if(!box||!claimed) return;
+  box.style.display='none';
+  claimed.style.display='';
+  document.getElementById('dgResultIcon').textContent='🪙';
+  document.getElementById('dgResultVal').textContent='+'+data.lastCoins+' Coins';
+  const rarEl=document.getElementById('dgResultRarity');
+  rarEl.textContent=data.lastRarity||'CLAIMED';
+  rarEl.className='daily-gift-result-rarity '+(data.lastCls||'rarity-common');
+  document.getElementById('dgStreakNum').textContent=data.streak||1;
+  _renderGiftCalendar(data.streak||1);
+}
+
+function _renderGiftCalendar(streak){
+  const cal=document.getElementById('dailyGiftCalendar');
+  if(!cal) return;
+  const days=['M','T','W','T','F','S','S'];
+  const today=new Date().getDay();// 0=Sun
+  cal.innerHTML='';
+  days.forEach((label,i)=>{
+    // Day index relative to week (Mon=0)
+    const todayMon=(today+6)%7;// convert Sun=0 to Mon=0
+    const isClaimed=i<=todayMon&&streak>=(todayMon-i+1);
+    const isToday=i===todayMon;
+    const div=document.createElement('div');div.className='dg-day';
+    div.innerHTML='<div class="dg-day-dot'+(isClaimed?' claimed':isToday?' today':'')+'"></div><div class="dg-day-label">'+label+'</div>';
+    cal.appendChild(div);
+  });
+}
+
+function renderDailyGiftCard(){
+  if(!currentUser) return;
+  const data=_getDailyGiftData();
+  const today=_todayStr();
+  const box=document.getElementById('dailyGiftBox');
+  const claimed=document.getElementById('dailyGiftClaimed');
+  if(!box||!claimed) return;
+  document.getElementById('dgStreakNum').textContent=data.streak||1;
+  _renderGiftCalendar(data.streak||1);
+  if(data.lastClaimed===today){
+    _showGiftClaimedState(data);
+  } else {
+    box.style.display='';
+    claimed.style.display='none';
+  }
+}
+
+// Add community pet points when missions are completed (hook)
+// Called from trackMission after _missionsDone.add
+function onMissionCompleted(missionTitle){
+  addCommunityPetPoints(5);
 }
 
 
