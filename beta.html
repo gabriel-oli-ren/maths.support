@@ -1322,16 +1322,6 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
       </div>
       <div class="page-msg" id="codeMsg"></div>
     </div>
-    <div class="page-card" id="passwordCard">
-      <h3>🔒 Change Password</h3>
-      <p style="color:#aaa;font-size:.88em;margin-bottom:16px">Change your login password. You'll need to re-enter it next time you sign in.</p>
-      <label class="field-label">New Password</label>
-      <input type="password" class="account-field" id="newPassword" placeholder="New password (min 6 chars)" autocomplete="new-password">
-      <label class="field-label">Confirm New Password</label>
-      <input type="password" class="account-field" id="newPasswordConfirm" placeholder="Confirm new password" autocomplete="new-password">
-      <button class="save-btn" onclick="changePassword()">🔒 Update Password</button>
-      <div class="page-msg" id="pwMsg"></div>
-    </div>
   </div>
 
   <!-- FRIENDS PAGE -->
@@ -1723,6 +1713,7 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
           <div class="fprofile-pet-sub" id="fpPetSub">No streak yet</div>
         </div>
       </div>
+      <div class="fprofile-last-active" id="fpLastActive" style="font-size:.78em;color:#aaa;text-align:center;margin-bottom:10px;display:none">🕐 Last seen <span id="fpLastActiveText">—</span></div>
       <div class="fprofile-game-row" id="fpGameRow" style="display:none" onclick="fpJoinGame()">
         <div class="fprofile-game-icon">🎮</div>
         <div class="fprofile-game-info">
@@ -1987,6 +1978,8 @@ async function onSignedIn(profile){
   loadCustomApps();
   if(sessionStorage.getItem('questionnaire_done')!=='true')checkAndShowQuestionnaire();
   setTimeout(updateChatBadge,800);
+  // Record last active on sign-in
+  try{ sb.from('user_presence').upsert({user_id:currentUser.id,game_name:null,game_url:null,updated_at:new Date().toISOString(),last_active:new Date().toISOString()},{onConflict:'user_id'}); }catch(e){}
   const iAmAdmin=ADMIN_USER_IDS.includes(profile.id)||profile?.is_admin;
   const bcBtn=document.getElementById('broadcastBtn');
   if(bcBtn)bcBtn.style.display=iAmAdmin?'':'none';
@@ -3029,7 +3022,8 @@ async function broadcastGameStatus(gameName, gameUrl){
       user_id: currentUser.id,
       game_name: gameName||null,
       game_url: gameUrl||null,
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
+      last_active: new Date().toISOString()
     },{onConflict:'user_id'});
   }catch(e){ /* presence table might not exist, that's ok */ }
 }
@@ -3094,7 +3088,7 @@ async function _renderFriendProfile(profile, friendshipId, friendUserId){
   document.getElementById('fpPetName').textContent=sData.pet_name||pet.name;
   document.getElementById('fpPetSub').textContent=`${sData.streak||0} day streak · ${sData.xp||0} XP`;
 
-  // Check if friend is currently playing
+  // Check if friend is currently playing + last active
   const presence=await getFriendPresence(friendUserId);
   fpCurrentGame=presence;
   const gameRow=document.getElementById('fpGameRow');
@@ -3107,12 +3101,31 @@ async function _renderFriendProfile(profile, friendshipId, friendUserId){
     gameRow.style.display='none';
     joinBtn.style.display='none';
   }
+  // Last active
+  const laEl=document.getElementById('fpLastActive');
+  const laText=document.getElementById('fpLastActiveText');
+  try{
+    const{data:presRow}=await sb.from('user_presence').select('last_active').eq('user_id',friendUserId).maybeSingle();
+    if(presRow&&presRow.last_active){
+      laEl.style.display='block';
+      const secs=Math.floor((Date.now()-new Date(presRow.last_active).getTime())/1000);
+      if(secs<60) laText.textContent='just now';
+      else if(secs<3600) laText.textContent=Math.floor(secs/60)+'m ago';
+      else if(secs<86400) laText.textContent=Math.floor(secs/3600)+'h ago';
+      else laText.textContent=Math.floor(secs/86400)+'d ago';
+    }else{
+      laEl.style.display='none';
+    }
+  }catch(e){ laEl.style.display='none'; }
 }
 
 function fpJoinGame(){
   if(!fpCurrentGame||!fpCurrentGame.game_url) return;
+  // Save before closeFriendProfile() nulls fpCurrentGame
+  const gameName = fpCurrentGame.game_name || "Friend's Game";
+  const gameUrl  = fpCurrentGame.game_url;
   closeFriendProfile();
-  openGame(fpCurrentGame.game_name||"Friend's Game", fpCurrentGame.game_url);
+  openGame(gameName, gameUrl);
 }
 
 function fpOpenChat(){
