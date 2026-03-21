@@ -1274,6 +1274,106 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 /* Coins toast */
 .coins-toast{position:fixed;bottom:100px;right:30px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:12px 22px;border-radius:30px;font-size:.9em;font-weight:800;box-shadow:0 6px 24px rgba(245,158,11,.4);z-index:99999;opacity:0;pointer-events:none;transform:translateY(10px);transition:all .35s cubic-bezier(.34,1.56,.64,1)}
 .coins-toast.show{opacity:1;transform:translateY(0)}
+
+/* ══════════════════════════════════════════
+   FORTNITE-STYLE BATTLE PASS
+══════════════════════════════════════════ */
+/* Remove old pass styles that conflict */
+.pass-page{display:none;max-width:100%;margin:0;padding:0}
+.pass-page.active{display:block}
+
+/* Header */
+.bp-header{position:relative;background:linear-gradient(160deg,#0a0a1a 0%,#0d1b3e 40%,#1a0a2e 100%);overflow:hidden;padding:28px 28px 0;border-radius:0 0 0 0;margin:-40px -40px 0;min-height:200px}
+@media(max-width:768px){.bp-header{margin:-20px -20px 0;padding:20px 16px 0}}
+.bp-header-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(102,126,234,.25) 0%,transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(246,79,89,.15) 0%,transparent 60%);pointer-events:none}
+.bp-header-bg::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,.02) 60px,rgba(255,255,255,.02) 61px),repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,.02) 60px,rgba(255,255,255,.02) 61px)}
+.bp-header-content{position:relative;z-index:1;padding-bottom:0}
+.bp-season-label{font-size:.72em;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#f4511e;background:rgba(244,81,30,.15);border:1px solid rgba(244,81,30,.35);display:inline-block;padding:4px 14px;border-radius:4px;margin-bottom:14px}
+.bp-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.bp-title{font-size:clamp(1.8em,5vw,3em);font-weight:900;color:#fff;letter-spacing:2px;text-shadow:0 0 40px rgba(102,126,234,.6),0 2px 0 rgba(0,0,0,.5);text-transform:uppercase}
+.bp-coins-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:30px;padding:8px 18px;color:#fff;font-size:1.05em;font-weight:800;white-space:nowrap}
+.bp-level-row{display:flex;align-items:center;gap:20px;margin-bottom:22px;flex-wrap:wrap}
+.bp-level-info{display:flex;flex-direction:column;align-items:center;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:10px;padding:8px 16px;min-width:60px}
+.bp-level-label{font-size:.6em;font-weight:800;letter-spacing:2px;color:rgba(255,255,255,.7);text-transform:uppercase}
+.bp-level-num{font-size:1.8em;font-weight:900;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
+.bp-xp-wrap{flex:1;min-width:200px}
+.bp-xp-bar-track{height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;margin-bottom:5px}
+.bp-xp-bar-fill{height:100%;background:linear-gradient(90deg,#667eea,#a78bfa);border-radius:4px;transition:width .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 10px rgba(102,126,234,.6)}
+.bp-xp-text{font-size:.76em;color:rgba(255,255,255,.45);font-weight:600}
+
+/* Tabs */
+.bp-tabs{display:flex;gap:0;border-bottom:none;margin:0 -28px;padding:0 28px}
+@media(max-width:768px){.bp-tabs{margin:0 -16px;padding:0 16px}}
+.bp-tab{padding:12px 28px;font-size:.82em;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;border:none;background:transparent;color:rgba(255,255,255,.35);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:2px}
+.bp-tab.active{color:#fff;border-bottom-color:#667eea}
+.bp-tab.premium{color:rgba(243,156,18,.6)}
+.bp-tab.premium.active{color:#f39c12;border-bottom-color:#f39c12}
+.bp-tab-price{font-size:.72em;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:.5px}
+.bp-tab.premium .bp-tab-price{color:rgba(243,156,18,.5)}
+.bp-tab.premium.active .bp-tab-price{color:rgba(243,156,18,.8)}
+
+/* Track */
+.bp-track-wrap{background:#0d0d1a;padding:28px 28px 20px;margin:0 -40px;overflow-x:auto}
+@media(max-width:768px){.bp-track-wrap{margin:0 -20px;padding:20px 16px}}
+.bp-track-wrap::-webkit-scrollbar{height:4px}
+.bp-track-wrap::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+.bp-track{display:flex;gap:0;min-width:max-content;position:relative}
+
+/* Level node */
+.bp-node{display:flex;flex-direction:column;align-items:center;position:relative;width:80px;flex-shrink:0}
+.bp-node-connector{position:absolute;top:40px;left:50%;width:100%;height:3px;background:rgba(255,255,255,.1);z-index:0;transform:translateX(0)}
+.bp-node-connector.done{background:linear-gradient(90deg,#667eea,#764ba2)}
+.bp-node-connector.prem-done{background:linear-gradient(90deg,#f39c12,#e67e22)}
+
+/* The two reward slots per level */
+.bp-node-slots{display:flex;flex-direction:column;gap:6px;position:relative;z-index:1}
+.bp-slot{width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.6em;position:relative;cursor:default;transition:transform .2s;border:2px solid transparent}
+.bp-slot:hover{transform:scale(1.08)}
+
+/* Free slot */
+.bp-slot.free-slot{background:linear-gradient(135deg,#1e2a4a,#2a1e4a);border-color:rgba(102,126,234,.3)}
+.bp-slot.free-slot.earned{background:linear-gradient(135deg,#667eea,#764ba2);border-color:rgba(102,126,234,.8);box-shadow:0 0 16px rgba(102,126,234,.5)}
+.bp-slot.free-slot.earned::after{content:'';position:absolute;inset:-2px;border-radius:13px;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);pointer-events:none}
+.bp-slot.free-slot.current-level{border-color:#667eea;animation:bpPulse 1.5s ease-in-out infinite}
+
+/* Premium slot */
+.bp-slot.prem-slot{background:linear-gradient(135deg,#2a1e0a,#3a2a0a);border-color:rgba(243,156,18,.2)}
+.bp-slot.prem-slot.earned{background:linear-gradient(135deg,#f39c12,#e67e22);border-color:rgba(243,156,18,.8);box-shadow:0 0 16px rgba(243,156,18,.5)}
+.bp-slot.prem-slot.locked{opacity:.45;filter:grayscale(.6)}
+.bp-slot.prem-slot.current-level{border-color:#f39c12;animation:bpPulseGold 1.5s ease-in-out infinite}
+
+@keyframes bpPulse{0%,100%{box-shadow:0 0 0 0 rgba(102,126,234,.5)}50%{box-shadow:0 0 0 6px rgba(102,126,234,0)}}
+@keyframes bpPulseGold{0%,100%{box-shadow:0 0 0 0 rgba(243,156,18,.5)}50%{box-shadow:0 0 0 6px rgba(243,156,18,0)}}
+
+/* Lock icon on premium locked */
+.bp-slot-lock{position:absolute;bottom:2px;right:3px;font-size:.6em;opacity:.6}
+
+/* Level number below */
+.bp-node-num{font-size:.72em;font-weight:800;color:rgba(255,255,255,.35);margin-top:8px;letter-spacing:.5px}
+.bp-node.current-node .bp-node-num{color:#a5b4fc;font-weight:900}
+
+/* Row labels */
+.bp-track-labels{display:flex;flex-direction:column;gap:6px;padding-right:10px;padding-top:0;position:sticky;left:0;z-index:2;background:#0d0d1a}
+.bp-track-label{width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:.64em;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;border-radius:8px}
+.bp-track-label.free-label{color:rgba(102,126,234,.7);background:rgba(102,126,234,.07);border:1px solid rgba(102,126,234,.15)}
+.bp-track-label.prem-label{color:rgba(243,156,18,.7);background:rgba(243,156,18,.07);border:1px solid rgba(243,156,18,.15)}
+
+/* Tooltip on hover */
+.bp-slot-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a2e;border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px 12px;font-size:.72em;color:#fff;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;z-index:10;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.bp-slot:hover .bp-slot-tooltip{opacity:1}
+.bp-slot-tooltip strong{display:block;font-weight:800;margin-bottom:2px}
+.bp-slot-tooltip span{color:rgba(255,255,255,.5);font-size:.9em}
+
+/* Upgrade banner */
+.bp-upgrade-banner{display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(135deg,#1a0f00,#2a1800);border-top:3px solid #f39c12;padding:20px 28px;margin:0 -40px;flex-wrap:wrap}
+@media(max-width:768px){.bp-upgrade-banner{margin:0 -20px;padding:18px 16px}}
+.bp-upgrade-title{font-size:1em;font-weight:900;color:#f39c12;letter-spacing:.5px;margin-bottom:4px}
+.bp-upgrade-sub{font-size:.82em;color:rgba(255,255,255,.45)}
+.bp-upgrade-btn{background:linear-gradient(135deg,#f39c12,#e67e22);border:none;color:#fff;padding:14px 28px;border-radius:10px;font-size:.92em;font-weight:900;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .25s;white-space:nowrap;font-family:inherit;box-shadow:0 4px 18px rgba(243,156,18,.4)}
+.bp-upgrade-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(243,156,18,.55)}
+.bp-premium-active{display:none;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,rgba(243,156,18,.12),rgba(230,126,34,.08));border-top:2px solid rgba(243,156,18,.4);padding:16px 28px;color:#f39c12;font-size:.9em;font-weight:800;letter-spacing:.5px;margin:0 -40px}
+@media(max-width:768px){.bp-premium-active{margin:0 -20px}}
+
 </style>
 <script type="text/javascript">
 window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a){switch(a.name){case"SDK_GAME_PAUSE":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','MuteAudio');break;case"SDK_GAME_START":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','UnmuteAudio');break;}}};
@@ -1379,9 +1479,7 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
     <div class="sidebar-item" id="passBtn" onclick="showSection('pass')">
       <span class="sidebar-item-icon">🎫</span><span class="sidebar-item-text">Maths Pass</span>
     </div>
-    <div class="sidebar-item" id="passBtn" onclick="showSection('pass')">
-      <span class="sidebar-item-icon">⭐</span><span class="sidebar-item-text">Maths Pass</span>
-    </div>
+
     <div class="sidebar-item" id="shopBtn" onclick="showSection('shop')">
       <span class="sidebar-item-icon">🛒</span><span class="sidebar-item-text">Shop</span>
     </div>
@@ -1564,58 +1662,7 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
 
 
   <!-- ══ MATHS PASS PAGE ══ -->
-  <div class="pass-page" id="passPage">
 
-    <!-- Hero -->
-    <div class="pass-hero">
-      <div class="pass-hero-blob pass-hero-blob-1"></div>
-      <div class="pass-hero-blob pass-hero-blob-2"></div>
-      <span class="pass-hero-logo">🎫</span>
-      <div class="pass-hero-title">Maths Pass</div>
-      <div class="pass-hero-sub">Your membership to Maths Support. The Free pass is included for everyone — no payment needed.</div>
-      <div class="pass-hero-badge">🎉 Free Pass available for everyone</div>
-    </div>
-
-    <!-- Current pass card visual -->
-    <div class="pass-card-visual" id="passCardVisual">
-      <div class="pass-card-shimmer"></div>
-      <div class="pass-card-dots"><span></span><span></span><span></span></div>
-      <div class="pcv-top">
-        <div>
-          <div class="pcv-logo">🎫 Maths Support</div>
-          <div class="pcv-type" id="pcvType">FREE PASS</div>
-        </div>
-        <div class="pcv-chip"></div>
-      </div>
-      <div class="pcv-name" id="pcvName">Loading...</div>
-      <div class="pcv-sub" id="pcvSub">@username</div>
-      <div class="pcv-bottom">
-        <div class="pcv-since" id="pcvSince">Member since —</div>
-        <div class="pcv-badge" id="pcvBadge">FREE</div>
-      </div>
-    </div>
-
-    <!-- Current perks -->
-    <div class="pass-current-card" id="passCurrentCard">
-      <div class="pass-current-header">
-        <div class="pass-current-icon free" id="passCurrentIcon">🎫</div>
-        <div>
-          <div class="pass-current-name" id="passCurrentName">Maths Pass — Free</div>
-          <div class="pass-current-type" id="passCurrentType">Your active pass</div>
-        </div>
-      </div>
-      <div class="pass-perks-grid" id="passPerksGrid">
-        <!-- filled by JS -->
-      </div>
-    </div>
-
-    <!-- Tier cards -->
-    <div class="pass-tiers-title">🎫 All Tiers</div>
-    <div class="pass-tiers-grid" id="passTiersGrid">
-      <!-- filled by JS -->
-    </div>
-
-  </div>
 
   <!-- FRIENDS PAGE -->
   <div class="friends-page" id="friendsPage">
@@ -1638,85 +1685,54 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
 
   <!-- ══ MATHS PASS PAGE ══ -->
   <div class="pass-page" id="passPage">
-    <!-- Hero -->
-    <div class="pass-hero">
-      <div class="pass-hero-label">🌟 Season 1</div>
-      <h1 class="pass-hero-title">Maths Pass</h1>
-      <p class="pass-hero-sub">Unlock stickers, pets, tags and more as you chat and play!</p>
-      <div class="pass-coins-badge"><span class="pass-coins-icon">🪙</span><span id="passCoinsHero">0</span> Maths Coins</div>
-    </div>
 
-    <!-- Progress track -->
-    <div class="pass-track">
-      <h3>🎯 Your Progress — Level <span id="passCurrentLevel">1</span></h3>
-      <div class="pass-levels" id="passLevels"><!-- filled by JS --></div>
-      <div class="pass-xp-row">
-        <span class="pass-xp-info" id="passXpInfo">0 / 100 XP</span>
-        <div class="pass-xp-track"><div class="pass-xp-fill" id="passXpFill" style="width:0%"></div></div>
-        <span class="pass-xp-info" id="passXpNext">Lv.2</span>
-      </div>
-    </div>
-
-    <!-- Pet play section (unlocked at level 1 for everyone) -->
-    <div class="pet-play-section" id="petPlaySection">
-      <h3>🐾 Your Pet — <span id="playPetName">Mystery Egg</span></h3>
-      <div class="pet-happiness-row">
-        <span class="pet-happiness-label">Happiness</span>
-        <div class="pet-happiness-track"><div class="pet-happiness-fill" id="petHappinessFill" style="width:60%"></div></div>
-        <span class="pet-happiness-emoji" id="petHappinessEmoji">😊</span>
-      </div>
-      <div class="pet-play-arena" id="petArena" onclick="petArenaClick(event)">
-        <div class="pet-play-bubble" id="petBubble">Hello!</div>
-        <div class="pet-play-char" id="petPlayChar">🥚</div>
-        <div class="pet-play-ground"></div>
-      </div>
-      <div class="pet-play-actions">
-        <button class="pet-action-btn" onclick="petAction('feed')">🍎 Feed</button>
-        <button class="pet-action-btn" onclick="petAction('play')">🎮 Play</button>
-        <button class="pet-action-btn" onclick="petAction('pet')">🤗 Pet</button>
-        <button class="pet-action-btn" onclick="petAction('dance')">💃 Dance</button>
-        <button class="pet-action-btn" onclick="openPetModal()" id="renameBtn">✏️ Rename</button>
+    <!-- FORTNITE-STYLE HEADER -->
+    <div class="bp-header">
+      <div class="bp-header-bg"></div>
+      <div class="bp-header-content">
+        <div class="bp-season-label">⚠️ THIS SEASON DOES NOT EXIST YET</div>
+        <div class="bp-title-row">
+          <div class="bp-title">MATHS PASS</div>
+          <div class="bp-coins-pill"><span>🪙</span><span id="passCoinsHero">0</span></div>
+        </div>
+        <div class="bp-level-row">
+          <div class="bp-level-info">
+            <span class="bp-level-label">LEVEL</span>
+            <span class="bp-level-num" id="passCurrentLevel">1</span>
+          </div>
+          <div class="bp-xp-wrap">
+            <div class="bp-xp-bar-track"><div class="bp-xp-bar-fill" id="passXpFill" style="width:0%"></div></div>
+            <div class="bp-xp-text" id="passXpInfo">0 / 100 XP to next level</div>
+          </div>
+        </div>
+        <!-- Pass toggle tabs -->
+        <div class="bp-tabs">
+          <button class="bp-tab active" id="bpTabFree" onclick="bpSwitchTab('free')">FREE</button>
+          <button class="bp-tab premium" id="bpTabPremium" onclick="bpSwitchTab('premium')">
+            ⭐ PREMIUM
+            <span class="bp-tab-price" id="bpTabPrice">500 COINS</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Tier cards -->
-    <div class="pass-tiers">
-      <!-- Free tier -->
-      <div class="pass-tier free">
-        <div class="pass-tier-header">
-          <div class="pass-tier-icon">🎒</div>
-          <div class="pass-tier-name">Free Pass</div>
-          <div class="pass-tier-price">Always free for everyone</div>
-        </div>
-        <div class="pass-tier-body">
-          <div class="pass-reward"><div class="pass-reward-icon">🐣</div><div class="pass-reward-text"><div class="pass-reward-name">Starter Pet</div><div class="pass-reward-sub">Your very own egg companion</div></div><div class="pass-reward-level">Lv.1</div></div>
-          <div class="pass-reward"><div class="pass-reward-icon">😄</div><div class="pass-reward-text"><div class="pass-reward-name">5 Free Stickers</div><div class="pass-reward-sub">Basic sticker pack for chat</div></div><div class="pass-reward-level">Lv.1</div></div>
-          <div class="pass-reward"><div class="pass-reward-icon">🪙</div><div class="pass-reward-text"><div class="pass-reward-name">10 Maths Coins</div><div class="pass-reward-sub">Spend in the shop</div></div><div class="pass-reward-level">Lv.1</div></div>
-          <div class="pass-reward"><div class="pass-reward-icon">🎒</div><div class="pass-reward-text"><div class="pass-reward-name">More stickers + coins</div><div class="pass-reward-sub">As you level up</div></div><div class="pass-reward-level">Lv.3+</div></div>
-        </div>
-        <div class="pass-tier-body">
-          <button class="pass-tier-btn" id="freePassBtn" onclick="claimFreePass()" disabled>✅ Active</button>
-        </div>
-      </div>
-      <!-- Premium tier -->
-      <div class="pass-tier premium">
-        <div class="pass-tier-header">
-          <div class="pass-tier-icon">⭐</div>
-          <div class="pass-tier-name">Premium Pass</div>
-          <div class="pass-tier-price">🪙 500 Maths Coins</div>
-        </div>
-        <div class="pass-tier-body">
-          <div class="pass-reward"><div class="pass-reward-icon">🦄</div><div class="pass-reward-text"><div class="pass-reward-name">Premium Pet Skin</div><div class="pass-reward-sub">Exclusive animated companion</div></div><div class="pass-reward-level">Lv.1</div></div>
-          <div class="pass-reward"><div class="pass-reward-icon">✨</div><div class="pass-reward-text"><div class="pass-reward-name">50+ Premium Stickers</div><div class="pass-reward-sub">Exclusive sticker packs</div></div><div class="pass-reward-level">Lv.1</div></div>
-          <div class="pass-reward"><div class="pass-reward-icon">🏷️</div><div class="pass-reward-text"><div class="pass-reward-name">Exclusive Tags</div><div class="pass-reward-sub">⭐ Star, 🔥 Fire, ❄️ Ice</div></div><div class="pass-reward-level">Lv.2</div></div>
-          <div class="pass-reward"><div class="pass-reward-icon">🪙</div><div class="pass-reward-text"><div class="pass-reward-name">2× Coin Rewards</div><div class="pass-reward-sub">Double coins from XP gains</div></div><div class="pass-reward-level">All</div></div>
-          <div class="pass-reward"><div class="pass-reward-icon">🎁</div><div class="pass-reward-text"><div class="pass-reward-name">Pet Accessories</div><div class="pass-reward-sub">Hats, costumes & more</div></div><div class="pass-reward-level">Lv.3+</div></div>
-        </div>
-        <div class="pass-tier-body">
-          <button class="pass-tier-btn" id="premiumPassBtn" onclick="buyPremiumPass()">⭐ Upgrade — 500 Coins</button>
-        </div>
-      </div>
+    <!-- REWARD TRACK -->
+    <div class="bp-track-wrap">
+      <div class="bp-track" id="bpTrack"><!-- filled by JS --></div>
     </div>
+
+    <!-- UPGRADE BANNER (shown when free, hidden when premium) -->
+    <div class="bp-upgrade-banner" id="bpUpgradeBanner">
+      <div class="bp-upgrade-left">
+        <div class="bp-upgrade-title">⭐ UNLOCK PREMIUM PASS</div>
+        <div class="bp-upgrade-sub">Double the rewards. Exclusive pets, tags & stickers.</div>
+      </div>
+      <button class="bp-upgrade-btn" id="premiumPassBtn" onclick="buyPremiumPass()">UPGRADE — 🪙 500</button>
+    </div>
+    <div class="bp-premium-active" id="bpPremiumActive" style="display:none">
+      <span>⭐</span> Premium Pass Active — All rewards unlocked
+    </div>
+
   </div>
 
   <!-- ══ SHOP PAGE ══ -->
@@ -3618,35 +3634,89 @@ function refreshAllPassUI(){
 }
 
 function renderPassTrack(){
-  const el=document.getElementById('passLevels');
-  if(!el) return;
-  el.innerHTML='';
-  PASS_LEVELS.forEach((lv,i)=>{
-    const unlocked = passLevel > lv.level;
-    const current  = passLevel === lv.level;
-    const div=document.createElement('div');
-    div.className='pass-level'+(unlocked?' unlocked':'')+(current?' current':' locked');
-    div.innerHTML=`<div class="pass-level-circle">${unlocked?'✓':lv.level}</div>
-      <div class="pass-level-reward" title="${lv.freeReward.label}">${lv.freeReward.icon}</div>
-      <div class="pass-level-label">Lv.${lv.level}</div>`;
-    div.title=`Level ${lv.level}: ${lv.freeReward.label}`;
-    el.appendChild(div);
+  const track = document.getElementById('bpTrack');
+  if(!track) return;
+
+  const activeTab = window._bpActiveTab || 'free';
+
+  // Build track with labels column + nodes
+  let labelsHTML = '<div class="bp-track-labels"><div class="bp-track-label free-label">FREE</div><div style="height:6px"></div><div class="bp-track-label prem-label">★ PREM</div></div>';
+  let nodesHTML = '';
+
+  PASS_LEVELS.forEach((lv, i) => {
+    const isEarned   = passLevel > lv.level;
+    const isCurrent  = passLevel === lv.level;
+    const premEarned = isEarned && hasPremiumPass;
+    const premCurrent= isCurrent && hasPremiumPass;
+    const isLast     = i === PASS_LEVELS.length - 1;
+
+    const freeSlotClass  = 'bp-slot free-slot' + (isEarned||isCurrent ? (isEarned?' earned':' current-level') : '');
+    const premSlotClass  = 'bp-slot prem-slot' + (!hasPremiumPass ? ' locked' : (premEarned?' earned':(premCurrent?' current-level':'')));
+
+    const connectorClass = isLast ? '' : ('bp-node-connector' + (isEarned ? ' done' : ''));
+
+    nodesHTML += `
+      <div class="bp-node${isCurrent?' current-node':''}">
+        ${!isLast ? `<div class="${connectorClass}"></div>` : ''}
+        <div class="bp-node-slots">
+          <div class="${freeSlotClass}">
+            ${lv.freeReward.icon}
+            ${!hasPremiumPass && !isEarned && !isCurrent ? '' : ''}
+            <div class="bp-slot-tooltip"><strong>${lv.freeReward.label}</strong><span>Free · Level ${lv.level}</span></div>
+          </div>
+          <div class="${premSlotClass}">
+            ${lv.premReward.icon}
+            ${!hasPremiumPass ? '<span class="bp-slot-lock">🔒</span>' : ''}
+            <div class="bp-slot-tooltip"><strong>${lv.premReward.label}</strong><span>${hasPremiumPass ? 'Premium · Level '+lv.level : '⭐ Premium required'}</span></div>
+          </div>
+        </div>
+        <div class="bp-node-num">${lv.level}</div>
+      </div>`;
   });
+
+  track.innerHTML = labelsHTML + nodesHTML;
+
+  // Update level display
+  const lvEl = document.getElementById('passCurrentLevel');
+  if(lvEl) lvEl.textContent = passLevel;
+
+  // Update coins
+  const coinsEl = document.getElementById('passCoinsHero');
+  if(coinsEl) coinsEl.textContent = mathsCoins;
+
   // XP bar
-  const curLvData  = PASS_LEVELS[passLevel-1];
-  const nextLvData = PASS_LEVELS[passLevel];
-  const curXp  = curLvData?.xp  || 0;
-  const nextXp = nextLvData?.xp || curXp+1000;
-  const pct    = Math.min(100, Math.round(((passXp-curXp)/(nextXp-curXp))*100));
-  const el2=document.getElementById('passCurrentLevel');if(el2)el2.textContent=passLevel;
-  const xpInfo=document.getElementById('passXpInfo');if(xpInfo)xpInfo.textContent=passXp+' / '+nextXp+' XP';
-  const xpFill=document.getElementById('passXpFill');if(xpFill)xpFill.style.width=pct+'%';
-  const xpNext=document.getElementById('passXpNext');if(xpNext)xpNext.textContent='Lv.'+(passLevel+1);
-  // Premium button
-  const pb=document.getElementById('premiumPassBtn');
-  if(pb){ if(hasPremiumPass){pb.textContent='⭐ Premium Active';pb.disabled=true;}
-  else{pb.textContent='⭐ Upgrade — 500 Coins';pb.disabled=false;} }
+  const curXp  = passXp;
+  const nextXp = getNextLevelXp(passLevel);
+  const baseXp = getXpForLevel(passLevel);
+  const pct    = Math.min(100, Math.round(((curXp - baseXp) / (nextXp - baseXp)) * 100));
+  const fillEl = document.getElementById('passXpFill');
+  if(fillEl) fillEl.style.width = pct + '%';
+  const xpInfo = document.getElementById('passXpInfo');
+  if(xpInfo) xpInfo.textContent = (curXp - baseXp) + ' / ' + (nextXp - baseXp) + ' XP to next level';
+
+  // Premium btn state
+  const pb = document.getElementById('premiumPassBtn');
+  const banner = document.getElementById('bpUpgradeBanner');
+  const premActive = document.getElementById('bpPremiumActive');
+  if(hasPremiumPass){
+    if(banner) banner.style.display='none';
+    if(premActive) premActive.style.display='flex';
+    if(pb) { pb.textContent='⭐ Premium Active'; pb.disabled=true; }
+    document.getElementById('bpTabPremium')?.classList.add('active');
+    document.getElementById('bpTabFree')?.classList.remove('active');
+  } else {
+    if(banner) banner.style.display='flex';
+    if(premActive) premActive.style.display='none';
+  }
 }
+
+function bpSwitchTab(tab){
+  window._bpActiveTab = tab;
+  document.getElementById('bpTabFree')?.classList.toggle('active', tab==='free');
+  document.getElementById('bpTabPremium')?.classList.toggle('active', tab==='premium');
+  // Scroll track to highlight relevant column — visual only, track always shows both rows
+}
+
 
 function renderActiveTag(){
   const tag = equippedTag ? SHOP_TAGS.find(t=>t.id===equippedTag) : null;
@@ -4258,100 +4328,11 @@ const PASS_TIERS = [
 let currentPassTier = 'free';
 
 async function loadPassPage(){
-  if(!currentUser){ return; }
-
-  // Try to load from DB, auto-claim free if missing
-  try{
-    const{data,error}=await sb.from('user_passes').select('*').eq('user_id',currentUser.id).maybeSingle();
-    if(!data){
-      // Auto-claim free pass
-      await sb.from('user_passes').insert({
-        user_id: currentUser.id,
-        tier: 'free',
-        claimed_at: new Date().toISOString()
-      });
-      currentPassTier='free';
-    } else {
-      currentPassTier = data.tier || 'free';
-    }
-  }catch(e){
-    // Table may not exist yet — default to free
-    currentPassTier='free';
-  }
-
-  renderPassPage();
+  // loadPassData already ran on sign-in; just re-render the track
+  renderPassTrack();
+  renderPassPetSection();
 }
 
-function renderPassPage(){
-  const tier = PASS_TIERS.find(t=>t.id===currentPassTier) || PASS_TIERS[0];
-  const name = currentProfile?.display_name || currentProfile?.username || 'User';
-  const username = currentProfile?.username || 'user';
-
-  // Card visual
-  const card = document.getElementById('passCardVisual');
-  card.style.background = tier.color;
-  card.style.boxShadow = currentPassTier==='premium'
-    ? '0 12px 40px rgba(243,156,18,.4)'
-    : currentPassTier==='pro'
-    ? '0 12px 40px rgba(246,79,89,.4)'
-    : '0 12px 40px rgba(102,126,234,.4)';
-  document.getElementById('pcvType').textContent = tier.label.toUpperCase() + ' PASS';
-  document.getElementById('pcvName').textContent = name.toUpperCase();
-  document.getElementById('pcvSub').textContent = '@' + username;
-  document.getElementById('pcvBadge').textContent = tier.badgeLabel;
-  // Member since
-  const joined = currentProfile?.created_at;
-  if(joined){
-    const d=new Date(joined);
-    document.getElementById('pcvSince').textContent='Member since '+d.toLocaleDateString('en-GB',{month:'short',year:'numeric'});
-  }
-
-  // Current pass card
-  const iconEl=document.getElementById('passCurrentIcon');
-  iconEl.textContent=tier.icon;
-  iconEl.className='pass-current-icon '+tier.cardClass;
-  document.getElementById('passCurrentName').textContent='Maths Pass — '+tier.label;
-
-  // Perks grid
-  const grid=document.getElementById('passPerksGrid');
-  grid.innerHTML='';
-  tier.features.forEach(f=>{
-    const div=document.createElement('div');
-    div.className='pass-perk-item'+(f.has?'':' locked');
-    div.innerHTML=`<span class="perk-icon">${f.has?'✅':'🔒'}</span><span>${f.text}</span>`;
-    grid.appendChild(div);
-  });
-
-  // Tier cards
-  const tiersGrid=document.getElementById('passTiersGrid');
-  tiersGrid.innerHTML='';
-  PASS_TIERS.forEach(t=>{
-    const isCurrent = t.id===currentPassTier;
-    const card=document.createElement('div');
-    card.className='pass-tier-card'+(isCurrent?' current-tier':'')+(t.popular?' popular':'');
-    const featuresHTML=t.features.map(f=>
-      `<li class="${f.has?'has':'no'}">${f.text}</li>`
-    ).join('');
-    let btnHTML;
-    if(isCurrent){
-      btnHTML=`<button class="pass-tier-btn current-btn" disabled>✓ Your Current Pass</button>`;
-    } else if(t.id==='free'){
-      btnHTML=`<button class="pass-tier-btn locked-btn" disabled>Free for all</button>`;
-    } else {
-      btnHTML=`<button class="pass-tier-btn active-btn" onclick="upgradePass('${t.id}')">Get ${t.label} →</button>`;
-    }
-    card.innerHTML=`
-      ${t.popular?'<div class="popular-badge">Most Popular</div>':''}
-      <span class="pass-tier-icon">${t.icon}</span>
-      <div class="pass-tier-name">Maths Pass ${t.label}</div>
-      <div class="pass-tier-price">${t.price} <span>${t.priceSub}</span></div>
-      <div class="pass-tier-desc">${t.desc}</div>
-      <ul class="pass-tier-features">${featuresHTML}</ul>
-      ${btnHTML}
-    `;
-    tiersGrid.appendChild(card);
-  });
-}
 
 async function upgradePass(tierId){
   // In production you'd redirect to a payment flow here.
