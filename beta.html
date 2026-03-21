@@ -3112,7 +3112,7 @@ async function _renderFriendProfile(profile, friendshipId, friendUserId){
 function fpJoinGame(){
   if(!fpCurrentGame||!fpCurrentGame.game_url) return;
   closeFriendProfile();
-  openGame(fpCurrentGame.game_name||'Friend's Game', fpCurrentGame.game_url);
+  openGame(fpCurrentGame.game_name||"Friend's Game", fpCurrentGame.game_url);
 }
 
 function fpOpenChat(){
