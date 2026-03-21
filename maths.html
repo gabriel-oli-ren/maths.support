@@ -977,6 +977,66 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 .auth-saved-badge-sub{color:#aaa;font-size:.76em;margin-top:2px}
 .auth-saved-badge-clear{color:#ccc;font-size:.88em;padding:5px 8px;border-radius:7px;transition:all .15s;flex-shrink:0;font-weight:700;background:none;border:none;cursor:pointer;line-height:1}
 .auth-saved-badge-clear:hover{color:#f64f59;background:#fff0f1}
+
+/* ── FRIEND PROFILE MODAL ── */
+.fprofile-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);z-index:99999;display:none;justify-content:center;align-items:center}
+.fprofile-overlay.active{display:flex}
+.fprofile-box{background:#fff;border-radius:24px;padding:0;max-width:400px;width:90%;box-shadow:0 24px 64px rgba(0,0,0,.25);overflow:hidden}
+.fprofile-header{background:linear-gradient(135deg,#667eea,#764ba2);padding:32px 28px 24px;text-align:center;position:relative}
+.fprofile-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1em;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.fprofile-close:hover{background:rgba(255,255,255,.35)}
+.fprofile-avatar{width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.25);border:3px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;color:#fff;font-size:2em;font-weight:800;margin:0 auto 12px}
+.fprofile-name{color:#fff;font-size:1.3em;font-weight:800;margin-bottom:4px}
+.fprofile-username{color:rgba(255,255,255,.65);font-size:.85em}
+.fprofile-body{padding:22px 24px}
+.fprofile-stat-row{display:flex;gap:12px;margin-bottom:18px}
+.fprofile-stat{flex:1;background:#f5f7ff;border-radius:12px;padding:12px;text-align:center}
+.fprofile-stat-num{font-size:1.4em;font-weight:900;color:#667eea}
+.fprofile-stat-label{font-size:.72em;color:#aaa;font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+.fprofile-pet-row{display:flex;align-items:center;gap:12px;background:#fff9f0;border:1.5px solid #ffe0b2;border-radius:13px;padding:12px 16px;margin-bottom:16px}
+.fprofile-pet-emoji{font-size:2em;line-height:1}
+.fprofile-pet-info{flex:1}
+.fprofile-pet-name{font-size:.88em;font-weight:800;color:#e65100}
+.fprofile-pet-sub{font-size:.75em;color:#ff8f00}
+.fprofile-game-row{display:flex;align-items:center;gap:10px;background:#f0fff4;border:1.5px solid #bbf7d0;border-radius:13px;padding:10px 16px;margin-bottom:16px;cursor:pointer;transition:all .2s}
+.fprofile-game-row:hover{background:#e0fef0;border-color:#4ade80;transform:translateY(-1px)}
+.fprofile-game-icon{font-size:1.4em}
+.fprofile-game-info{flex:1}
+.fprofile-game-name{font-size:.88em;font-weight:800;color:#15803d}
+.fprofile-game-sub{font-size:.75em;color:#4ade80}
+.fprofile-actions{display:flex;gap:10px}
+.fprofile-btn{flex:1;padding:12px;border:none;border-radius:11px;font-size:.9em;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit}
+.fprofile-btn.chat{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.fprofile-btn.chat:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(102,126,234,.4)}
+.fprofile-btn.join{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff}
+.fprofile-btn.join:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(34,197,94,.4)}
+
+/* ── PET RENAME MODAL ── */
+.pet-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:99999;display:none;justify-content:center;align-items:center}
+.pet-modal-overlay.active{display:flex}
+.pet-modal-box{background:#fff;border-radius:22px;padding:36px 38px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center}
+.pet-modal-emoji{font-size:4em;margin-bottom:10px;display:block;animation:petBounce .5s ease}
+.pet-modal-stage{font-size:.8em;color:#ff8f00;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.pet-modal-box h3{color:#333;font-size:1.3em;font-weight:800;margin-bottom:6px}
+.pet-modal-box p{color:#aaa;font-size:.85em;margin-bottom:20px;line-height:1.5}
+.pet-xp-bar-wrap{margin-bottom:22px}
+.pet-xp-label-row{display:flex;justify-content:space-between;font-size:.78em;color:#ff8f00;font-weight:700;margin-bottom:6px}
+.pet-xp-track{height:8px;background:#ffe0b2;border-radius:4px;overflow:hidden}
+.pet-xp-fill{height:100%;background:linear-gradient(90deg,#ff8f00,#f4511e);border-radius:4px;transition:width .6s cubic-bezier(.34,1.56,.64,1)}
+.pet-name-input{width:100%;padding:12px 16px;border:2px solid #ebebeb;border-radius:11px;font-size:1em;outline:none;transition:border-color .25s;font-family:inherit;text-align:center;font-weight:700;color:#333;margin-bottom:14px}
+.pet-name-input:focus{border-color:#f39c12;box-shadow:0 0 0 3px rgba(243,156,18,.15)}
+.pet-modal-actions{display:flex;gap:10px}
+.pet-modal-btn{flex:1;padding:13px;border:none;border-radius:11px;font-size:.92em;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit}
+.pet-modal-btn.save{background:linear-gradient(135deg,#ff8f00,#f4511e);color:#fff}
+.pet-modal-btn.save:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(244,81,30,.4)}
+.pet-modal-btn.cancel{background:#f5f5f5;color:#888}
+.pet-modal-btn.cancel:hover{background:#eee}
+
+/* ── PASSWORD CARD ── */
+.fi-btn.join{background:rgba(34,197,94,.12);color:#16a34a}
+.fi-btn.join:hover{background:rgba(34,197,94,.22)}
+.fi-btn.profile{background:rgba(102,126,234,.1);color:#667eea}
+.fi-btn.profile:hover{background:rgba(102,126,234,.2)}
 </style>
 <script type="text/javascript">
 window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a){switch(a.name){case"SDK_GAME_PAUSE":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','MuteAudio');break;case"SDK_GAME_START":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','UnmuteAudio');break;}}};
@@ -1336,7 +1396,7 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
         <!-- Streak Bar -->
         <div class="streak-bar" id="streakBar">
           <div class="streak-pet-wrap">
-            <div class="streak-pet-emoji" id="streakPetEmoji" onclick="bouncePet()" title="Your pet!">🥚</div>
+            <div class="streak-pet-emoji" id="streakPetEmoji" onclick="openPetModal()" title="Click to rename your pet!">🥚</div>
             <div class="streak-pet-info">
               <div class="streak-pet-name" id="streakPetName">Mystery Egg</div>
               <div class="streak-pet-mood" id="streakPetMood">Chat to start your streak</div>
@@ -1630,6 +1690,67 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
   <div id="unity-warning"></div>
 </div>
 
+
+<!-- ══ FRIEND PROFILE MODAL ══ -->
+<div class="fprofile-overlay" id="fprofileOverlay">
+  <div class="fprofile-box">
+    <div class="fprofile-header">
+      <button class="fprofile-close" onclick="closeFriendProfile()">✕</button>
+      <div class="fprofile-avatar" id="fpAvatar">?</div>
+      <div class="fprofile-name" id="fpName">User</div>
+      <div class="fprofile-username" id="fpUsername">@user</div>
+    </div>
+    <div class="fprofile-body">
+      <div class="fprofile-stat-row">
+        <div class="fprofile-stat"><div class="fprofile-stat-num" id="fpStreak">0</div><div class="fprofile-stat-label">🔥 Streak</div></div>
+        <div class="fprofile-stat"><div class="fprofile-stat-num" id="fpXp">0</div><div class="fprofile-stat-label">⭐ XP</div></div>
+        <div class="fprofile-stat"><div class="fprofile-stat-num" id="fpRole">—</div><div class="fprofile-stat-label">🏷️ Role</div></div>
+      </div>
+      <div class="fprofile-pet-row" id="fpPetRow">
+        <div class="fprofile-pet-emoji" id="fpPetEmoji">🥚</div>
+        <div class="fprofile-pet-info">
+          <div class="fprofile-pet-name" id="fpPetName">Mystery Egg</div>
+          <div class="fprofile-pet-sub" id="fpPetSub">No streak yet</div>
+        </div>
+      </div>
+      <div class="fprofile-last-active" id="fpLastActive" style="font-size:.78em;color:#aaa;text-align:center;margin-bottom:10px;display:none">🕐 Last seen <span id="fpLastActiveText">—</span></div>
+      <div class="fprofile-game-row" id="fpGameRow" style="display:none" onclick="fpJoinGame()">
+        <div class="fprofile-game-icon">🎮</div>
+        <div class="fprofile-game-info">
+          <div class="fprofile-game-name" id="fpGameName">Playing a game</div>
+          <div class="fprofile-game-sub">Tap to join!</div>
+        </div>
+        <span style="font-size:1.2em">→</span>
+      </div>
+      <div class="fprofile-actions">
+        <button class="fprofile-btn chat" onclick="fpOpenChat()">💬 Chat</button>
+        <button class="fprofile-btn join" id="fpJoinBtn" style="display:none" onclick="fpJoinGame()">🎮 Join Game</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PET RENAME MODAL ══ -->
+<div class="pet-modal-overlay" id="petModalOverlay">
+  <div class="pet-modal-box">
+    <span class="pet-modal-emoji" id="petModalEmoji">🥚</span>
+    <div class="pet-modal-stage" id="petModalStage">Stage 1</div>
+    <h3 id="petModalTitle">Name Your Pet</h3>
+    <p id="petModalDesc">Give your companion a unique name!</p>
+    <div class="pet-xp-bar-wrap">
+      <div class="pet-xp-label-row"><span id="petModalXpCur">0 XP</span><span id="petModalXpNext">/ 10 XP to next stage</span></div>
+      <div class="pet-xp-track"><div class="pet-xp-fill" id="petModalXpFill" style="width:0%"></div></div>
+    </div>
+    <input class="pet-name-input" id="petNameInput" placeholder="Enter a name..." maxlength="20">
+    <div class="pet-modal-actions">
+      <button class="pet-modal-btn cancel" onclick="closePetModal()">Cancel</button>
+      <button class="pet-modal-btn save" onclick="savePetName()">💾 Save Name</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHANGE PASSWORD CARD (injected via JS into account page) ══ -->
+
 <script>
 // ══════════════════════════════════════════════════════════════════
 // SUPABASE SETUP
@@ -1857,6 +1978,8 @@ async function onSignedIn(profile){
   loadCustomApps();
   if(sessionStorage.getItem('questionnaire_done')!=='true')checkAndShowQuestionnaire();
   setTimeout(updateChatBadge,800);
+  // Record last active on sign-in
+  try{ sb.from('user_presence').upsert({user_id:currentUser.id,game_name:null,game_url:null,updated_at:new Date().toISOString(),last_active:new Date().toISOString()},{onConflict:'user_id'}); }catch(e){}
   const iAmAdmin=ADMIN_USER_IDS.includes(profile.id)||profile?.is_admin;
   const bcBtn=document.getElementById('broadcastBtn');
   if(bcBtn)bcBtn.style.display=iAmAdmin?'':'none';
@@ -1974,7 +2097,7 @@ function renderFriendsList(accepted){
     const di=getDisplayInfo(p,f);
     const div=document.createElement('div');div.className='friend-item';
     const revealBtn=di.username===null?`<button class="fi-btn reveal" onclick="requestReveal('${f.id}','${p.id}')">🔍 Who?</button>`:'';
-    div.innerHTML=`<div class="fi-avatar">${initials(di.shown)}</div><div class="fi-info"><div class="fi-name">${di.shown}${di.badge}</div><div class="fi-sub">${di.username||'Identity hidden'}</div></div>${revealBtn}<button class="fi-btn chat" onclick="openChatWith('${p.id}','${di.shown}')">💬</button>`;
+    div.innerHTML=`<div class="fi-avatar">${initials(di.shown)}</div><div class="fi-info"><div class="fi-name">${di.shown}${di.badge}</div><div class="fi-sub">${di.username||'Identity hidden'}</div></div>${revealBtn}<button class="fi-btn profile" onclick="viewFriendProfile('${p.id}','${f.id}')" title="View Profile">👤</button><button class="fi-btn chat" onclick="openChatWith('${p.id}','${di.shown}')">💬</button>`;
     el.appendChild(div);
   });
 }
@@ -2195,6 +2318,13 @@ function renderChatList(accepted){
       </div>`;
     div.onclick=()=>openChatWith(p.id,di.shown);
     el.appendChild(div);
+    // async: show join-game badge if friend is playing
+    getFriendPresence(p.id).then(presence=>{
+      if(presence&&presence.game_name){
+        const lmEl=document.getElementById('last-msg-'+p.id);
+        if(lmEl)lmEl.innerHTML='<span style="color:#4ade80;font-weight:700">🎮 '+escapeHtml(presence.game_name)+'</span>';
+      }
+    });
   });
 }
 
@@ -2596,10 +2726,12 @@ function openGame(name,url){
   document.getElementById('topNav').classList.add('minimal');
   const cas=document.querySelector('.custom-apps-section');if(cas)cas.style.display='none';
   window.scrollTo({top:0,behavior:'smooth'});startClock();
+  broadcastGameStatus(name,url);
 }
 function closeGame(){
   if(document.fullscreenElement)document.exitFullscreen();
   document.getElementById('gameFrame').src='';document.getElementById('gameContainer').classList.remove('active');
+  broadcastGameStatus(null,null);
   document.getElementById('topNav').classList.remove('minimal');
   if(document.getElementById('homeBtn').classList.contains('active')){
     document.getElementById('gamesGrid').style.display='grid';
@@ -2719,6 +2851,8 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&document.activeElement.id==='loginPassword')doLogin();
   if(e.key==='Enter'&&document.activeElement.id==='regPasswordConfirm')doRegister();
   if(e.key==='Escape'&&document.getElementById('chatPage').classList.contains('active'))showSection('home');
+  if(e.key==='Escape'&&document.getElementById('fprofileOverlay')?.classList.contains('active'))closeFriendProfile();
+  if(e.key==='Escape'&&document.getElementById('petModalOverlay')?.classList.contains('active'))closePetModal();
 });
 
 // ══════════════════════════════════════════════════════════════════
@@ -2861,6 +2995,217 @@ document.addEventListener('keydown', e=>{
 // ══════════════════════════════════════════════════════════════════
 // MAIN APP INIT (unchanged)
 // ══════════════════════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════════════════════
+// CHANGE PASSWORD
+// ══════════════════════════════════════════════════════════════════
+async function changePassword(){
+  const np=document.getElementById('newPassword').value.trim();
+  const nc=document.getElementById('newPasswordConfirm').value.trim();
+  if(!np||!nc){showMsg('pwMsg','Please fill in both fields.','err');return;}
+  if(np.length<6){showMsg('pwMsg','Password must be at least 6 characters.','err');return;}
+  if(np!==nc){showMsg('pwMsg','Passwords do not match.','err');return;}
+  const{error}=await sb.from('users').update({password:np}).eq('id',currentUser.id);
+  if(error){showMsg('pwMsg','Error: '+error.message,'err');return;}
+  document.getElementById('newPassword').value='';
+  document.getElementById('newPasswordConfirm').value='';
+  showMsg('pwMsg','✅ Password updated! Use it next time you sign in.','ok');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// GAME STATUS BROADCAST (so friends can see + join your game)
+// ══════════════════════════════════════════════════════════════════
+async function broadcastGameStatus(gameName, gameUrl){
+  if(!currentUser) return;
+  try{
+    await sb.from('user_presence').upsert({
+      user_id: currentUser.id,
+      game_name: gameName||null,
+      game_url: gameUrl||null,
+      updated_at: new Date().toISOString(),
+      last_active: new Date().toISOString()
+    },{onConflict:'user_id'});
+  }catch(e){ /* presence table might not exist, that's ok */ }
+}
+
+async function getFriendPresence(friendId){
+  try{
+    const{data}=await sb.from('user_presence').select('game_name,game_url,updated_at').eq('user_id',friendId).maybeSingle();
+    if(!data||!data.game_name) return null;
+    const age=(Date.now()-new Date(data.updated_at).getTime())/1000;
+    if(age>300) return null; // stale after 5 min
+    return data;
+  }catch(e){ return null; }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// FRIEND PROFILE MODAL
+// ══════════════════════════════════════════════════════════════════
+let fpCurrentFriend = null;
+let fpCurrentGame = null;
+
+async function viewFriendProfile(friendUserId, friendshipId){
+  const overlay=document.getElementById('fprofileOverlay');
+  overlay.classList.add('active');
+
+  // Get friend profile from friendshipMap / already loaded
+  const f=Object.values(friendshipMap||{}).find(f=>
+    (f.user_id===friendUserId||f.friend_id===friendUserId)
+  );
+  const profile = f ? (f.user_id===friendUserId ? f.requester : f.receiver) : null;
+
+  if(!profile){
+    // Fetch directly
+    const{data}=await sb.from('users').select('*').eq('id',friendUserId).maybeSingle();
+    if(!data){ overlay.classList.remove('active'); return; }
+    _renderFriendProfile(data, friendshipId, friendUserId);
+  } else {
+    _renderFriendProfile(profile, friendshipId, friendUserId);
+  }
+}
+
+async function _renderFriendProfile(profile, friendshipId, friendUserId){
+  fpCurrentFriend = {id: friendUserId, name: profile.display_name||profile.username||'User', friendshipId};
+
+  const di = getDisplayInfo(profile, friendshipMap[friendUserId]);
+  document.getElementById('fpAvatar').textContent = initials(di.shown);
+  document.getElementById('fpName').textContent = di.shown;
+  document.getElementById('fpUsername').textContent = di.username ? di.username : (di.badge ? '(identity hidden)' : '@'+profile.username);
+
+  // Role
+  const roleEl=document.getElementById('fpRole');
+  roleEl.textContent = profile.role ? ROLES[profile.role]?.icon+' '+ROLES[profile.role]?.label : 'None';
+  roleEl.style.fontSize=profile.role?'.85em':'1.4em';
+
+  // Streak/pet
+  const sData = streakCache[friendUserId] || await loadStreak(friendUserId);
+  document.getElementById('fpStreak').textContent = sData.streak||0;
+  document.getElementById('fpXp').textContent = sData.xp||0;
+
+  const stage=getPetStage(sData.xp||0);
+  const pet=PET_STAGES[stage];
+  document.getElementById('fpPetEmoji').textContent=pet.emoji;
+  document.getElementById('fpPetName').textContent=sData.pet_name||pet.name;
+  document.getElementById('fpPetSub').textContent=`${sData.streak||0} day streak · ${sData.xp||0} XP`;
+
+  // Check if friend is currently playing + last active
+  const presence=await getFriendPresence(friendUserId);
+  fpCurrentGame=presence;
+  const gameRow=document.getElementById('fpGameRow');
+  const joinBtn=document.getElementById('fpJoinBtn');
+  if(presence&&presence.game_name){
+    gameRow.style.display='flex';
+    joinBtn.style.display='';
+    document.getElementById('fpGameName').textContent='Playing: '+presence.game_name;
+  }else{
+    gameRow.style.display='none';
+    joinBtn.style.display='none';
+  }
+  // Last active
+  const laEl=document.getElementById('fpLastActive');
+  const laText=document.getElementById('fpLastActiveText');
+  try{
+    const{data:presRow}=await sb.from('user_presence').select('last_active').eq('user_id',friendUserId).maybeSingle();
+    if(presRow&&presRow.last_active){
+      laEl.style.display='block';
+      const secs=Math.floor((Date.now()-new Date(presRow.last_active).getTime())/1000);
+      if(secs<60) laText.textContent='just now';
+      else if(secs<3600) laText.textContent=Math.floor(secs/60)+'m ago';
+      else if(secs<86400) laText.textContent=Math.floor(secs/3600)+'h ago';
+      else laText.textContent=Math.floor(secs/86400)+'d ago';
+    }else{
+      laEl.style.display='none';
+    }
+  }catch(e){ laEl.style.display='none'; }
+}
+
+function fpJoinGame(){
+  if(!fpCurrentGame||!fpCurrentGame.game_url) return;
+  // Save before closeFriendProfile() nulls fpCurrentGame
+  const gameName = fpCurrentGame.game_name || "Friend's Game";
+  const gameUrl  = fpCurrentGame.game_url;
+  closeFriendProfile();
+  openGame(gameName, gameUrl);
+}
+
+function fpOpenChat(){
+  if(!fpCurrentFriend) return;
+  closeFriendProfile();
+  showSection('chat');
+  setTimeout(()=>openChatWith(fpCurrentFriend.id, fpCurrentFriend.name), 200);
+}
+
+function closeFriendProfile(){
+  document.getElementById('fprofileOverlay').classList.remove('active');
+  fpCurrentFriend=null; fpCurrentGame=null;
+}
+
+// Close on overlay click
+document.getElementById('fprofileOverlay').addEventListener('click',function(e){
+  if(e.target===this) closeFriendProfile();
+});
+
+// ══════════════════════════════════════════════════════════════════
+// PET RENAME MODAL
+// ══════════════════════════════════════════════════════════════════
+function openPetModal(){
+  if(!currentStreakData && !activeChatFriendId) {
+    showToast('💬 Chat with a friend first to hatch your pet!');
+    return;
+  }
+  const overlay=document.getElementById('petModalOverlay');
+  overlay.classList.add('active');
+
+  const xp=(currentStreakData?.xp)||0;
+  const streak=(currentStreakData?.streak)||0;
+  const stage=getPetStage(xp);
+  const pet=PET_STAGES[stage];
+  const xpInfo=getXpInStage(xp,stage);
+  const petName=currentStreakData?.pet_name||pet.name;
+
+  document.getElementById('petModalEmoji').textContent=pet.emoji;
+  document.getElementById('petModalStage').textContent='Stage '+(stage+1)+' of '+PET_STAGES.length;
+  document.getElementById('petModalTitle').textContent=petName;
+  document.getElementById('petModalDesc').textContent=pet.mood(streak);
+  document.getElementById('petNameInput').value=petName;
+  document.getElementById('petModalXpCur').textContent=xpInfo.current+' XP';
+  document.getElementById('petModalXpNext').textContent='/ '+xpInfo.max+' XP to next stage';
+  const pct=Math.min(100,Math.round((xpInfo.current/xpInfo.max)*100));
+  document.getElementById('petModalXpFill').style.width=pct+'%';
+
+  setTimeout(()=>{ const inp=document.getElementById('petNameInput'); inp.focus(); inp.select(); },100);
+}
+
+async function savePetName(){
+  const name=document.getElementById('petNameInput').value.trim();
+  if(!name){ showToast('Please enter a name!'); return; }
+  if(!activeChatFriendId){ closePetModal(); return; }
+
+  const uA=streakUserA(currentUser.id,activeChatFriendId);
+  const uB=streakUserB(currentUser.id,activeChatFriendId);
+  const{error}=await sb.from('chat_streaks').update({pet_name:name}).eq('user_a',uA).eq('user_b',uB);
+  if(error){ showToast('❌ Could not save name'); return; }
+
+  if(currentStreakData) currentStreakData.pet_name=name;
+  if(streakCache[activeChatFriendId]) streakCache[activeChatFriendId].pet_name=name;
+  renderStreakBar(currentStreakData);
+  closePetModal();
+  showToast('✅ Pet renamed to "'+name+'"!');
+}
+
+function closePetModal(){
+  document.getElementById('petModalOverlay').classList.remove('active');
+}
+
+document.getElementById('petModalOverlay').addEventListener('click',function(e){
+  if(e.target===this) closePetModal();
+});
+document.getElementById('petNameInput')?.addEventListener('keydown',function(e){
+  if(e.key==='Enter') savePetName();
+  if(e.key==='Escape') closePetModal();
+});
+
+
 async function runAppInit(){
   enableSecurityProtection();
   try{
