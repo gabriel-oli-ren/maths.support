@@ -1037,6 +1037,243 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 .fi-btn.join:hover{background:rgba(34,197,94,.22)}
 .fi-btn.profile{background:rgba(102,126,234,.1);color:#667eea}
 .fi-btn.profile:hover{background:rgba(102,126,234,.2)}
+
+/* ══ MATHS PASS PAGE ══ */
+.pass-page{display:none;max-width:860px;margin:0 auto;padding-bottom:40px}
+.pass-page.active{display:block}
+
+/* Hero banner */
+.pass-hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border-radius:24px;padding:48px 40px 40px;margin-bottom:28px;position:relative;overflow:hidden;text-align:center}
+.pass-hero-blob{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none}
+.pass-hero-blob-1{width:350px;height:350px;background:radial-gradient(circle,rgba(102,126,234,.4),transparent 70%);top:-100px;left:-80px}
+.pass-hero-blob-2{width:280px;height:280px;background:radial-gradient(circle,rgba(118,75,162,.35),transparent 70%);bottom:-80px;right:-60px}
+.pass-hero-logo{font-size:3.2em;margin-bottom:12px;position:relative;z-index:1;display:block;filter:drop-shadow(0 4px 16px rgba(102,126,234,.6))}
+.pass-hero-title{color:#fff;font-size:2em;font-weight:900;letter-spacing:-.5px;margin-bottom:8px;position:relative;z-index:1}
+.pass-hero-sub{color:rgba(255,255,255,.55);font-size:.95em;line-height:1.6;max-width:480px;margin:0 auto 24px;position:relative;z-index:1}
+.pass-hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:50px;padding:8px 20px;color:rgba(255,255,255,.8);font-size:.85em;font-weight:700;position:relative;z-index:1}
+
+/* Current pass card */
+.pass-current-card{background:#fff;border-radius:20px;padding:28px 32px;margin-bottom:24px;box-shadow:0 8px 30px rgba(0,0,0,.1);position:relative;overflow:hidden}
+.pass-current-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#667eea,#764ba2)}
+.pass-current-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.pass-current-icon{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.6em;flex-shrink:0}
+.pass-current-icon.free{background:linear-gradient(135deg,#667eea,#764ba2)}
+.pass-current-icon.premium{background:linear-gradient(135deg,#f39c12,#e67e22)}
+.pass-current-icon.pro{background:linear-gradient(135deg,#f64f59,#c0392b)}
+.pass-current-name{font-size:1.3em;font-weight:900;color:#333}
+.pass-current-type{font-size:.8em;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.pass-perks-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:500px){.pass-perks-grid{grid-template-columns:1fr}}
+.pass-perk-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8f9ff;border-radius:11px;font-size:.88em;font-weight:600;color:#444}
+.pass-perk-item .perk-icon{font-size:1.1em;flex-shrink:0}
+.pass-perk-item.locked{background:#fafafa;color:#ccc}
+.pass-perk-item.locked .perk-icon{filter:grayscale(1);opacity:.4}
+
+/* Tier cards */
+.pass-tiers-title{font-size:1em;font-weight:800;color:rgba(255,255,255,.85);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.pass-tiers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+@media(max-width:680px){.pass-tiers-grid{grid-template-columns:1fr}}
+.pass-tier-card{background:#fff;border-radius:18px;padding:24px 22px;box-shadow:0 4px 16px rgba(0,0,0,.08);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s;border:2px solid transparent}
+.pass-tier-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.15)}
+.pass-tier-card.current-tier{border-color:#667eea}
+.pass-tier-card.popular{border-color:#f39c12}
+.popular-badge{position:absolute;top:14px;right:14px;background:linear-gradient(135deg,#f39c12,#e67e22);color:#fff;font-size:.65em;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;border-radius:20px}
+.pass-tier-icon{font-size:1.8em;margin-bottom:10px;display:block}
+.pass-tier-name{font-size:1.05em;font-weight:900;color:#333;margin-bottom:4px}
+.pass-tier-price{font-size:1.5em;font-weight:900;color:#667eea;margin-bottom:2px}
+.pass-tier-price span{font-size:.55em;font-weight:600;color:#aaa}
+.pass-tier-desc{font-size:.78em;color:#aaa;margin-bottom:16px;line-height:1.4}
+.pass-tier-features{list-style:none;margin-bottom:18px;display:flex;flex-direction:column;gap:7px}
+.pass-tier-features li{font-size:.82em;color:#555;display:flex;align-items:center;gap:7px}
+.pass-tier-features li.has{color:#333;font-weight:600}
+.pass-tier-features li.has::before{content:'✓';color:#667eea;font-weight:900;flex-shrink:0}
+.pass-tier-features li.no{color:#ccc}
+.pass-tier-features li.no::before{content:'✗';color:#ddd;flex-shrink:0}
+.pass-tier-btn{width:100%;padding:12px;border:none;border-radius:11px;font-size:.9em;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit}
+.pass-tier-btn.active-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.pass-tier-btn.active-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(102,126,234,.4)}
+.pass-tier-btn.current-btn{background:#f0f4ff;color:#667eea;cursor:default}
+.pass-tier-btn.locked-btn{background:#f5f5f5;color:#bbb;cursor:not-allowed}
+
+/* Pass card visual (the actual card) */
+.pass-card-visual{background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f64f59 100%);border-radius:20px;padding:28px 30px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 40px rgba(102,126,234,.4)}
+.pass-card-visual.premium-card{background:linear-gradient(135deg,#f39c12 0%,#e67e22 50%,#d35400 100%);box-shadow:0 12px 40px rgba(243,156,18,.4)}
+.pass-card-shimmer{position:absolute;top:-50%;right:-30%;width:200px;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);transform:rotate(15deg);pointer-events:none}
+.pass-card-dots{position:absolute;bottom:16px;right:20px;display:flex;gap:5px;opacity:.3}
+.pass-card-dots span{width:10px;height:10px;border-radius:50%;background:#fff}
+.pcv-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px}
+.pcv-logo{font-size:1.4em;font-weight:900;letter-spacing:-.5px}
+.pcv-type{font-size:.72em;font-weight:700;opacity:.7;letter-spacing:2px;text-transform:uppercase;margin-top:4px}
+.pcv-chip{width:42px;height:32px;background:linear-gradient(135deg,rgba(255,255,255,.4),rgba(255,255,255,.15));border-radius:6px;border:1px solid rgba(255,255,255,.25)}
+.pcv-name{font-size:1.25em;font-weight:800;letter-spacing:.5px;margin-bottom:4px;text-transform:uppercase}
+.pcv-sub{font-size:.75em;opacity:.65;letter-spacing:1px}
+.pcv-bottom{display:flex;justify-content:space-between;align-items:flex-end;margin-top:16px}
+.pcv-since{font-size:.72em;opacity:.6}
+.pcv-badge{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:.72em;font-weight:700;letter-spacing:.5px}
+
+/* ════════════════════════════════
+   MATHS PASS PAGE
+════════════════════════════════ */
+.pass-page{display:none;max-width:900px;margin:0 auto}
+.pass-page.active{display:block}
+.pass-hero{background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f64f59 100%);border-radius:24px;padding:40px 36px 32px;margin-bottom:24px;text-align:center;position:relative;overflow:hidden}
+.pass-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.pass-hero-label{color:rgba(255,255,255,.7);font-size:.75em;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+.pass-hero-title{color:#fff;font-size:2.4em;font-weight:900;margin-bottom:8px;letter-spacing:-.5px}
+.pass-hero-sub{color:rgba(255,255,255,.7);font-size:.95em;margin-bottom:28px;line-height:1.6}
+.pass-coins-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);border-radius:30px;padding:10px 22px;color:#fff;font-size:1em;font-weight:800;backdrop-filter:blur(6px)}
+.pass-coins-icon{font-size:1.3em}
+
+.pass-tiers{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+@media(max-width:600px){.pass-tiers{grid-template-columns:1fr}}
+.pass-tier{border-radius:20px;overflow:hidden;border:2px solid #f0f0f0;transition:transform .25s,box-shadow .25s;background:#fff}
+.pass-tier:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.12)}
+.pass-tier.premium{border-color:#667eea;box-shadow:0 4px 20px rgba(102,126,234,.25)}
+.pass-tier-header{padding:22px 24px 18px;text-align:center}
+.pass-tier.free .pass-tier-header{background:linear-gradient(135deg,#f5f7ff,#ede8ff)}
+.pass-tier.premium .pass-tier-header{background:linear-gradient(135deg,#667eea,#764ba2)}
+.pass-tier-icon{font-size:2.2em;margin-bottom:8px}
+.pass-tier-name{font-size:1.1em;font-weight:900;color:#333}
+.pass-tier.premium .pass-tier-name{color:#fff}
+.pass-tier-price{font-size:.85em;color:#888;margin-top:4px}
+.pass-tier.premium .pass-tier-price{color:rgba(255,255,255,.7)}
+.pass-tier-body{padding:20px 24px}
+.pass-reward{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f5f5f5}
+.pass-reward:last-child{border-bottom:none}
+.pass-reward-icon{font-size:1.4em;flex-shrink:0;width:32px;text-align:center}
+.pass-reward-text{flex:1}
+.pass-reward-name{font-size:.9em;font-weight:700;color:#333}
+.pass-reward-sub{font-size:.75em;color:#aaa;margin-top:1px}
+.pass-reward-level{font-size:.7em;font-weight:800;padding:2px 8px;border-radius:8px;background:#f0f4ff;color:#667eea;white-space:nowrap}
+.pass-tier-btn{width:100%;padding:14px;margin-top:18px;border:none;border-radius:13px;font-size:.95em;font-weight:800;cursor:pointer;transition:all .25s;font-family:inherit;letter-spacing:.3px}
+.pass-tier.free .pass-tier-btn{background:linear-gradient(135deg,#f0f4ff,#ede8ff);color:#667eea}
+.pass-tier.free .pass-tier-btn:hover{background:linear-gradient(135deg,#e8efff,#e0d8ff);transform:translateY(-1px)}
+.pass-tier.premium .pass-tier-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;box-shadow:0 4px 14px rgba(102,126,234,.4)}
+.pass-tier.premium .pass-tier-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(102,126,234,.5)}
+.pass-tier-btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+
+/* Pass progress track */
+.pass-track{background:rgba(255,255,255,.97);border-radius:20px;padding:28px 30px;margin-bottom:24px;box-shadow:0 4px 16px rgba(0,0,0,.07)}
+.pass-track h3{color:#667eea;font-size:1.1em;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.pass-levels{display:flex;gap:0;position:relative;overflow-x:auto;padding-bottom:8px}
+.pass-levels::-webkit-scrollbar{height:4px}
+.pass-levels::-webkit-scrollbar-thumb{background:rgba(102,126,234,.3);border-radius:2px}
+.pass-level{display:flex;flex-direction:column;align-items:center;min-width:80px;position:relative}
+.pass-level::before{content:'';position:absolute;top:18px;left:50%;width:100%;height:3px;background:#e8e8e8;z-index:0}
+.pass-level:last-child::before{display:none}
+.pass-level-circle{width:38px;height:38px;border-radius:50%;border:3px solid #e8e8e8;background:#f8f8f8;display:flex;align-items:center;justify-content:center;font-size:.85em;font-weight:800;color:#bbb;z-index:1;position:relative;transition:all .3s}
+.pass-level.unlocked .pass-level-circle{border-color:#667eea;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;box-shadow:0 3px 10px rgba(102,126,234,.4)}
+.pass-level.current .pass-level-circle{border-color:#f64f59;background:linear-gradient(135deg,#f64f59,#764ba2);color:#fff;box-shadow:0 3px 14px rgba(246,79,89,.5);animation:passLevelPulse 2s infinite}
+@keyframes passLevelPulse{0%,100%{box-shadow:0 3px 14px rgba(246,79,89,.5)}50%{box-shadow:0 3px 24px rgba(246,79,89,.8)}}
+.pass-level::before{background:linear-gradient(90deg,#667eea,#e8e8e8)}
+.pass-level.locked::before{background:#e8e8e8}
+.pass-level-reward{font-size:1.1em;margin-top:8px}
+.pass-level-label{font-size:.65em;color:#aaa;margin-top:3px;text-align:center;max-width:72px}
+
+/* XP bar */
+.pass-xp-row{display:flex;align-items:center;gap:16px;margin-top:18px;padding-top:18px;border-top:1px solid #f0f0f0}
+.pass-xp-info{font-size:.82em;color:#888;white-space:nowrap}
+.pass-xp-track{flex:1;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden}
+.pass-xp-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:4px;transition:width .8s cubic-bezier(.34,1.56,.64,1)}
+
+/* ════════════════════════════════
+   SHOP PAGE
+════════════════════════════════ */
+.shop-page{display:none;max-width:1000px;margin:0 auto}
+.shop-page.active{display:block}
+.shop-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+.shop-title{color:rgba(255,255,255,.9);font-size:1.4em;font-weight:900;display:flex;align-items:center;gap:10px}
+.shop-coins-display{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:30px;padding:10px 20px;color:#fff;font-size:.95em;font-weight:800;backdrop-filter:blur(6px)}
+.shop-tabs{display:flex;gap:6px;margin-bottom:22px;flex-wrap:wrap}
+.shop-tab{padding:9px 20px;border-radius:30px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);font-size:.88em;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.shop-tab:hover{background:rgba(255,255,255,.12);color:#fff}
+.shop-tab.active{background:linear-gradient(135deg,#667eea,#764ba2);border-color:transparent;color:#fff;box-shadow:0 3px 12px rgba(102,126,234,.4)}
+.shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:30px}
+@media(max-width:900px){.shop-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.shop-grid{grid-template-columns:repeat(2,1fr)}}
+.shop-item{background:rgba(255,255,255,.97);border-radius:16px;overflow:hidden;transition:all .25s;border:2px solid transparent;cursor:pointer}
+.shop-item:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.15);border-color:rgba(102,126,234,.3)}
+.shop-item.owned{border-color:#22c55e;opacity:.85}
+.shop-item.owned:hover{border-color:#22c55e}
+.shop-item-preview{height:90px;display:flex;align-items:center;justify-content:center;font-size:2.8em;background:linear-gradient(135deg,#f5f7ff,#ede8ff)}
+.shop-item.tag-item .shop-item-preview{background:linear-gradient(135deg,#f0fdf4,#dcfce7)}
+.shop-item.pet-item .shop-item-preview{background:linear-gradient(135deg,#fff9f0,#fff3e0)}
+.shop-item-info{padding:12px 14px}
+.shop-item-name{font-size:.88em;font-weight:800;color:#333;margin-bottom:3px}
+.shop-item-desc{font-size:.72em;color:#aaa;line-height:1.4;margin-bottom:10px}
+.shop-item-footer{display:flex;align-items:center;justify-content:space-between}
+.shop-item-price{display:flex;align-items:center;gap:4px;font-size:.82em;font-weight:800;color:#667eea}
+.shop-item-price.free{color:#22c55e}
+.shop-buy-btn{padding:6px 14px;border-radius:8px;border:none;font-size:.75em;font-weight:800;cursor:pointer;transition:all .2s;font-family:inherit}
+.shop-buy-btn.buy{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.shop-buy-btn.buy:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(102,126,234,.4)}
+.shop-buy-btn.owned{background:#f0fdf4;color:#22c55e;cursor:default}
+.shop-buy-btn.locked{background:#f5f5f5;color:#aaa;cursor:not-allowed}
+
+/* ════════════════════════════════
+   PET PLAY SECTION (inside Pass page)
+════════════════════════════════ */
+.pet-play-section{background:rgba(255,255,255,.97);border-radius:20px;padding:28px;margin-bottom:24px;box-shadow:0 4px 16px rgba(0,0,0,.07)}
+.pet-play-section h3{color:#e65100;font-size:1.1em;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.pet-play-arena{background:linear-gradient(180deg,#e0f7fa 0%,#b2ebf2 60%,#80cbc4 100%);border-radius:16px;height:200px;position:relative;overflow:hidden;margin-bottom:16px;cursor:pointer;user-select:none}
+.pet-play-ground{position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(180deg,#a5d6a7,#81c784);border-radius:0 0 16px 16px}
+.pet-play-char{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-size:3.5em;transition:bottom .15s,left .3s;cursor:pointer;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2));user-select:none;line-height:1}
+.pet-play-char.jump{animation:petJump .4s ease}
+@keyframes petJump{0%,100%{bottom:40px}40%{bottom:100px}}
+.pet-play-char.dance{animation:petDance .5s ease infinite}
+@keyframes petDance{0%,100%{transform:translateX(-50%) rotate(0deg)}25%{transform:translateX(-50%) rotate(-15deg)}75%{transform:translateX(-50%) rotate(15deg)}}
+.pet-play-item{position:absolute;font-size:1.8em;animation:floatItem 3s ease-in-out infinite;cursor:pointer}
+@keyframes floatItem{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.pet-play-bubble{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:#fff;border-radius:20px;padding:7px 16px;font-size:.8em;font-weight:700;color:#333;box-shadow:0 3px 12px rgba(0,0,0,.15);white-space:nowrap;opacity:0;transition:opacity .3s;pointer-events:none}
+.pet-play-bubble.show{opacity:1}
+.pet-play-bubble::after{content:'';position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#fff;border-bottom:none}
+.pet-play-actions{display:flex;gap:10px;flex-wrap:wrap}
+.pet-action-btn{flex:1;min-width:80px;padding:10px 8px;border:2px solid #ffe0b2;border-radius:12px;background:#fff9f0;font-size:.82em;font-weight:700;color:#e65100;cursor:pointer;transition:all .2s;font-family:inherit;text-align:center}
+.pet-action-btn:hover{background:#fff3e0;border-color:#ffb74d;transform:translateY(-2px)}
+.pet-action-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.pet-happiness-row{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.pet-happiness-label{font-size:.8em;font-weight:700;color:#e65100;white-space:nowrap}
+.pet-happiness-track{flex:1;height:8px;background:#ffe0b2;border-radius:4px;overflow:hidden}
+.pet-happiness-fill{height:100%;background:linear-gradient(90deg,#ff8f00,#f4511e);border-radius:4px;transition:width .5s ease}
+.pet-happiness-emoji{font-size:1.3em}
+
+/* ════════════════════════════════
+   STICKERS IN CHAT
+════════════════════════════════ */
+.sticker-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1em;transition:all .2s;flex-shrink:0}
+.sticker-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+.sticker-picker{position:absolute;bottom:100%;right:0;background:#1e1e3a;border:1.5px solid rgba(255,255,255,.12);border-radius:20px;padding:16px;box-shadow:0 -8px 32px rgba(0,0,0,.4);display:none;z-index:100;width:300px;animation:pickerIn .18s ease}
+.sticker-picker.open{display:block}
+@keyframes pickerIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sticker-picker-tabs{display:flex;gap:4px;margin-bottom:12px;overflow-x:auto}
+.sticker-picker-tabs::-webkit-scrollbar{display:none}
+.sp-tab{padding:5px 12px;border-radius:20px;border:none;background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);font-size:.75em;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .15s}
+.sp-tab.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.sticker-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-height:200px;overflow-y:auto}
+.sticker-grid::-webkit-scrollbar{width:3px}
+.sticker-grid::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.sticker-cell{width:100%;aspect-ratio:1;border-radius:10px;background:rgba(255,255,255,.05);border:none;font-size:1.7em;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.sticker-cell:hover{background:rgba(255,255,255,.15);transform:scale(1.15)}
+.sticker-cell.locked{opacity:.3;cursor:not-allowed;filter:grayscale(1)}
+.sticker-cell.locked:hover{transform:none;background:rgba(255,255,255,.05)}
+/* Sticker bubble — big and centered */
+.chat-bubble.sticker{background:transparent!important;border:none!important;box-shadow:none!important;padding:4px!important}
+.sticker-display{font-size:3.8em;line-height:1.2;display:block;text-align:center;animation:stickerPop .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes stickerPop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ════════════════════════════════
+   TAG (role badge) improvements — bought from shop
+════════════════════════════════ */
+.role-badge.maths-pass{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;box-shadow:0 2px 8px rgba(102,126,234,.4)}
+.role-badge.star{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
+.role-badge.legend{background:linear-gradient(135deg,#f64f59,#c0392b);color:#fff;box-shadow:0 2px 8px rgba(246,79,89,.4)}
+.role-badge.ghost{background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);backdrop-filter:blur(4px)}
+.role-badge.fire{background:linear-gradient(135deg,#ff8f00,#f4511e);color:#fff}
+.role-badge.ice{background:linear-gradient(135deg,#00b4db,#0083b0);color:#fff}
+
+/* Coins toast */
+.coins-toast{position:fixed;bottom:100px;right:30px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:12px 22px;border-radius:30px;font-size:.9em;font-weight:800;box-shadow:0 6px 24px rgba(245,158,11,.4);z-index:99999;opacity:0;pointer-events:none;transform:translateY(10px);transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+.coins-toast.show{opacity:1;transform:translateY(0)}
 </style>
 <script type="text/javascript">
 window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a){switch(a.name){case"SDK_GAME_PAUSE":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','MuteAudio');break;case"SDK_GAME_START":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','UnmuteAudio');break;}}};
@@ -1138,6 +1375,15 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
     <div class="sidebar-item" id="chatBtn" onclick="showSection('chat')">
       <span class="sidebar-item-icon">💬</span><span class="sidebar-item-text">Chat</span>
       <span class="sidebar-badge" id="chatBadge" style="display:none">0</span>
+    </div>
+    <div class="sidebar-item" id="passBtn" onclick="showSection('pass')">
+      <span class="sidebar-item-icon">🎫</span><span class="sidebar-item-text">Maths Pass</span>
+    </div>
+    <div class="sidebar-item" id="passBtn" onclick="showSection('pass')">
+      <span class="sidebar-item-icon">⭐</span><span class="sidebar-item-text">Maths Pass</span>
+    </div>
+    <div class="sidebar-item" id="shopBtn" onclick="showSection('shop')">
+      <span class="sidebar-item-icon">🛒</span><span class="sidebar-item-text">Shop</span>
     </div>
     <div class="sidebar-item" id="accountBtn" onclick="showSection('account')">
       <span class="sidebar-item-icon">👤</span><span class="sidebar-item-text">Account</span>
@@ -1294,24 +1540,16 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
       <button class="save-btn" onclick="saveDisplayName()">💾 Save Changes</button>
       <div class="page-msg" id="acctMsg"></div>
     </div>
-    <!-- ROLE CARD -->
-    <div class="page-card">
-      <h3>🏷️ Your Role / Tag</h3>
-      <p style="color:#aaa;font-size:.88em;margin-bottom:16px">Your role tag is shown instead of your real name to people who haven't had it revealed. <strong style="color:#667eea">Admin</strong> is exclusive — only you can have it.</p>
-      <label class="field-label">Select Your Role</label>
-      <select class="role-select" id="roleSelect" onchange="previewRole()">
-        <option value="">None</option>
-        <option value="admin">👑 Admin (exclusive)</option>
-        <option value="moderator">🛡️ Moderator</option>
-        <option value="vip">⭐ VIP</option>
-        <option value="verified">✅ Verified</option>
-      </select>
-      <div class="role-preview" id="rolePreview" style="display:none">
-        Preview: <span id="rolePreviewBadge"></span>
+    <!-- ACTIVE TAG CARD (shows currently equipped tag from shop) -->
+    <div class="page-card" id="activeTagCard">
+      <h3>🏷️ Active Tag</h3>
+      <p style="color:#aaa;font-size:.88em;margin-bottom:16px">Your active tag is shown next to your name. Buy tags in the Shop!</p>
+      <div id="activeTagDisplay" style="display:flex;align-items:center;gap:12px;padding:14px;background:#f5f7ff;border-radius:12px;margin-bottom:14px">
+        <span style="font-size:1.5em" id="activeTagEmoji">🏷️</span>
+        <div><div style="font-weight:800;color:#333;font-size:.95em" id="activeTagName">No tag equipped</div>
+        <div style="color:#aaa;font-size:.78em">Go to the Shop to buy tags!</div></div>
       </div>
-      <br><br>
-      <button class="save-btn" onclick="saveRole()">💾 Save Role</button>
-      <div class="page-msg" id="roleMsg"></div>
+      <button class="save-btn" onclick="showSection('shop')">🛒 Browse Shop</button>
     </div>
     <div class="page-card">
       <h3>🔑 Your Friend Code</h3>
@@ -1322,6 +1560,61 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
       </div>
       <div class="page-msg" id="codeMsg"></div>
     </div>
+  </div>
+
+
+  <!-- ══ MATHS PASS PAGE ══ -->
+  <div class="pass-page" id="passPage">
+
+    <!-- Hero -->
+    <div class="pass-hero">
+      <div class="pass-hero-blob pass-hero-blob-1"></div>
+      <div class="pass-hero-blob pass-hero-blob-2"></div>
+      <span class="pass-hero-logo">🎫</span>
+      <div class="pass-hero-title">Maths Pass</div>
+      <div class="pass-hero-sub">Your membership to Maths Support. The Free pass is included for everyone — no payment needed.</div>
+      <div class="pass-hero-badge">🎉 Free Pass available for everyone</div>
+    </div>
+
+    <!-- Current pass card visual -->
+    <div class="pass-card-visual" id="passCardVisual">
+      <div class="pass-card-shimmer"></div>
+      <div class="pass-card-dots"><span></span><span></span><span></span></div>
+      <div class="pcv-top">
+        <div>
+          <div class="pcv-logo">🎫 Maths Support</div>
+          <div class="pcv-type" id="pcvType">FREE PASS</div>
+        </div>
+        <div class="pcv-chip"></div>
+      </div>
+      <div class="pcv-name" id="pcvName">Loading...</div>
+      <div class="pcv-sub" id="pcvSub">@username</div>
+      <div class="pcv-bottom">
+        <div class="pcv-since" id="pcvSince">Member since —</div>
+        <div class="pcv-badge" id="pcvBadge">FREE</div>
+      </div>
+    </div>
+
+    <!-- Current perks -->
+    <div class="pass-current-card" id="passCurrentCard">
+      <div class="pass-current-header">
+        <div class="pass-current-icon free" id="passCurrentIcon">🎫</div>
+        <div>
+          <div class="pass-current-name" id="passCurrentName">Maths Pass — Free</div>
+          <div class="pass-current-type" id="passCurrentType">Your active pass</div>
+        </div>
+      </div>
+      <div class="pass-perks-grid" id="passPerksGrid">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- Tier cards -->
+    <div class="pass-tiers-title">🎫 All Tiers</div>
+    <div class="pass-tiers-grid" id="passTiersGrid">
+      <!-- filled by JS -->
+    </div>
+
   </div>
 
   <!-- FRIENDS PAGE -->
@@ -1340,6 +1633,104 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
         <div id="friendsList"><div class="empty-list">No friends yet — share your code!</div></div>
       </div>
     </div>
+  </div>
+
+
+  <!-- ══ MATHS PASS PAGE ══ -->
+  <div class="pass-page" id="passPage">
+    <!-- Hero -->
+    <div class="pass-hero">
+      <div class="pass-hero-label">🌟 Season 1</div>
+      <h1 class="pass-hero-title">Maths Pass</h1>
+      <p class="pass-hero-sub">Unlock stickers, pets, tags and more as you chat and play!</p>
+      <div class="pass-coins-badge"><span class="pass-coins-icon">🪙</span><span id="passCoinsHero">0</span> Maths Coins</div>
+    </div>
+
+    <!-- Progress track -->
+    <div class="pass-track">
+      <h3>🎯 Your Progress — Level <span id="passCurrentLevel">1</span></h3>
+      <div class="pass-levels" id="passLevels"><!-- filled by JS --></div>
+      <div class="pass-xp-row">
+        <span class="pass-xp-info" id="passXpInfo">0 / 100 XP</span>
+        <div class="pass-xp-track"><div class="pass-xp-fill" id="passXpFill" style="width:0%"></div></div>
+        <span class="pass-xp-info" id="passXpNext">Lv.2</span>
+      </div>
+    </div>
+
+    <!-- Pet play section (unlocked at level 1 for everyone) -->
+    <div class="pet-play-section" id="petPlaySection">
+      <h3>🐾 Your Pet — <span id="playPetName">Mystery Egg</span></h3>
+      <div class="pet-happiness-row">
+        <span class="pet-happiness-label">Happiness</span>
+        <div class="pet-happiness-track"><div class="pet-happiness-fill" id="petHappinessFill" style="width:60%"></div></div>
+        <span class="pet-happiness-emoji" id="petHappinessEmoji">😊</span>
+      </div>
+      <div class="pet-play-arena" id="petArena" onclick="petArenaClick(event)">
+        <div class="pet-play-bubble" id="petBubble">Hello!</div>
+        <div class="pet-play-char" id="petPlayChar">🥚</div>
+        <div class="pet-play-ground"></div>
+      </div>
+      <div class="pet-play-actions">
+        <button class="pet-action-btn" onclick="petAction('feed')">🍎 Feed</button>
+        <button class="pet-action-btn" onclick="petAction('play')">🎮 Play</button>
+        <button class="pet-action-btn" onclick="petAction('pet')">🤗 Pet</button>
+        <button class="pet-action-btn" onclick="petAction('dance')">💃 Dance</button>
+        <button class="pet-action-btn" onclick="openPetModal()" id="renameBtn">✏️ Rename</button>
+      </div>
+    </div>
+
+    <!-- Tier cards -->
+    <div class="pass-tiers">
+      <!-- Free tier -->
+      <div class="pass-tier free">
+        <div class="pass-tier-header">
+          <div class="pass-tier-icon">🎒</div>
+          <div class="pass-tier-name">Free Pass</div>
+          <div class="pass-tier-price">Always free for everyone</div>
+        </div>
+        <div class="pass-tier-body">
+          <div class="pass-reward"><div class="pass-reward-icon">🐣</div><div class="pass-reward-text"><div class="pass-reward-name">Starter Pet</div><div class="pass-reward-sub">Your very own egg companion</div></div><div class="pass-reward-level">Lv.1</div></div>
+          <div class="pass-reward"><div class="pass-reward-icon">😄</div><div class="pass-reward-text"><div class="pass-reward-name">5 Free Stickers</div><div class="pass-reward-sub">Basic sticker pack for chat</div></div><div class="pass-reward-level">Lv.1</div></div>
+          <div class="pass-reward"><div class="pass-reward-icon">🪙</div><div class="pass-reward-text"><div class="pass-reward-name">10 Maths Coins</div><div class="pass-reward-sub">Spend in the shop</div></div><div class="pass-reward-level">Lv.1</div></div>
+          <div class="pass-reward"><div class="pass-reward-icon">🎒</div><div class="pass-reward-text"><div class="pass-reward-name">More stickers + coins</div><div class="pass-reward-sub">As you level up</div></div><div class="pass-reward-level">Lv.3+</div></div>
+        </div>
+        <div class="pass-tier-body">
+          <button class="pass-tier-btn" id="freePassBtn" onclick="claimFreePass()" disabled>✅ Active</button>
+        </div>
+      </div>
+      <!-- Premium tier -->
+      <div class="pass-tier premium">
+        <div class="pass-tier-header">
+          <div class="pass-tier-icon">⭐</div>
+          <div class="pass-tier-name">Premium Pass</div>
+          <div class="pass-tier-price">🪙 500 Maths Coins</div>
+        </div>
+        <div class="pass-tier-body">
+          <div class="pass-reward"><div class="pass-reward-icon">🦄</div><div class="pass-reward-text"><div class="pass-reward-name">Premium Pet Skin</div><div class="pass-reward-sub">Exclusive animated companion</div></div><div class="pass-reward-level">Lv.1</div></div>
+          <div class="pass-reward"><div class="pass-reward-icon">✨</div><div class="pass-reward-text"><div class="pass-reward-name">50+ Premium Stickers</div><div class="pass-reward-sub">Exclusive sticker packs</div></div><div class="pass-reward-level">Lv.1</div></div>
+          <div class="pass-reward"><div class="pass-reward-icon">🏷️</div><div class="pass-reward-text"><div class="pass-reward-name">Exclusive Tags</div><div class="pass-reward-sub">⭐ Star, 🔥 Fire, ❄️ Ice</div></div><div class="pass-reward-level">Lv.2</div></div>
+          <div class="pass-reward"><div class="pass-reward-icon">🪙</div><div class="pass-reward-text"><div class="pass-reward-name">2× Coin Rewards</div><div class="pass-reward-sub">Double coins from XP gains</div></div><div class="pass-reward-level">All</div></div>
+          <div class="pass-reward"><div class="pass-reward-icon">🎁</div><div class="pass-reward-text"><div class="pass-reward-name">Pet Accessories</div><div class="pass-reward-sub">Hats, costumes & more</div></div><div class="pass-reward-level">Lv.3+</div></div>
+        </div>
+        <div class="pass-tier-body">
+          <button class="pass-tier-btn" id="premiumPassBtn" onclick="buyPremiumPass()">⭐ Upgrade — 500 Coins</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SHOP PAGE ══ -->
+  <div class="shop-page" id="shopPage">
+    <div class="shop-header">
+      <div class="shop-title">🛒 Shop</div>
+      <div class="shop-coins-display"><span>🪙</span><span id="shopCoinsDisplay">0</span></div>
+    </div>
+    <div class="shop-tabs">
+      <button class="shop-tab active" onclick="switchShopTab('tags')">🏷️ Tags</button>
+      <button class="shop-tab" onclick="switchShopTab('stickers')">😄 Sticker Packs</button>
+      <button class="shop-tab" onclick="switchShopTab('pet')">🐾 Pet Items</button>
+    </div>
+    <div id="shopGrid" class="shop-grid"><!-- filled by JS --></div>
   </div>
 
   <!-- GAME CONTAINER -->
@@ -1426,9 +1817,14 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
         </div>
         <!-- Input -->
         <div class="chat-input-area">
-          <div class="chat-input-row">
+          <div class="chat-input-row" style="position:relative">
+            <button class="sticker-btn" id="stickerBtn" onclick="toggleStickerPicker(event)" title="Stickers">😄</button>
             <textarea class="chat-input" id="chatMsgInput" placeholder="Type a message..." rows="1"></textarea>
             <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">➤</button>
+            <div class="sticker-picker" id="stickerPicker">
+              <div class="sticker-picker-tabs" id="stickerPickerTabs"><!-- filled by JS --></div>
+              <div class="sticker-grid" id="stickerGrid"><!-- filled by JS --></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1978,6 +2374,7 @@ async function onSignedIn(profile){
   loadCustomApps();
   if(sessionStorage.getItem('questionnaire_done')!=='true')checkAndShowQuestionnaire();
   setTimeout(updateChatBadge,800);
+  autoClaimFreePass();
   // Record last active on sign-in
   try{ sb.from('user_presence').upsert({user_id:currentUser.id,game_name:null,game_url:null,updated_at:new Date().toISOString(),last_active:new Date().toISOString()},{onConflict:'user_id'}); }catch(e){}
   const iAmAdmin=ADMIN_USER_IDS.includes(profile.id)||profile?.is_admin;
@@ -2517,27 +2914,43 @@ function appendBubble(m){
   if(renderedMsgIds.has(m.id))return;
   renderedMsgIds.add(m.id);
   const container=document.getElementById('chatMessages');
-  // Remove empty state
   const empty=container.querySelector('.chat-empty-msgs');if(empty)empty.remove();
   const isMe=m.sender_id===currentUser.id;
+  const isSticker=m.content&&m.content.startsWith('STICKER:');
   const group=document.createElement('div');
   group.className='msg-group '+(isMe?'me':'them');
   group.dataset.msgId=m.id;
   const tickClass=isMe?getTickClass(m.status):'';
   const tickHtml=isMe?`<span class="msg-tick ${tickClass}" id="tick-${m.id}"></span>`:'';
-  group.innerHTML=`
-    <div class="bubble-row">
-      ${!isMe?`<div class="msg-group-avatar">${initials(activeChatFriendName)}</div>`:''}
-      <div class="chat-bubble ${isMe?'me':'them'}">
-        <div class="bubble-content">${escapeHtml(m.content)}</div>
-        <div class="bubble-footer">
-          <span class="bubble-time">${formatTime(m.created_at)}</span>
-          ${tickHtml}
+  if(isSticker){
+    const emoji=m.content.replace('STICKER:','');
+    group.innerHTML=`
+      <div class="bubble-row">
+        ${!isMe?`<div class="msg-group-avatar">${initials(activeChatFriendName)}</div>`:''}
+        <div class="chat-bubble sticker ${isMe?'me':'them'}">
+          <span class="sticker-display">${emoji}</span>
+          <div class="bubble-footer">
+            <span class="bubble-time">${formatTime(m.created_at)}</span>
+            ${tickHtml}
+          </div>
         </div>
-      </div>
-    </div>`;
+      </div>`;
+  }else{
+    group.innerHTML=`
+      <div class="bubble-row">
+        ${!isMe?`<div class="msg-group-avatar">${initials(activeChatFriendName)}</div>`:''}
+        <div class="chat-bubble ${isMe?'me':'them'}">
+          <div class="bubble-content">${escapeHtml(m.content)}</div>
+          <div class="bubble-footer">
+            <span class="bubble-time">${formatTime(m.created_at)}</span>
+            ${tickHtml}
+          </div>
+        </div>
+      </div>`;
+  }
   container.appendChild(group);
 }
+
 
 function getTickClass(status){
   if(!status||status==='sending')return 'sending';
@@ -2569,7 +2982,8 @@ function updateLastMsgPreview(friendId,msg){
   if(!msg)return;
   const el=document.getElementById('last-msg-'+friendId);
   const tel=document.getElementById('last-time-'+friendId);
-  if(el)el.textContent=(msg.sender_id===currentUser.id?'You: ':'')+msg.content.substring(0,40)+(msg.content.length>40?'…':'');
+  const isStk=msg.content&&msg.content.startsWith('STICKER:');
+  if(el)el.textContent=(msg.sender_id===currentUser.id?'You: ':'')+( isStk ? msg.content.replace('STICKER:','')+ ' Sticker' : msg.content.substring(0,40)+(msg.content.length>40?'…':''));
   if(tel)tel.textContent=formatTime(msg.created_at);
 }
 
@@ -2596,6 +3010,7 @@ async function sendMessage(){
     updateStreak(activeChatFriendId);
     broadcastTyping(false);
     updateLastMsgPreview(activeChatFriendId,{...data,content});
+    earnPassXp(3,'sent message');
   }
 }
 
@@ -2720,13 +3135,14 @@ function disableSecurityProtection(){document.removeEventListener('contextmenu',
 // ══════════════════════════════════════════════════════════════════
 function openGame(name,url){
   document.getElementById('gameTitle').textContent=name;document.getElementById('gameFrame').src=url;
-  ['gamesGrid','appsPage','accountPage','friendsPage'].forEach(id=>{const el=document.getElementById(id);if(!el)return;if(id==='gamesGrid')el.style.display='none';else el.classList.remove('active');});
+  ['gamesGrid','appsPage','accountPage','friendsPage','passPage'].forEach(id=>{const el=document.getElementById(id);if(!el)return;if(id==='gamesGrid')el.style.display='none';else el.classList.remove('active');});
   document.getElementById('chatPage').classList.remove('active');
   document.getElementById('gameContainer').classList.add('active');
   document.getElementById('topNav').classList.add('minimal');
   const cas=document.querySelector('.custom-apps-section');if(cas)cas.style.display='none';
   window.scrollTo({top:0,behavior:'smooth'});startClock();
   broadcastGameStatus(name,url);
+  earnPassXp(10,'opened game');
 }
 function closeGame(){
   if(document.fullscreenElement)document.exitFullscreen();
@@ -2760,9 +3176,9 @@ function showSection(section){
   if(chatPollTimer&&section!=='chat'){clearInterval(chatPollTimer);chatPollTimer=null;}
   // Hide all
   document.getElementById('gamesGrid').style.display='none';
-  ['appsPage','accountPage','friendsPage'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  ['appsPage','accountPage','friendsPage','passPage','shopPage'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
   document.getElementById('chatPage').classList.remove('active');
-  ['homeBtn','appsBtn','accountBtn','friendsBtn','chatBtn'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  ['homeBtn','appsBtn','accountBtn','friendsBtn','chatBtn','passBtn','shopBtn'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
   document.getElementById('topNav').classList.remove('minimal');
   const cas=document.querySelector('.custom-apps-section');
   if(section==='home'){
@@ -2773,6 +3189,11 @@ function showSection(section){
     document.getElementById('appsPage').classList.add('active');
     document.getElementById('appsBtn').classList.add('active');
     if(cas)cas.style.display='none';
+  }else if(section==='pass'){
+    document.getElementById('passPage').classList.add('active');
+    document.getElementById('passBtn').classList.add('active');
+    if(cas)cas.style.display='none';
+    loadPassPage();
   }else if(section==='account'){
     document.getElementById('accountPage').classList.add('active');
     document.getElementById('accountBtn').classList.add('active');
@@ -2783,6 +3204,16 @@ function showSection(section){
     document.getElementById('friendsBtn').classList.add('active');
     if(cas)cas.style.display='none';
     loadFriends();
+  }else if(section==='pass'){
+    document.getElementById('passPage').classList.add('active');
+    document.getElementById('passBtn').classList.add('active');
+    if(cas)cas.style.display='none';
+    loadPassData();
+  }else if(section==='shop'){
+    document.getElementById('shopPage').classList.add('active');
+    document.getElementById('shopBtn').classList.add('active');
+    if(cas)cas.style.display='none';
+    renderShopGrid();
   }else if(section==='chat'){
     document.getElementById('chatPage').classList.add('active');
     document.getElementById('chatBtn').classList.add('active');
@@ -2996,6 +3427,554 @@ document.addEventListener('keydown', e=>{
 // MAIN APP INIT (unchanged)
 // ══════════════════════════════════════════════════════════════════
 
+
+// ══════════════════════════════════════════════════════════════════
+// MATHS PASS & SHOP SYSTEM
+// ══════════════════════════════════════════════════════════════════
+
+// ── DATA DEFINITIONS ──
+const PASS_LEVELS = [
+  { level:1, xp:0,   freeReward:{type:'coins',amount:10,label:'10 Coins',icon:'🪙'},   premReward:{type:'sticker_pack',id:'premium_basics',label:'Premium Basics',icon:'✨'} },
+  { level:2, xp:100, freeReward:{type:'sticker_pack',id:'basics',label:'Basic Pack',icon:'😄'},         premReward:{type:'tag',id:'star',label:'⭐ Star Tag',icon:'⭐'} },
+  { level:3, xp:250, freeReward:{type:'coins',amount:20,label:'20 Coins',icon:'🪙'},   premReward:{type:'pet_item',id:'hat_crown',label:'Crown Hat',icon:'👑'} },
+  { level:4, xp:450, freeReward:{type:'sticker_pack',id:'animals',label:'Animal Pack',icon:'🐾'},       premReward:{type:'tag',id:'fire',label:'🔥 Fire Tag',icon:'🔥'} },
+  { level:5, xp:700, freeReward:{type:'coins',amount:30,label:'30 Coins',icon:'🪙'},   premReward:{type:'sticker_pack',id:'premium_wild',label:'Wild Pack',icon:'🦁'} },
+  { level:6, xp:1000,freeReward:{type:'sticker_pack',id:'sports',label:'Sports Pack',icon:'⚽'},         premReward:{type:'tag',id:'ice',label:'❄️ Ice Tag',icon:'❄️'} },
+  { level:7, xp:1400,freeReward:{type:'coins',amount:50,label:'50 Coins',icon:'🪙'},   premReward:{type:'pet_item',id:'accessory_glasses',label:'Glasses',icon:'🕶️'} },
+  { level:8, xp:1900,freeReward:{type:'sticker_pack',id:'memes',label:'Meme Pack',icon:'😂'},           premReward:{type:'sticker_pack',id:'premium_hype',label:'Hype Pack',icon:'🔥'} },
+  { level:9, xp:2500,freeReward:{type:'coins',amount:75,label:'75 Coins',icon:'🪙'},   premReward:{type:'tag',id:'legend',label:'🏆 Legend Tag',icon:'🏆'} },
+  { level:10,xp:3200,freeReward:{type:'sticker_pack',id:'final',label:'Final Pack',icon:'🎊'},           premReward:{type:'pet_item',id:'costume_wizard',label:'Wizard Costume',icon:'🧙'} },
+];
+
+const STICKER_PACKS = {
+  basics:       { name:'Basics',    stickers:['😄','😂','🥰','😎','😭','🤔','👍','❤️','🔥','💀'] },
+  animals:      { name:'Animals',   stickers:['🐶','🐱','🐸','🦊','🐻','🐼','🦁','🐯','🐨','🐮'] },
+  sports:       { name:'Sports',    stickers:['⚽','🏀','🎮','🏆','🎯','🎲','🎳','🎸','🏄','🧗'] },
+  memes:        { name:'Memes',     stickers:['💅','🗿','😈','🤡','👀','🫡','🤌','💩','🫶','🫠'] },
+  final:        { name:'Final',     stickers:['🎊','🎉','🥳','🎆','✨','🌟','💫','🎁','🏅','👑'] },
+  premium_basics:{ name:'Premium',  stickers:['🦋','🌈','💎','🌙','⭐','🌺','🦚','🎭','🎪','🎠'] },
+  premium_wild: { name:'Wild',      stickers:['🦁','🐉','🦄','🐺','🦅','🦈','🦏','🦓','🦒','🦋'] },
+  premium_hype: { name:'Hype',      stickers:['🚀','💥','⚡','🌊','🔮','🪄','💣','🎯','🎪','🌀'] },
+};
+
+const SHOP_TAGS = [
+  { id:'ghost',   name:'Ghost',   icon:'👻', price:80,  css:'ghost',  desc:'Mysterious & spooky',       isPremium:false },
+  { id:'star',    name:'Star',    icon:'⭐', price:150, css:'star',   desc:'Shine bright',               isPremium:true  },
+  { id:'fire',    name:'Fire',    icon:'🔥', price:200, css:'fire',   desc:'Hot take',                   isPremium:true  },
+  { id:'ice',     name:'Ice',     icon:'❄️', price:200, css:'ice',    desc:'Cool as ever',               isPremium:true  },
+  { id:'legend',  name:'Legend',  icon:'🏆', price:350, css:'legend', desc:'For the best of the best',  isPremium:true  },
+];
+
+const SHOP_STICKER_PACKS = [
+  { id:'animals',  name:'Animal Pack',  icon:'🐾', price:50,  desc:'10 cute animals',  free:false },
+  { id:'sports',   name:'Sports Pack',  icon:'⚽', price:50,  desc:'10 sports stickers',free:false },
+  { id:'memes',    name:'Meme Pack',    icon:'😂', price:75,  desc:'10 dank memes',    free:false },
+  { id:'final',    name:'Party Pack',   icon:'🎊', price:100, desc:'10 celebration stickers',free:false },
+  { id:'premium_basics',name:'Premium Pack',icon:'✨',price:150,desc:'10 premium stickers',free:false },
+  { id:'premium_wild',name:'Wild Pack', icon:'🦁', price:175, desc:'10 wild stickers',  free:false },
+  { id:'premium_hype',name:'Hype Pack', icon:'🚀', price:200, desc:'10 hype stickers',  free:false },
+];
+
+const SHOP_PET_ITEMS = [
+  { id:'food_apple',   name:'Apple',        icon:'🍎', price:20,  desc:'Feed your pet! +20 happiness' },
+  { id:'food_cake',    name:'Birthday Cake',icon:'🎂', price:40,  desc:'Special treat! +40 happiness' },
+  { id:'toy_ball',     name:'Ball',          icon:'⚽', price:30,  desc:'Play toy! Your pet loves it' },
+  { id:'toy_yarn',     name:'Yarn Ball',     icon:'🧶', price:30,  desc:'Hours of fun!' },
+  { id:'hat_crown',    name:'Crown Hat',     icon:'👑', price:120, desc:'Make your pet royalty' },
+  { id:'accessory_glasses',name:'Cool Glasses',icon:'🕶️',price:80, desc:'Looking cool' },
+  { id:'costume_wizard',name:'Wizard Costume',icon:'🧙',price:200,desc:'Abracadabra!' },
+];
+
+// ── STATE ──
+let mathsCoins = 0;
+let passLevel = 1;
+let passXp = 0;
+let hasPremiumPass = false;
+let ownedTags = new Set(['ghost']); // ghost is free
+let ownedStickerPacks = new Set(['basics']); // basics always free
+let ownedPetItems = [];
+let equippedTag = null;
+let activeShopTab = 'tags';
+let petHappiness = 60;
+
+// ── PASS XP CONFIG ──
+function getXpForLevel(lvl){ return PASS_LEVELS[lvl-1]?.xp || 999999; }
+function getNextLevelXp(lvl){ return PASS_LEVELS[lvl]?.xp || getXpForLevel(lvl)+999; }
+
+// ── LOAD / SAVE ──
+async function loadPassData(){
+  if(!currentUser) return;
+  try{
+    const{data}=await sb.from('user_pass').select('*').eq('user_id',currentUser.id).maybeSingle();
+    if(data){
+      mathsCoins      = data.coins        || 10;
+      passLevel       = data.pass_level   || 1;
+      passXp          = data.pass_xp      || 0;
+      hasPremiumPass  = data.has_premium  || false;
+      ownedTags       = new Set(data.owned_tags       || ['ghost']);
+      ownedStickerPacks=new Set(data.owned_sticker_packs || ['basics']);
+      ownedPetItems   = data.owned_pet_items || [];
+      equippedTag     = data.equipped_tag || null;
+      petHappiness    = data.pet_happiness != null ? data.pet_happiness : 60;
+    } else {
+      // First time — create row with free defaults
+      await sb.from('user_pass').insert({
+        user_id: currentUser.id,
+        coins: 10, pass_level:1, pass_xp:0, has_premium:false,
+        owned_tags:['ghost'], owned_sticker_packs:['basics'],
+        owned_pet_items:[], equipped_tag:null, pet_happiness:60,
+        claimed_levels: []
+      });
+      mathsCoins=10; passLevel=1; passXp=0;
+      ownedTags=new Set(['ghost']); ownedStickerPacks=new Set(['basics']);
+      ownedPetItems=[]; equippedTag=null; petHappiness=60;
+    }
+    refreshAllPassUI();
+    renderActiveTag();
+  }catch(e){ console.warn('Pass load error:',e); }
+}
+
+async function savePassData(){
+  if(!currentUser) return;
+  try{
+    await sb.from('user_pass').upsert({
+      user_id:      currentUser.id,
+      coins:        mathsCoins,
+      pass_level:   passLevel,
+      pass_xp:      passXp,
+      has_premium:  hasPremiumPass,
+      owned_tags:   [...ownedTags],
+      owned_sticker_packs: [...ownedStickerPacks],
+      owned_pet_items: ownedPetItems,
+      equipped_tag: equippedTag,
+      pet_happiness: petHappiness,
+      updated_at:   new Date().toISOString()
+    },{onConflict:'user_id'});
+  }catch(e){ console.warn('Pass save error:',e); }
+}
+
+// ── EARN XP / COINS ──
+async function earnPassXp(amount, reason){
+  if(!currentUser) return;
+  const mult = hasPremiumPass ? 2 : 1;
+  passXp += amount * mult;
+  // Coin reward per XP
+  mathsCoins += Math.floor(amount * mult * 0.1);
+  // Level up check
+  while(passLevel < PASS_LEVELS.length){
+    const nextXp = getNextLevelXp(passLevel);
+    if(passXp >= nextXp){ passLevel++; onLevelUp(passLevel); }
+    else break;
+  }
+  refreshAllPassUI();
+  await savePassData();
+}
+
+function onLevelUp(newLevel){
+  showToast('🎉 Level '+newLevel+' unlocked!');
+  showCoinsToast('+'+newLevel*5+' coins for levelling up!');
+  mathsCoins += newLevel * 5;
+  // Grant free reward
+  const lvlData = PASS_LEVELS[newLevel-1];
+  if(lvlData){
+    grantReward(lvlData.freeReward, false);
+    if(hasPremiumPass) grantReward(lvlData.premReward, true);
+  }
+}
+
+function grantReward(reward, isPremium){
+  if(!reward) return;
+  if(reward.type==='coins'){
+    mathsCoins += reward.amount;
+    showCoinsToast('+'+reward.amount+' Maths Coins!');
+  } else if(reward.type==='sticker_pack'){
+    ownedStickerPacks.add(reward.id);
+    showToast('🎁 Unlocked: '+reward.label+'!');
+  } else if(reward.type==='tag'){
+    ownedTags.add(reward.id);
+    showToast('🏷️ New tag unlocked: '+reward.label+'!');
+  } else if(reward.type==='pet_item'){
+    if(!ownedPetItems.includes(reward.id)) ownedPetItems.push(reward.id);
+    showToast('🐾 Pet item unlocked: '+reward.label+'!');
+  }
+}
+
+function showCoinsToast(msg){
+  let t=document.getElementById('coinsToast');
+  if(!t){t=document.createElement('div');t.id='coinsToast';t.className='coins-toast';document.body.appendChild(t);}
+  t.textContent='🪙 '+msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── UI REFRESH ──
+function refreshAllPassUI(){
+  // Coins displays
+  const coinsEls = ['passCoinsHero','shopCoinsDisplay'];
+  coinsEls.forEach(id=>{ const el=document.getElementById(id); if(el)el.textContent=mathsCoins; });
+  renderPassTrack();
+  renderPassPetSection();
+  renderActiveTag();
+  updateEquippedTagBadge();
+}
+
+function renderPassTrack(){
+  const el=document.getElementById('passLevels');
+  if(!el) return;
+  el.innerHTML='';
+  PASS_LEVELS.forEach((lv,i)=>{
+    const unlocked = passLevel > lv.level;
+    const current  = passLevel === lv.level;
+    const div=document.createElement('div');
+    div.className='pass-level'+(unlocked?' unlocked':'')+(current?' current':' locked');
+    div.innerHTML=`<div class="pass-level-circle">${unlocked?'✓':lv.level}</div>
+      <div class="pass-level-reward" title="${lv.freeReward.label}">${lv.freeReward.icon}</div>
+      <div class="pass-level-label">Lv.${lv.level}</div>`;
+    div.title=`Level ${lv.level}: ${lv.freeReward.label}`;
+    el.appendChild(div);
+  });
+  // XP bar
+  const curLvData  = PASS_LEVELS[passLevel-1];
+  const nextLvData = PASS_LEVELS[passLevel];
+  const curXp  = curLvData?.xp  || 0;
+  const nextXp = nextLvData?.xp || curXp+1000;
+  const pct    = Math.min(100, Math.round(((passXp-curXp)/(nextXp-curXp))*100));
+  const el2=document.getElementById('passCurrentLevel');if(el2)el2.textContent=passLevel;
+  const xpInfo=document.getElementById('passXpInfo');if(xpInfo)xpInfo.textContent=passXp+' / '+nextXp+' XP';
+  const xpFill=document.getElementById('passXpFill');if(xpFill)xpFill.style.width=pct+'%';
+  const xpNext=document.getElementById('passXpNext');if(xpNext)xpNext.textContent='Lv.'+(passLevel+1);
+  // Premium button
+  const pb=document.getElementById('premiumPassBtn');
+  if(pb){ if(hasPremiumPass){pb.textContent='⭐ Premium Active';pb.disabled=true;}
+  else{pb.textContent='⭐ Upgrade — 500 Coins';pb.disabled=false;} }
+}
+
+function renderActiveTag(){
+  const tag = equippedTag ? SHOP_TAGS.find(t=>t.id===equippedTag) : null;
+  const nameEl=document.getElementById('activeTagName');
+  const emojiEl=document.getElementById('activeTagEmoji');
+  if(tag){
+    if(nameEl)nameEl.textContent=tag.icon+' '+tag.name+' Tag';
+    if(emojiEl)emojiEl.textContent=tag.icon;
+  } else {
+    if(nameEl)nameEl.textContent='No tag equipped';
+    if(emojiEl)emojiEl.textContent='🏷️';
+  }
+}
+
+function updateEquippedTagBadge(){
+  // Update user badge + account page name with tag
+  if(!currentProfile) return;
+  const name = currentProfile.display_name||currentProfile.username||'User';
+  const tag = equippedTag ? SHOP_TAGS.find(t=>t.id===equippedTag) : null;
+  const badgeHtml = tag ? `<span class="role-badge ${tag.css}">${tag.icon} ${tag.name}</span>` : '';
+  // update chat list items that show our name
+  document.querySelectorAll('.cli-name').forEach(el=>{
+    if(el.dataset.isMe==='true') el.innerHTML=name+badgeHtml;
+  });
+}
+
+// ── PASS ACTIONS ──
+function claimFreePass(){
+  showToast('✅ Free Pass is already active!');
+}
+
+async function buyPremiumPass(){
+  if(hasPremiumPass){ showToast('⭐ You already have Premium!'); return; }
+  if(mathsCoins < 500){ showCoinsToast('Need 500 coins — you have '+mathsCoins); return; }
+  mathsCoins -= 500;
+  hasPremiumPass = true;
+  // Grant all premium level rewards up to current level
+  for(let i=0;i<passLevel;i++){
+    if(PASS_LEVELS[i]) grantReward(PASS_LEVELS[i].premReward, true);
+  }
+  showToast('⭐ Premium Pass activated! All premium rewards unlocked!');
+  refreshAllPassUI();
+  await savePassData();
+}
+
+// ── SHOP ──
+function switchShopTab(tab){
+  activeShopTab=tab;
+  document.querySelectorAll('.shop-tab').forEach((b,i)=>{
+    b.classList.toggle('active',['tags','stickers','pet'][i]===tab);
+  });
+  renderShopGrid();
+}
+
+function renderShopGrid(){
+  const grid=document.getElementById('shopGrid');
+  if(!grid) return;
+  grid.innerHTML='';
+  if(activeShopTab==='tags'){
+    SHOP_TAGS.forEach(tag=>{
+      const owned=ownedTags.has(tag.id);
+      const equipped=equippedTag===tag.id;
+      const canAfford=mathsCoins>=tag.price;
+      const needsPremium=tag.isPremium&&!hasPremiumPass;
+      const item=document.createElement('div');
+      item.className='shop-item tag-item'+(owned?' owned':'');
+      item.innerHTML=`
+        <div class="shop-item-preview" style="${owned?'background:linear-gradient(135deg,#f0fdf4,#dcfce7)':''}">${tag.icon}</div>
+        <div class="shop-item-info">
+          <div class="shop-item-name">${tag.name} Tag <span class="role-badge ${tag.css}">${tag.icon} ${tag.name}</span></div>
+          <div class="shop-item-desc">${tag.desc}${needsPremium?' · ⭐ Premium required':''}</div>
+          <div class="shop-item-footer">
+            <div class="shop-item-price${tag.price===0?' free':''}">🪙 ${tag.price}</div>
+            ${owned
+              ? `<button class="shop-buy-btn ${equipped?'owned':''}" onclick="equipTag('${tag.id}')">${equipped?'✅ Equipped':'Equip'}</button>`
+              : `<button class="shop-buy-btn ${canAfford&&!needsPremium?'buy':'locked'}" onclick="buyTag('${tag.id}')">${needsPremium?'🔒 Premium':'Buy'}</button>`
+            }
+          </div>
+        </div>`;
+      grid.appendChild(item);
+    });
+  } else if(activeShopTab==='stickers'){
+    SHOP_STICKER_PACKS.forEach(pack=>{
+      const owned=ownedStickerPacks.has(pack.id);
+      const canAfford=mathsCoins>=pack.price;
+      const item=document.createElement('div');
+      item.className='shop-item'+(owned?' owned':'');
+      item.innerHTML=`
+        <div class="shop-item-preview">${pack.icon}</div>
+        <div class="shop-item-info">
+          <div class="shop-item-name">${pack.name}</div>
+          <div class="shop-item-desc">${pack.desc}</div>
+          <div class="shop-item-footer">
+            <div class="shop-item-price">🪙 ${pack.price}</div>
+            ${owned
+              ? '<button class="shop-buy-btn owned">✅ Owned</button>'
+              : `<button class="shop-buy-btn ${canAfford?'buy':'locked'}" onclick="buyStickerPack('${pack.id}')">${canAfford?'Buy':'Need '+pack.price+'🪙'}</button>`
+            }
+          </div>
+        </div>`;
+      grid.appendChild(item);
+    });
+  } else if(activeShopTab==='pet'){
+    SHOP_PET_ITEMS.forEach(petItem=>{
+      const owned=ownedPetItems.includes(petItem.id)&&!petItem.id.startsWith('food')&&!petItem.id.startsWith('toy');
+      const canAfford=mathsCoins>=petItem.price;
+      const item=document.createElement('div');
+      item.className='shop-item pet-item'+(owned?' owned':'');
+      item.innerHTML=`
+        <div class="shop-item-preview">${petItem.icon}</div>
+        <div class="shop-item-info">
+          <div class="shop-item-name">${petItem.name}</div>
+          <div class="shop-item-desc">${petItem.desc}</div>
+          <div class="shop-item-footer">
+            <div class="shop-item-price">🪙 ${petItem.price}</div>
+            ${owned
+              ? '<button class="shop-buy-btn owned">✅ Owned</button>'
+              : `<button class="shop-buy-btn ${canAfford?'buy':'locked'}" onclick="buyPetItem('${petItem.id}')">${canAfford?'Buy':'Need '+petItem.price+'🪙'}</button>`
+            }
+          </div>
+        </div>`;
+      grid.appendChild(item);
+    });
+  }
+}
+
+async function buyTag(id){
+  const tag=SHOP_TAGS.find(t=>t.id===id);
+  if(!tag) return;
+  if(tag.isPremium&&!hasPremiumPass){ showToast('⭐ Premium Pass required!'); return; }
+  if(mathsCoins<tag.price){ showCoinsToast('Need '+tag.price+' coins — you have '+mathsCoins); return; }
+  mathsCoins-=tag.price; ownedTags.add(id);
+  showToast('✅ '+tag.name+' Tag unlocked!');
+  refreshAllPassUI(); renderShopGrid(); await savePassData();
+}
+
+async function equipTag(id){
+  equippedTag=(equippedTag===id)?null:id;
+  // Save to users table for display in chat
+  if(currentUser){
+    await sb.from('users').update({role:equippedTag}).eq('id',currentUser.id);
+    if(currentProfile) currentProfile.role=equippedTag;
+  }
+  const tag=SHOP_TAGS.find(t=>t.id===id);
+  showToast(equippedTag?'🏷️ Equipped: '+(tag?.name||id)+' Tag':'🏷️ Tag removed');
+  refreshAllPassUI(); renderShopGrid(); await savePassData();
+}
+
+async function buyStickerPack(id){
+  const pack=SHOP_STICKER_PACKS.find(p=>p.id===id);
+  if(!pack) return;
+  if(mathsCoins<pack.price){ showCoinsToast('Need '+pack.price+' coins — you have '+mathsCoins); return; }
+  mathsCoins-=pack.price; ownedStickerPacks.add(id);
+  showToast('🎉 '+pack.name+' unlocked!');
+  refreshAllPassUI(); renderShopGrid(); renderStickerPicker(); await savePassData();
+}
+
+async function buyPetItem(id){
+  const item=SHOP_PET_ITEMS.find(p=>p.id===id);
+  if(!item) return;
+  if(mathsCoins<item.price){ showCoinsToast('Need '+item.price+' coins — you have '+mathsCoins); return; }
+  mathsCoins-=item.price;
+  // Consumables (food/toys) can be bought multiple times
+  if(id.startsWith('food')||id.startsWith('toy')){
+    if(id.startsWith('food')){
+      petHappiness=Math.min(100,petHappiness+(id==='food_cake'?40:20));
+      renderPassPetSection();
+      showToast(item.icon+' Your pet loved it! +'+((id==='food_cake'?40:20))+' happiness');
+    } else {
+      showToast(item.icon+' Your pet is playing with the '+item.name+'!');
+      petAction('play');
+    }
+  } else {
+    if(!ownedPetItems.includes(id)) ownedPetItems.push(id);
+    showToast('🎁 '+item.name+' added to your pet!');
+  }
+  refreshAllPassUI(); renderShopGrid(); await savePassData();
+}
+
+// ── PET PLAY SECTION ──
+let petBubbleTimeout=null;
+let petDancing=false;
+
+function renderPassPetSection(){
+  if(!currentStreakData&&passLevel<1) return;
+  const xp=(currentStreakData?.xp)||0;
+  const streak=(currentStreakData?.streak)||0;
+  const stage=getPetStage(xp);
+  const pet=PET_STAGES[stage];
+  const petName=currentStreakData?.pet_name||pet.name;
+
+  const charEl=document.getElementById('petPlayChar');
+  const nameEl=document.getElementById('playPetName');
+  if(charEl) charEl.textContent=pet.emoji;
+  if(nameEl) nameEl.textContent=petName;
+
+  // Happiness bar
+  const hapFill=document.getElementById('petHappinessFill');
+  const hapEmoji=document.getElementById('petHappinessEmoji');
+  if(hapFill) hapFill.style.width=petHappiness+'%';
+  if(hapEmoji){
+    if(petHappiness>=80) hapEmoji.textContent='😄';
+    else if(petHappiness>=50) hapEmoji.textContent='😊';
+    else if(petHappiness>=25) hapEmoji.textContent='😐';
+    else hapEmoji.textContent='😢';
+  }
+}
+
+function showPetBubble(msg){
+  const b=document.getElementById('petBubble');
+  if(!b) return;
+  b.textContent=msg;b.classList.add('show');
+  clearTimeout(petBubbleTimeout);
+  petBubbleTimeout=setTimeout(()=>b.classList.remove('show'),2500);
+}
+
+function petArenaClick(e){
+  const char=document.getElementById('petPlayChar');
+  if(!char) return;
+  char.classList.remove('jump');void char.offsetWidth;char.classList.add('jump');
+  const msgs=['Wheee!','Again!','More!','Yay!','Fun!'];
+  showPetBubble(msgs[Math.floor(Math.random()*msgs.length)]);
+  setTimeout(()=>char.classList.remove('jump'),400);
+}
+
+async function petAction(action){
+  const char=document.getElementById('petPlayChar');
+  const msgs={
+    feed:  ['Yummy!','So good!','More please!','🍎 Delicious!'],
+    play:  ['Woohoo!','This is fun!','Faster!','I love this!'],
+    pet:   ['Purr...','So cozy!','I love you!','❤️'],
+    dance: ['♪ La la la!',"I'm a dancer!",'Wooo!','♫'],
+  };
+  const m=msgs[action];
+  showPetBubble(m[Math.floor(Math.random()*m.length)]);
+  if(action==='dance'){
+    if(!char) return;
+    petDancing=!petDancing;
+    char.classList.toggle('dance',petDancing);
+  } else if(action==='feed'){
+    petHappiness=Math.min(100,petHappiness+15);
+    mathsCoins=Math.max(0,mathsCoins-0); // feeding is free
+  } else if(action==='play'){
+    petHappiness=Math.min(100,petHappiness+10);
+    earnPassXp(5,'pet play');
+  } else if(action==='pet'){
+    petHappiness=Math.min(100,petHappiness+8);
+  }
+  renderPassPetSection();
+  await savePassData();
+}
+
+// ── STICKERS ──
+let stickerPickerOpen=false;
+
+function getStickerPackTabs(){
+  // Return owned packs in a nice order
+  const order=['basics','animals','sports','memes','final','premium_basics','premium_wild','premium_hype'];
+  return order.filter(id=>ownedStickerPacks.has(id));
+}
+
+let activeStickerTab='basics';
+
+function renderStickerPicker(){
+  const tabsEl=document.getElementById('stickerPickerTabs');
+  const gridEl=document.getElementById('stickerGrid');
+  if(!tabsEl||!gridEl) return;
+  const tabs=getStickerPackTabs();
+  if(!tabs.length){ gridEl.innerHTML='<div style="color:rgba(255,255,255,.4);font-size:.8em;padding:20px;text-align:center">No stickers yet!<br>Level up or visit the Shop</div>'; return; }
+  if(!tabs.includes(activeStickerTab)) activeStickerTab=tabs[0];
+  tabsEl.innerHTML='';
+  tabs.forEach(id=>{
+    const pack=STICKER_PACKS[id];
+    const btn=document.createElement('button');
+    btn.className='sp-tab'+(id===activeStickerTab?' active':'');
+    btn.textContent=pack.name;
+    btn.onclick=()=>{ activeStickerTab=id; renderStickerPicker(); };
+    tabsEl.appendChild(btn);
+  });
+  const pack=STICKER_PACKS[activeStickerTab];
+  gridEl.innerHTML='';
+  pack.stickers.forEach(s=>{
+    const btn=document.createElement('button');
+    btn.className='sticker-cell';
+    btn.textContent=s;
+    btn.onclick=()=>sendSticker(s);
+    gridEl.appendChild(btn);
+  });
+}
+
+function toggleStickerPicker(e){
+  e.stopPropagation();
+  const picker=document.getElementById('stickerPicker');
+  stickerPickerOpen=!stickerPickerOpen;
+  picker.classList.toggle('open',stickerPickerOpen);
+  if(stickerPickerOpen) renderStickerPicker();
+}
+
+document.addEventListener('click',function(e){
+  const picker=document.getElementById('stickerPicker');
+  const btn=document.getElementById('stickerBtn');
+  if(picker&&btn&&!picker.contains(e.target)&&e.target!==btn){
+    stickerPickerOpen=false;picker.classList.remove('open');
+  }
+});
+
+async function sendSticker(emoji){
+  if(!activeChatFriendId) return;
+  stickerPickerOpen=false;
+  document.getElementById('stickerPicker')?.classList.remove('open');
+  const{data,error}=await sb.from('messages').insert({
+    sender_id:currentUser.id, receiver_id:activeChatFriendId,
+    content:'STICKER:'+emoji, status:'sending'
+  }).select().single();
+  if(!error&&data){
+    appendBubble(data);
+    lastMsgId=data.id;
+    const container=document.getElementById('chatMessages');
+    container.scrollTop=container.scrollHeight;
+    await sb.from('messages').update({status:'sent'}).eq('id',data.id);
+    const tick=document.getElementById('tick-'+data.id);
+    if(tick)tick.className='msg-tick sent';
+    updateStreak(activeChatFriendId);
+    earnPassXp(2,'sent sticker');
+  }
+}
+
+
 // ══════════════════════════════════════════════════════════════════
 // CHANGE PASSWORD
 // ══════════════════════════════════════════════════════════════════
@@ -3204,6 +4183,192 @@ document.getElementById('petNameInput')?.addEventListener('keydown',function(e){
   if(e.key==='Enter') savePetName();
   if(e.key==='Escape') closePetModal();
 });
+
+
+
+// ══════════════════════════════════════════════════════════════════
+// MATHS PASS
+// ══════════════════════════════════════════════════════════════════
+
+const PASS_TIERS = [
+  {
+    id: 'free',
+    name: 'Maths Pass',
+    label: 'Free',
+    icon: '🎫',
+    price: 'Free',
+    priceSub: 'forever',
+    desc: 'The standard pass — included for everyone automatically.',
+    color: 'linear-gradient(135deg,#667eea,#764ba2)',
+    badgeLabel: 'FREE',
+    cardClass: 'free',
+    features: [
+      { text: 'Access to all games', has: true },
+      { text: 'Chat with friends', has: true },
+      { text: 'Streak & pet system', has: true },
+      { text: 'Custom links', has: true },
+      { text: 'Friend profiles', has: true },
+      { text: 'Priority support', has: false },
+      { text: 'Exclusive badge', has: false },
+      { text: 'Early access to new features', has: false },
+    ]
+  },
+  {
+    id: 'premium',
+    name: 'Maths Pass',
+    label: 'Premium',
+    icon: '⭐',
+    price: '£2.99',
+    priceSub: '/ month',
+    desc: 'Extra perks for dedicated users.',
+    color: 'linear-gradient(135deg,#f39c12,#e67e22)',
+    badgeLabel: 'PREMIUM',
+    cardClass: 'premium',
+    popular: true,
+    features: [
+      { text: 'Everything in Free', has: true },
+      { text: 'Priority support', has: true },
+      { text: 'Exclusive ⭐ VIP badge', has: true },
+      { text: 'Custom pet colours (soon)', has: true },
+      { text: 'Early access to new features', has: false },
+      { text: 'Admin tools (soon)', has: false },
+    ]
+  },
+  {
+    id: 'pro',
+    name: 'Maths Pass',
+    label: 'Pro',
+    icon: '👑',
+    price: '£5.99',
+    priceSub: '/ month',
+    desc: 'The ultimate Maths Support experience.',
+    color: 'linear-gradient(135deg,#f64f59,#c0392b)',
+    badgeLabel: 'PRO',
+    cardClass: 'pro',
+    features: [
+      { text: 'Everything in Premium', has: true },
+      { text: 'Early access to all features', has: true },
+      { text: 'Exclusive 👑 badge', has: true },
+      { text: 'Custom pet (soon)', has: true },
+      { text: 'Admin tools (soon)', has: true },
+    ]
+  }
+];
+
+let currentPassTier = 'free';
+
+async function loadPassPage(){
+  if(!currentUser){ return; }
+
+  // Try to load from DB, auto-claim free if missing
+  try{
+    const{data,error}=await sb.from('user_passes').select('*').eq('user_id',currentUser.id).maybeSingle();
+    if(!data){
+      // Auto-claim free pass
+      await sb.from('user_passes').insert({
+        user_id: currentUser.id,
+        tier: 'free',
+        claimed_at: new Date().toISOString()
+      });
+      currentPassTier='free';
+    } else {
+      currentPassTier = data.tier || 'free';
+    }
+  }catch(e){
+    // Table may not exist yet — default to free
+    currentPassTier='free';
+  }
+
+  renderPassPage();
+}
+
+function renderPassPage(){
+  const tier = PASS_TIERS.find(t=>t.id===currentPassTier) || PASS_TIERS[0];
+  const name = currentProfile?.display_name || currentProfile?.username || 'User';
+  const username = currentProfile?.username || 'user';
+
+  // Card visual
+  const card = document.getElementById('passCardVisual');
+  card.style.background = tier.color;
+  card.style.boxShadow = currentPassTier==='premium'
+    ? '0 12px 40px rgba(243,156,18,.4)'
+    : currentPassTier==='pro'
+    ? '0 12px 40px rgba(246,79,89,.4)'
+    : '0 12px 40px rgba(102,126,234,.4)';
+  document.getElementById('pcvType').textContent = tier.label.toUpperCase() + ' PASS';
+  document.getElementById('pcvName').textContent = name.toUpperCase();
+  document.getElementById('pcvSub').textContent = '@' + username;
+  document.getElementById('pcvBadge').textContent = tier.badgeLabel;
+  // Member since
+  const joined = currentProfile?.created_at;
+  if(joined){
+    const d=new Date(joined);
+    document.getElementById('pcvSince').textContent='Member since '+d.toLocaleDateString('en-GB',{month:'short',year:'numeric'});
+  }
+
+  // Current pass card
+  const iconEl=document.getElementById('passCurrentIcon');
+  iconEl.textContent=tier.icon;
+  iconEl.className='pass-current-icon '+tier.cardClass;
+  document.getElementById('passCurrentName').textContent='Maths Pass — '+tier.label;
+
+  // Perks grid
+  const grid=document.getElementById('passPerksGrid');
+  grid.innerHTML='';
+  tier.features.forEach(f=>{
+    const div=document.createElement('div');
+    div.className='pass-perk-item'+(f.has?'':' locked');
+    div.innerHTML=`<span class="perk-icon">${f.has?'✅':'🔒'}</span><span>${f.text}</span>`;
+    grid.appendChild(div);
+  });
+
+  // Tier cards
+  const tiersGrid=document.getElementById('passTiersGrid');
+  tiersGrid.innerHTML='';
+  PASS_TIERS.forEach(t=>{
+    const isCurrent = t.id===currentPassTier;
+    const card=document.createElement('div');
+    card.className='pass-tier-card'+(isCurrent?' current-tier':'')+(t.popular?' popular':'');
+    const featuresHTML=t.features.map(f=>
+      `<li class="${f.has?'has':'no'}">${f.text}</li>`
+    ).join('');
+    let btnHTML;
+    if(isCurrent){
+      btnHTML=`<button class="pass-tier-btn current-btn" disabled>✓ Your Current Pass</button>`;
+    } else if(t.id==='free'){
+      btnHTML=`<button class="pass-tier-btn locked-btn" disabled>Free for all</button>`;
+    } else {
+      btnHTML=`<button class="pass-tier-btn active-btn" onclick="upgradePass('${t.id}')">Get ${t.label} →</button>`;
+    }
+    card.innerHTML=`
+      ${t.popular?'<div class="popular-badge">Most Popular</div>':''}
+      <span class="pass-tier-icon">${t.icon}</span>
+      <div class="pass-tier-name">Maths Pass ${t.label}</div>
+      <div class="pass-tier-price">${t.price} <span>${t.priceSub}</span></div>
+      <div class="pass-tier-desc">${t.desc}</div>
+      <ul class="pass-tier-features">${featuresHTML}</ul>
+      ${btnHTML}
+    `;
+    tiersGrid.appendChild(card);
+  });
+}
+
+async function upgradePass(tierId){
+  // In production you'd redirect to a payment flow here.
+  // For now show a coming soon toast.
+  showToast('💳 Payments coming soon! Stay tuned.');
+}
+
+// Auto-claim free pass silently on sign-in
+async function autoClaimFreePass(){
+  if(!currentUser) return;
+  try{
+    const{data}=await sb.from('user_passes').select('id').eq('user_id',currentUser.id).maybeSingle();
+    if(!data){
+      await sb.from('user_passes').insert({user_id:currentUser.id,tier:'free',claimed_at:new Date().toISOString()});
+    }
+  }catch(e){}
+}
 
 
 async function runAppInit(){
