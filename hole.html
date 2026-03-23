@@ -216,41 +216,47 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 @media(max-width:1100px){.games-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:768px){.games-grid{grid-template-columns:repeat(2,1fr)}.main-content{padding:20px}}
 @media(max-width:500px){.games-grid{grid-template-columns:1fr}}
-/* ── GAME CARD (dual-button) ── */
-.game-button{background:#fff;border:none;border-radius:15px;padding:0;cursor:default;transition:transform .3s,box-shadow .3s;box-shadow:0 4px 6px rgba(0,0,0,.1);overflow:hidden;position:relative;display:flex;flex-direction:column;}
-.game-button:hover{transform:translateY(-4px);box-shadow:0 10px 22px rgba(0,0,0,.18)}
-.game-thumb{position:relative;width:100%;padding-top:62%;overflow:hidden;flex-shrink:0}
-.game-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:linear-gradient(135deg,#667eea,#764ba2);display:block}
-.game-info{padding:10px 12px 6px;flex:1}
-.game-button h3{color:#222;font-size:.93em;margin:0 0 2px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.game-button p{color:#888;font-size:.74em;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* dual launch buttons */
-.game-launch-btns{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #eee;flex-shrink:0}
-.glb{padding:9px 4px;font-size:.75em;font-weight:700;border:none;cursor:pointer;transition:background .18s,filter .18s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:4px;letter-spacing:.2px}
-.glb.newtab{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:0 0 0 15px}
-.glb.newtab:hover{filter:brightness(1.13)}
-.glb.blob{background:#f0f4ff;color:#5469d4;border-left:1px solid #e0e8ff;border-radius:0 0 15px 0}
-.glb.blob:hover{background:#dde7ff}
-/* game container / frame */
-.game-container{max-width:1200px;margin:0 auto;background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.3);display:none}
+/* ── GAME CARDS ── */
+.game-button{background:#fff;border:none;border-radius:15px;padding:0;cursor:default;transition:transform .25s,box-shadow .25s;box-shadow:0 3px 10px rgba(0,0,0,.12);overflow:hidden;position:relative;display:flex;flex-direction:column;}
+.game-button:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(0,0,0,.2)}
+.game-thumb{position:relative;width:100%;padding-top:58%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#667eea,#764ba2)}
+.game-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.game-info{padding:10px 13px 7px;flex:1;min-width:0}
+.game-button h3{color:#1a1a2e;font-size:.88em;margin:0 0 2px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-button p{color:#888;font-size:.72em;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* ── dual launch bar ── */
+.game-launch-btns{display:grid;grid-template-columns:1fr 1fr;flex-shrink:0}
+.glb{padding:10px 6px;font-size:.76em;font-weight:700;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;transition:filter .15s,background .15s;white-space:nowrap}
+.glb.embed{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:0 0 0 14px}
+.glb.embed:hover{filter:brightness(1.12)}
+.glb.proxy{background:#eef1ff;color:#4f5fcc;border-left:1px solid #dde3ff;border-radius:0 0 14px 0}
+.glb.proxy:hover{background:#dce3ff}
+/* ── game viewer ── */
+.game-container{max-width:1200px;margin:0 auto;background:#000;border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4);display:none}
 .game-container.active{display:block}
-.game-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:20px;display:flex;justify-content:space-between;align-items:center}
-.game-header h2{font-size:1.5em}
-.close-button,.fullscreen-button{background:rgba(255,255,255,.2);border:none;color:#fff;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:1em;transition:background .3s;margin-left:10px;font-family:inherit}
+.game-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-shrink:0}
+.game-header h2{font-size:1.2em;font-weight:800;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-controls{display:flex;gap:8px;flex-shrink:0}
+.close-button,.fullscreen-button{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.88em;font-weight:700;transition:background .2s;font-family:inherit;white-space:nowrap}
 .close-button:hover,.fullscreen-button:hover{background:rgba(255,255,255,.3)}
-.game-controls{display:flex;gap:10px}
-.game-frame{width:100%;height:600px;border:none;background:#111;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.game-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-.game-container:fullscreen{background:#000}
+/* the actual game display area */
+.game-frame{width:100%;height:calc(100vh - 160px);min-height:500px;background:#111;position:relative;overflow:hidden}
+.game-frame iframe.gf-iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
 .game-container:fullscreen .game-frame{height:100vh}
 .game-container:fullscreen .game-header{display:none}
-/* blob loader overlay */
-.blob-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#111;color:#fff;z-index:10;gap:14px}
-.blob-spinner{width:48px;height:48px;border:4px solid rgba(255,255,255,.1);border-top-color:#667eea;border-radius:50%;animation:blobSpin .7s linear infinite}
-@keyframes blobSpin{to{transform:rotate(360deg)}}
-.blob-loading p{font-size:.9em;color:rgba(255,255,255,.5);text-align:center;max-width:300px;line-height:1.6}
-.blob-loading .blob-err{color:#f87171;font-size:.85em;text-align:center;max-width:320px;line-height:1.5}
-.blob-loading .blob-fallback-btn{margin-top:6px;padding:11px 22px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:10px;color:#fff;font-size:.88em;font-weight:700;cursor:pointer;font-family:inherit}
+/* ── in-frame overlays ── */
+.gf-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0d0d1a;color:#fff;gap:16px;padding:30px;z-index:5}
+.gf-spinner{width:52px;height:52px;border:4px solid rgba(255,255,255,.08);border-top-color:#667eea;border-radius:50%;animation:gfSpin .75s linear infinite;flex-shrink:0}
+@keyframes gfSpin{to{transform:rotate(360deg)}}
+.gf-title{font-size:1.1em;font-weight:800;color:#fff;text-align:center}
+.gf-sub{font-size:.85em;color:rgba(255,255,255,.45);text-align:center;max-width:340px;line-height:1.6}
+.gf-step{font-size:.78em;color:#667eea;font-weight:700;text-align:center;letter-spacing:.3px}
+.gf-err{font-size:.82em;color:#f87171;text-align:center;max-width:360px;line-height:1.6;background:rgba(246,79,89,.08);border:1px solid rgba(246,79,89,.2);border-radius:10px;padding:12px 16px}
+.gf-btn{padding:12px 26px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:11px;color:#fff;font-size:.9em;font-weight:700;cursor:pointer;font-family:inherit;transition:filter .2s}
+.gf-btn:hover{filter:brightness(1.1)}
+.gf-btn.secondary{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+.gf-btn.secondary:hover{background:rgba(255,255,255,.14);color:#fff}
+.gf-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 
 /* ── APPS PAGE ── */
 .apps-page{display:none;max-width:1400px;margin:0 auto}
@@ -1192,34 +1198,34 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
   <!-- GAMES GRID -->
   <div class="games-grid" id="gamesGrid">
     <div class="no-results" id="noResults">🔍 No games found matching your search</div>
-    <button class="game-button"><div class="game-thumb"><img src=" img/drive-mad.png" alt="Drive Mad" class="game-image"></div><div class="game-info"><h3>🏎️ Drive Mad</h3><p>Racing car vehicle game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Drive Mad','https://games.playtropolis.com/drive-mad-v2/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Drive Mad','https://games.playtropolis.com/drive-mad-v2/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/polytrack.png" alt="Poly Track" class="game-image"></div><div class="game-info"><h3>🏁 Poly Track</h3><p>Racing car vehicle game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Poly Track','https://arcadrome.com/embed/polytrack')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Poly Track','https://arcadrome.com/embed/polytrack')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/odd-bot-out.png" alt="Odd Bot Out" class="game-image"></div><div class="game-info"><h3>🤖 Odd Bot Out</h3><p>Robot puzzle game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Odd Bot Out','https://games.playtropolis.com/odd-bot-out/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Odd Bot Out','https://games.playtropolis.com/odd-bot-out/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/stunt-bike-extreme.png" alt="Stunt Bike Extreme" class="game-image"></div><div class="game-info"><h3>🏍️ Stunt Bike Extreme</h3><p>Motorcycle tricks and stunts</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Stunt Bike Extreme','https://games.playtropolis.com/stunt-bike-extreme/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Stunt Bike Extreme','https://games.playtropolis.com/stunt-bike-extreme/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/subway-surfers.png" alt="Subway Surfers" class="game-image"></div><div class="game-info"><h3>🚇 Subway Surfers</h3><p>Endless running game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Subway Surfers','https://arcadrome.com/embed/subway-surfers')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Subway Surfers','https://arcadrome.com/embed/subway-surfers')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/monkey-markt.png" alt="Monkey Mart" class="game-image"></div><div class="game-info"><h3>🐵 Monkey Mart</h3><p>Store management game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Monkey Mart','https://games.playtropolis.com/monkey-mart/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Monkey Mart','https://games.playtropolis.com/monkey-mart/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/house-of-hazards.png" alt="House Of Hazards" class="game-image"></div><div class="game-info"><h3>🏠 House Of Hazards</h3><p>Obstacle fun game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('House Of Hazards','https://games.playtropolis.com/house-of-hazards/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('House Of Hazards','https://games.playtropolis.com/house-of-hazards/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/tiny-fishing.png" alt="Tiny Fishing" class="game-image"></div><div class="game-info"><h3>🎣 Tiny Fishing</h3><p>Fish in the ocean</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Tiny Fishing','https://games.playtropolis.com/tiny-fishing/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Tiny Fishing','https://games.playtropolis.com/tiny-fishing/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/basketball-legends.png" alt="Basketball Legends" class="game-image"></div><div class="game-info"><h3>🏀 Basketball Legends</h3><p>Sports basketball game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Basketball Legends','https://games.playtropolis.com/basketball-stars/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Basketball Legends','https://games.playtropolis.com/basketball-stars/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/short-life.png" alt="Short Life" class="game-image"></div><div class="game-info"><h3>💀 Short Life</h3><p>Fun obstacle game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Short Life','https://games.playtropolis.com/short-life/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Short Life','https://games.playtropolis.com/short-life/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/my-super-tiny-market.png" alt="My Super Tiny Market" class="game-image"></div><div class="game-info"><h3>🛒 My Super Tiny Market</h3><p>Management game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('My Super Tiny Market','https://games.playtropolis.com/my-super-tiny-market/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('My Super Tiny Market','https://games.playtropolis.com/my-super-tiny-market/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/car-chase.png" alt="Car Chase" class="game-image"></div><div class="game-info"><h3>🚗 Car Chase</h3><p>Action racing game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Car Chase','https://idev.games/embed/car-chase-')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Car Chase','https://idev.games/embed/car-chase-')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/minecraft.png" alt="Minecraft" class="game-image"></div><div class="game-info"><h3>⛏️ Minecraft</h3><p>Block building game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Minecraft','https://x.mess.eu.org/ninja-wasm/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Minecraft','https://x.mess.eu.org/ninja-wasm/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/amazing-rope-police.png" alt="Amazing Rope Police" class="game-image"></div><div class="game-info"><h3>🦸 Amazing Rope Police</h3><p>Action superhero game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Amazing Rope Police','https://ezclasswork.com/science/amazing-rope-police/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Amazing Rope Police','https://ezclasswork.com/science/amazing-rope-police/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/shell-shockers.png" alt="Shell Shockers" class="game-image"></div><div class="game-info"><h3>🥚 Shell Shockers</h3><p>Egg shooter game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Shell Shockers','https://geometry.pw/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Shell Shockers','https://geometry.pw/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/recoil.png" alt="Recoil" class="game-image"></div><div class="game-info"><h3>🔫 Recoil</h3><p>Action shooter game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Recoil','https://games.playtropolis.com/recoil/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Recoil','https://games.playtropolis.com/recoil/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/smash-karts.png" alt="Smash Karts" class="game-image"></div><div class="game-info"><h3>🛒 Smash Karts</h3><p>Kart racing battle</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Smash Karts','https://geometrykarts.com/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Smash Karts','https://geometrykarts.com/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/rocket-bot-royale.png" alt="Rocket Bot Royale" class="game-image"></div><div class="game-info"><h3>🚀 Rocket Bot Royale</h3><p>Battle royale game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Rocket Bot Royale','https://rocket-bot-royale.gabriel-oli-ren-micro.workers.dev/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Rocket Bot Royale','https://rocket-bot-royale.gabriel-oli-ren-micro.workers.dev/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/goober-dash.png" alt="Goober Dash" class="game-image"></div><div class="game-info"><h3>👾 Goober Dash</h3><p>Fun racing game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Goober Dash','https://goober-dash.gabriel-oli-ren-micro.workers.dev/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Goober Dash','https://goober-dash.gabriel-oli-ren-micro.workers.dev/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/rooftop-snipers.png" alt="Rooftop Snipers" class="game-image"></div><div class="game-info"><h3>🎯 Rooftop Snipers</h3><p>Shooter duel game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Rooftop Snipers','https://ezclasswork.com/science/rooftop-snipers-2/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Rooftop Snipers','https://ezclasswork.com/science/rooftop-snipers-2/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/masked-forces.png" alt="Masked Special Forces" class="game-image"></div><div class="game-info"><h3>🎖️ Masked Special Forces</h3><p>Action FPS game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Masked Special Forces','https://ezclasswork.com/science/maskedforces/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Masked Special Forces','https://ezclasswork.com/science/maskedforces/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src="img/geometry-dash.png" alt="Geometry Dash" class="game-image"></div><div class="game-info"><h3>📐 Geometry Dash Lite</h3><p>Rhythm platformer game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Geometry Dash Lite','https://arcadrome.com/embed/geometry-dash-lite/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Geometry Dash Lite','https://arcadrome.com/embed/geometry-dash-lite/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src="img/epstein.png" alt="5 nights at epstein" class="game-image"></div><div class="game-info"><h3>5 Nights at Epstein</h3><p>Escape epstein</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('5 Nights at Epstein','https://ig.gabriel-oli-ren-micro.workers.dev/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('5 Nights at Epstein','https://ig.gabriel-oli-ren-micro.workers.dev/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src="img/openfront.png" alt="Openfront" class="game-image"></div><div class="game-info"><h3>🌍 Openfront</h3><p>Strategy game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Openfront','openfront.html')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Openfront','openfront.html')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src="img/futboll.png" alt="Futboll-11" class="game-image"></div><div class="game-info"><h3>⚽ Futboll-11</h3><p>Football game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Futboll-11','https://whatsapp.gabriel-oli-ren-micro.workers.dev/')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Futboll-11','https://whatsapp.gabriel-oli-ren-micro.workers.dev/')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/age-of-war.png" alt="Age Of War" class="game-image"></div><div class="game-info"><h3>⚔️ Age Of War</h3><p>Strategy war game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Age Of War','https://yohohoio.gabriel-oli-ren-micro.workers.dev/age-of-war.embedgame')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Age Of War','https://yohohoio.gabriel-oli-ren-micro.workers.dev/age-of-war.embedgame')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/granny.png" alt="Granny" class="game-image"></div><div class="game-info"><h3>👵 Granny</h3><p>Horror escape game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Granny','granny.html')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Granny','granny.html')">🔓 Proxy</button></div></button>
-    <button class="game-button"><div class="game-thumb"><img src=" img/shark-io.png" alt="Shark.io" class="game-image"></div><div class="game-info"><h3>🦈 Shark.io</h3><p>Multiplayer io game</p></div><div class="game-launch-btns"><button class="glb newtab" onclick="openGameTab('Shark.io','https://games.construct.net/64330/72970/embed.html?uid=0&o=1')">🪟 New Tab</button><button class="glb blob" onclick="openGameBlob('Shark.io','https://games.construct.net/64330/72970/embed.html?uid=0&o=1')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/drive-mad.png" alt="Drive Mad" class="game-image"></div><div class="game-info"><h3>🏎️ Drive Mad</h3><p>Racing car vehicle game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Drive Mad','https://games.playtropolis.com/drive-mad-v2/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Drive Mad','https://games.playtropolis.com/drive-mad-v2/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/polytrack.png" alt="Poly Track" class="game-image"></div><div class="game-info"><h3>🏁 Poly Track</h3><p>Racing car vehicle game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Poly Track','https://arcadrome.com/embed/polytrack')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Poly Track','https://arcadrome.com/embed/polytrack')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/odd-bot-out.png" alt="Odd Bot Out" class="game-image"></div><div class="game-info"><h3>🤖 Odd Bot Out</h3><p>Robot puzzle game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Odd Bot Out','https://games.playtropolis.com/odd-bot-out/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Odd Bot Out','https://games.playtropolis.com/odd-bot-out/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/stunt-bike-extreme.png" alt="Stunt Bike Extreme" class="game-image"></div><div class="game-info"><h3>🏍️ Stunt Bike Extreme</h3><p>Motorcycle tricks and stunts</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Stunt Bike Extreme','https://games.playtropolis.com/stunt-bike-extreme/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Stunt Bike Extreme','https://games.playtropolis.com/stunt-bike-extreme/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/subway-surfers.png" alt="Subway Surfers" class="game-image"></div><div class="game-info"><h3>🚇 Subway Surfers</h3><p>Endless running game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Subway Surfers','https://arcadrome.com/embed/subway-surfers')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Subway Surfers','https://arcadrome.com/embed/subway-surfers')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/monkey-markt.png" alt="Monkey Mart" class="game-image"></div><div class="game-info"><h3>🐵 Monkey Mart</h3><p>Store management game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Monkey Mart','https://games.playtropolis.com/monkey-mart/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Monkey Mart','https://games.playtropolis.com/monkey-mart/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/house-of-hazards.png" alt="House Of Hazards" class="game-image"></div><div class="game-info"><h3>🏠 House Of Hazards</h3><p>Obstacle fun game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('House Of Hazards','https://games.playtropolis.com/house-of-hazards/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('House Of Hazards','https://games.playtropolis.com/house-of-hazards/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/tiny-fishing.png" alt="Tiny Fishing" class="game-image"></div><div class="game-info"><h3>🎣 Tiny Fishing</h3><p>Fish in the ocean</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Tiny Fishing','https://games.playtropolis.com/tiny-fishing/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Tiny Fishing','https://games.playtropolis.com/tiny-fishing/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/basketball-legends.png" alt="Basketball Legends" class="game-image"></div><div class="game-info"><h3>🏀 Basketball Legends</h3><p>Sports basketball game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Basketball Legends','https://games.playtropolis.com/basketball-stars/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Basketball Legends','https://games.playtropolis.com/basketball-stars/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/short-life.png" alt="Short Life" class="game-image"></div><div class="game-info"><h3>💀 Short Life</h3><p>Fun obstacle game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Short Life','https://games.playtropolis.com/short-life/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Short Life','https://games.playtropolis.com/short-life/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/my-super-tiny-market.png" alt="My Super Tiny Market" class="game-image"></div><div class="game-info"><h3>🛒 My Super Tiny Market</h3><p>Management game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('My Super Tiny Market','https://games.playtropolis.com/my-super-tiny-market/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('My Super Tiny Market','https://games.playtropolis.com/my-super-tiny-market/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/car-chase.png" alt="Car Chase" class="game-image"></div><div class="game-info"><h3>🚗 Car Chase</h3><p>Action racing game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Car Chase','https://idev.games/embed/car-chase-')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Car Chase','https://idev.games/embed/car-chase-')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/minecraft.png" alt="Minecraft" class="game-image"></div><div class="game-info"><h3>⛏️ Minecraft</h3><p>Block building game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Minecraft','https://x.mess.eu.org/ninja-wasm/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Minecraft','https://x.mess.eu.org/ninja-wasm/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/amazing-rope-police.png" alt="Amazing Rope Police" class="game-image"></div><div class="game-info"><h3>🦸 Amazing Rope Police</h3><p>Action superhero game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Amazing Rope Police','https://ezclasswork.com/science/amazing-rope-police/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Amazing Rope Police','https://ezclasswork.com/science/amazing-rope-police/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/shell-shockers.png" alt="Shell Shockers" class="game-image"></div><div class="game-info"><h3>🥚 Shell Shockers</h3><p>Egg shooter game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Shell Shockers','https://geometry.pw/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Shell Shockers','https://geometry.pw/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/recoil.png" alt="Recoil" class="game-image"></div><div class="game-info"><h3>🔫 Recoil</h3><p>Action shooter game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Recoil','https://games.playtropolis.com/recoil/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Recoil','https://games.playtropolis.com/recoil/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/smash-karts.png" alt="Smash Karts" class="game-image"></div><div class="game-info"><h3>🛒 Smash Karts</h3><p>Kart racing battle</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Smash Karts','https://geometrykarts.com/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Smash Karts','https://geometrykarts.com/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/rocket-bot-royale.png" alt="Rocket Bot Royale" class="game-image"></div><div class="game-info"><h3>🚀 Rocket Bot Royale</h3><p>Battle royale game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Rocket Bot Royale','https://rocket-bot-royale.gabriel-oli-ren-micro.workers.dev/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Rocket Bot Royale','https://rocket-bot-royale.gabriel-oli-ren-micro.workers.dev/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/goober-dash.png" alt="Goober Dash" class="game-image"></div><div class="game-info"><h3>👾 Goober Dash</h3><p>Fun racing game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Goober Dash','https://goober-dash.gabriel-oli-ren-micro.workers.dev/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Goober Dash','https://goober-dash.gabriel-oli-ren-micro.workers.dev/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/rooftop-snipers.png" alt="Rooftop Snipers" class="game-image"></div><div class="game-info"><h3>🎯 Rooftop Snipers</h3><p>Shooter duel game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Rooftop Snipers','https://ezclasswork.com/science/rooftop-snipers-2/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Rooftop Snipers','https://ezclasswork.com/science/rooftop-snipers-2/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/masked-forces.png" alt="Masked Special Forces" class="game-image"></div><div class="game-info"><h3>🎖️ Masked Special Forces</h3><p>Action FPS game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Masked Special Forces','https://ezclasswork.com/science/maskedforces/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Masked Special Forces','https://ezclasswork.com/science/maskedforces/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src="img/geometry-dash.png" alt="Geometry Dash" class="game-image"></div><div class="game-info"><h3>📐 Geometry Dash Lite</h3><p>Rhythm platformer game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Geometry Dash Lite','https://arcadrome.com/embed/geometry-dash-lite/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Geometry Dash Lite','https://arcadrome.com/embed/geometry-dash-lite/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src="img/epstein.png" alt="5 nights at epstein" class="game-image"></div><div class="game-info"><h3>5 Nights at Epstein</h3><p>Escape epstein</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('5 Nights at Epstein','https://ig.gabriel-oli-ren-micro.workers.dev/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('5 Nights at Epstein','https://ig.gabriel-oli-ren-micro.workers.dev/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src="img/openfront.png" alt="Openfront" class="game-image"></div><div class="game-info"><h3>🌍 Openfront</h3><p>Strategy game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Openfront','openfront.html')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Openfront','openfront.html')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src="img/futboll.png" alt="Futboll-11" class="game-image"></div><div class="game-info"><h3>⚽ Futboll-11</h3><p>Football game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Futboll-11','https://whatsapp.gabriel-oli-ren-micro.workers.dev/')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Futboll-11','https://whatsapp.gabriel-oli-ren-micro.workers.dev/')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/age-of-war.png" alt="Age Of War" class="game-image"></div><div class="game-info"><h3>⚔️ Age Of War</h3><p>Strategy war game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Age Of War','https://yohohoio.gabriel-oli-ren-micro.workers.dev/age-of-war.embedgame')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Age Of War','https://yohohoio.gabriel-oli-ren-micro.workers.dev/age-of-war.embedgame')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/granny.png" alt="Granny" class="game-image"></div><div class="game-info"><h3>👵 Granny</h3><p>Horror escape game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Granny','granny.html')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Granny','granny.html')">🔓 Proxy</button></div></button>
+    <button class="game-button"><div class="game-thumb"><img src=" img/shark-io.png" alt="Shark.io" class="game-image"></div><div class="game-info"><h3>🦈 Shark.io</h3><p>Multiplayer io game</p></div><div class="game-launch-btns"><button class="glb embed" onclick="openGameEmbed('Shark.io','https://games.construct.net/64330/72970/embed.html?uid=0&o=1')">▶ Embed</button><button class="glb proxy" onclick="openGameProxy('Shark.io','https://games.construct.net/64330/72970/embed.html?uid=0&o=1')">🔓 Proxy</button></div></button>
   </div>
 
     <!-- Custom user apps -->
@@ -2733,202 +2739,232 @@ function enableSecurityProtection(){document.addEventListener('contextmenu',prev
 function disableSecurityProtection(){document.removeEventListener('contextmenu',preventAction);document.removeEventListener('keydown',preventDevTools);}
 
 // ══════════════════════════════════════════════════════════════════
-// GAMES (unchanged)
+// GAMES — two in-page methods, no new tabs
 // ══════════════════════════════════════════════════════════════════
-// ══════════════════════════════════════════════════════════════════
-// GAMES — dual method: New Tab  +  Blob-URL Proxy
-// ══════════════════════════════════════════════════════════════════
-
-// ── shared UI helpers ──────────────────────────────────────────────
-function _showGameContainer(name) {
-  ['gamesGrid','appsPage','accountPage','friendsPage'].forEach(id => {
-    const el = document.getElementById(id); if (!el) return;
-    id === 'gamesGrid' ? el.style.display = 'none' : el.classList.remove('active');
-  });
-  document.getElementById('chatPage').classList.remove('active');
-  document.getElementById('gameContainer').classList.add('active');
-  document.getElementById('topNav').classList.add('minimal');
-  const cas = document.querySelector('.custom-apps-section'); if (cas) cas.style.display = 'none';
-  document.getElementById('gameTitle').textContent = name;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  startClock();
-}
-
-function _clearGameFrame() {
-  const f = document.getElementById('gameFrame');
-  f.innerHTML = '';
-}
-
-// ── METHOD 1: New Tab ──────────────────────────────────────────────
-// Opens the game URL in a real new browser tab.
-// Completely bypasses school iframe / CSP blocks because the game
-// runs in its own top-level browsing context.
-function openGameTab(name, url) {
-  // Resolve relative URLs to absolute so window.open works from any host
-  const abs = new URL(url, location.href).href;
-  const w = window.open(abs, '_blank', 'noopener,noreferrer');
-  if (!w) {
-    // Popup blocked — show a clickable link instead
-    _showGameContainer(name);
-    _clearGameFrame();
-    const f = document.getElementById('gameFrame');
-    f.style.display = 'flex';
-    f.innerHTML = `
-      <div style="text-align:center;color:#fff;padding:30px 20px;max-width:440px;">
-        <div style="font-size:3.5em;margin-bottom:14px">🚫</div>
-        <h3 style="font-weight:800;font-size:1.3em;margin-bottom:10px">Pop-up blocked</h3>
-        <p style="color:rgba(255,255,255,.55);font-size:.9em;margin-bottom:24px;line-height:1.6">
-          Your browser blocked the new tab. Allow pop-ups for this site, or click the button below.
-        </p>
-        <a href="${abs}" target="_blank" rel="noopener noreferrer"
-           style="display:inline-block;padding:13px 28px;background:linear-gradient(135deg,#667eea,#764ba2);
-                  border-radius:12px;color:#fff;font-weight:700;font-size:1em;text-decoration:none;">
-          🪟 Open ${name}
-        </a>
-      </div>`;
-    broadcastGameStatus(name, abs);
-  } else {
-    // Tab opened — show a "now playing" panel inside the site too
-    _showGameContainer(name);
-    _clearGameFrame();
-    const f = document.getElementById('gameFrame');
-    f.style.display = 'flex';
-    f.innerHTML = `
-      <div style="text-align:center;color:#fff;padding:30px 20px;max-width:440px;">
-        <div style="font-size:3.5em;margin-bottom:14px">🎮</div>
-        <h3 style="font-weight:800;font-size:1.3em;margin-bottom:8px">${name}</h3>
-        <p style="color:rgba(255,255,255,.5);font-size:.9em;margin-bottom:24px;line-height:1.6">
-          Opened in a new tab! Switch to that tab to play.<br>
-          If it closed, click below to reopen.
-        </p>
-        <a href="${abs}" target="_blank" rel="noopener noreferrer"
-           style="display:inline-block;padding:12px 26px;background:linear-gradient(135deg,#667eea,#764ba2);
-                  border-radius:12px;color:#fff;font-weight:700;font-size:.95em;text-decoration:none;">
-          🔁 Reopen Tab
-        </a>
-      </div>`;
-    broadcastGameStatus(name, abs);
-  }
-}
-
-// ── METHOD 2: Blob-URL Proxy ───────────────────────────────────────
-// Fetches the game page HTML via a public CORS proxy, rewrites all
-// relative asset URLs to absolute, creates a Blob URL from the HTML
-// string, and injects it as an <iframe src="blob:…">.
-// Because the src is a blob: URL (same origin), school filters that
-// block external iframe src values cannot see the game URL at all.
 //
-// Proxy chain (tried in order until one succeeds):
-//   1. corsproxy.io          — fast, reliable
-//   2. api.allorigins.win    — fallback A
-//   3. htmlpreview on gh     — fallback B (works for GitHub-hosted games)
+//  ▶ Embed  (openGameEmbed)
+//     → Plain <iframe> pointing at the real URL.
+//     → Works for any game host that allows framing.
+//     → After 6 s a "not loading? try proxy" bar appears.
 //
-// If all proxies fail we show a friendly error with the Tab button
-// as last resort.
+//  🔓 Proxy  (openGameProxy)
+//     → Fetches game HTML via a CORS proxy chain.
+//     → Rewrites every asset URL to route through the proxy.
+//     → Injects a fetch/XHR/WebSocket interceptor so dynamic
+//       loads are proxied too.
+//     → Packages result as a blob: URL in an <iframe>.
+//       School filters see "blob:" not the game hostname.
+// ══════════════════════════════════════════════════════════════════
 
-const CORS_PROXIES = [
+const GF_PROXIES = [
   u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
   u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
   u => `https://corsproxy.org/?${encodeURIComponent(u)}`,
 ];
 
-async function openGameBlob(name, url) {
-  // Relative URLs (e.g. "openfront.html", "granny.html") → open Tab instead;
-  // we can't CORS-fetch our own relative files from a proxy
+function _gfShow(name) {
+  ['gamesGrid','appsPage','accountPage','friendsPage'].forEach(id => {
+    const el = document.getElementById(id); if (!el) return;
+    id === 'gamesGrid' ? (el.style.display = 'none') : el.classList.remove('active');
+  });
+  document.getElementById('chatPage').classList.remove('active');
+  document.getElementById('gameContainer').classList.add('active');
+  document.getElementById('topNav').classList.add('minimal');
+  const cas = document.querySelector('.custom-apps-section');
+  if (cas) cas.style.display = 'none';
+  document.getElementById('gameTitle').textContent = name;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  startClock();
+}
+
+function _gfClear() { document.getElementById('gameFrame').innerHTML = ''; }
+
+function _gfOverlay(html) {
+  const f = document.getElementById('gameFrame');
+  f.innerHTML = `<div class="gf-overlay">${html}</div>`;
+}
+
+// ── METHOD 1: Embed ────────────────────────────────────────────────
+function openGameEmbed(name, url) {
   let abs;
-  try { abs = new URL(url, location.href).href; } catch { abs = url; }
-  if (!abs.startsWith('http')) { openGameTab(name, url); return; }
+  try { abs = new URL(url, location.href).href; } catch(e) { abs = url; }
+  _gfShow(name);
+  _gfClear();
 
-  _showGameContainer(name);
-  _clearGameFrame();
-  const frame = document.getElementById('gameFrame');
-  frame.style.display = 'flex';
+  _gfOverlay(`
+    <div class="gf-spinner"></div>
+    <div class="gf-title">${name}</div>
+    <div class="gf-sub">Loading game&hellip;</div>
+  `);
 
-  // Loading spinner
-  frame.innerHTML = `
-    <div class="blob-loading" id="blobLoader">
-      <div class="blob-spinner"></div>
-      <p id="blobMsg">Fetching <strong>${name}</strong> through proxy…</p>
-    </div>`;
+  setTimeout(() => {
+    const f = document.getElementById('gameFrame');
+    if (!f) return;
+    f.innerHTML = '';
+    const ifc = document.createElement('iframe');
+    ifc.className = 'gf-iframe';
+    ifc.src = abs;
+    ifc.allow = 'fullscreen; autoplay; gamepad; pointer-lock; gyroscope; accelerometer';
+    ifc.setAttribute('allowfullscreen', '');
+    ifc.setAttribute('scrolling', 'yes');
+    f.appendChild(ifc);
+
+    // After 6 s offer proxy as fallback
+    setTimeout(() => {
+      if (!document.getElementById('gfFallBar') &&
+          document.getElementById('gameContainer').classList.contains('active')) {
+        const bar = document.createElement('div');
+        bar.id = 'gfFallBar';
+        bar.style.cssText = 'position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.8);' +
+          'backdrop-filter:blur(8px);padding:10px 18px;display:flex;align-items:center;' +
+          'justify-content:space-between;gap:12px;z-index:10;flex-wrap:wrap;';
+        bar.innerHTML = `
+          <span style="color:rgba(255,255,255,.7);font-size:.82em;">Game not loading? Try the proxy.</span>
+          <button class="gf-btn" style="padding:8px 18px;font-size:.8em;"
+            onclick="openGameProxy(${JSON.stringify(name)},${JSON.stringify(abs)})">
+            🔓 Load via Proxy
+          </button>`;
+        f.appendChild(bar);
+      }
+    }, 6000);
+
+    broadcastGameStatus(name, abs);
+  }, 300);
+}
+
+// ── METHOD 2: Blob Proxy ───────────────────────────────────────────
+async function openGameProxy(name, url) {
+  let abs;
+  try { abs = new URL(url, location.href).href; } catch(e) { abs = url; }
+
+  // Local relative files can't go through a CORS proxy — embed directly
+  if (!abs.startsWith('http')) { openGameEmbed(name, url); return; }
+
+  _gfShow(name);
+  _gfClear();
+
+  _gfOverlay(`
+    <div class="gf-spinner"></div>
+    <div class="gf-title">${name}</div>
+    <div class="gf-step" id="gfProxyStep">Connecting to proxy 1/3&hellip;</div>
+    <div class="gf-sub">Fetching game through secure proxy — bypasses school filters.</div>
+  `);
+
+  const origin   = new URL(abs).origin;
+  const basePath = abs.substring(0, abs.lastIndexOf('/') + 1);
 
   let html = null;
-  let lastErr = '';
+  let lastErr = 'All proxies timed out';
 
-  for (let i = 0; i < CORS_PROXIES.length; i++) {
-    const proxyUrl = CORS_PROXIES[i](abs);
-    document.getElementById('blobMsg').innerHTML =
-      `Trying proxy ${i + 1}/${CORS_PROXIES.length} for <strong>${name}</strong>…`;
+  for (let i = 0; i < GF_PROXIES.length; i++) {
+    const stepEl = document.getElementById('gfProxyStep');
+    if (stepEl) stepEl.textContent = `Connecting to proxy ${i + 1}/${GF_PROXIES.length}…`;
     try {
-      const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
+      const res = await fetch(GF_PROXIES[i](abs), {
+        signal: AbortSignal.timeout(14000)
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      html = await res.text();
-      break;
-    } catch (e) {
-      lastErr = e.message;
+      const text = await res.text();
+      if (text && text.trim().length > 200) { html = text; break; }
+      throw new Error('Response too short / empty');
+    } catch(e) {
+      lastErr = e.message || String(e);
     }
   }
 
   if (!html) {
-    // All proxies failed — show error + fallback Tab button
-    frame.innerHTML = `
-      <div class="blob-loading">
-        <div style="font-size:2.5em">❌</div>
-        <div class="blob-err">
-          Proxy load failed for <strong>${name}</strong>.<br>
-          <small style="opacity:.7">${lastErr}</small><br><br>
-          The game's server may block remote fetching.<br>Try opening it in a new tab instead.
-        </div>
-        <button class="blob-fallback-btn" onclick="openGameTab('${name.replace(/'/g,"\\'")}','${abs}')">
-          🪟 Open in New Tab
+    _gfOverlay(`
+      <div style="font-size:2.4em">❌</div>
+      <div class="gf-title">Proxy failed</div>
+      <div class="gf-err">
+        Could not load <strong>${name}</strong> through any proxy.<br>
+        <small style="opacity:.6;">${lastErr}</small>
+      </div>
+      <div class="gf-btns">
+        <button class="gf-btn secondary" onclick="openGameEmbed(${JSON.stringify(name)},${JSON.stringify(abs)})">
+          ▶ Try Embed instead
         </button>
-      </div>`;
+        <button class="gf-btn secondary" onclick="closeGame()">← Back</button>
+      </div>
+    `);
     return;
   }
 
-  // Rewrite all relative asset URLs to absolute so they load correctly
-  // inside the blob iframe (which has no real base URL context)
-  const base = new URL(abs);
-  const baseOrigin = base.origin;
-  const basePath = abs.substring(0, abs.lastIndexOf('/') + 1);
+  // Rewrite HTML: inject <base>, proxy all asset URLs, inject interceptor
+  const proxyURL = u => {
+    try { return GF_PROXIES[0](new URL(u, abs).href); } catch { return u; }
+  };
 
-  html = html
-    // inject a <base> tag right after <head> so the browser resolves
-    // any remaining relative paths automatically
-    .replace(/(<head[^>]*>)/i, `$1<base href="${basePath}">`)
-    // also fix any absolute-path refs that lack the origin
-    .replace(/(src|href|action)=(["'])\/(?!\/)/gi, `$1=$2${baseOrigin}/`);
+  // Inject <base> after <head>
+  html = html.replace(/(<head(?:\s[^>]*)?>)/i, `$1<base href="${basePath}">`);
 
-  const blob = new Blob([html], { type: 'text/html' });
+  // Proxy absolute src/href assets
+  html = html.replace(
+    /(\bsrc\s*=\s*)(["'])(https?:\/\/[^"' >]+?)(["' >])/gi,
+    (m, a, q1, u, q2) => `${a}${q1}${proxyURL(u)}${q2}`
+  );
+  html = html.replace(
+    /(\bhref\s*=\s*)(["'])(https?:\/\/[^"']+?\.(js|css|woff2?|ttf|eot))(["'])/gi,
+    (m, a, q1, u, ext, q2) => `${a}${q1}${proxyURL(u)}${q2}`
+  );
+  html = html.replace(
+    /url\((["']?)(https?:\/\/[^"')]+)(["']?)\)/gi,
+    (m, q1, u, q2) => `url(${q1}${proxyURL(u)}${q2})`
+  );
+
+  // Root-relative → absolute
+  html = html.replace(/(src|href|action)=(["'])\/(?!\/)/gi, `$1=$2${origin}/`);
+
+  // Interceptor: proxy dynamic fetch / XHR / WebSocket
+  const p0 = GF_PROXIES[0]('__URL__').replace('__URL__', '');
+  const interceptor = `<script>
+(function(){
+  const _p=u=>{try{const a=new URL(u,location.href).href;if(/^(blob:|data:)/.test(a))return a;return${JSON.stringify(GF_PROXIES[0]('').slice(0,-0))}+encodeURIComponent(a);}catch(e){return u;}};
+  const _pf=u=>{try{const a=new URL(u,location.href).href;if(/^(blob:|data:)/.test(a))return a;return'https://corsproxy.io/?'+encodeURIComponent(a);}catch(e){return u;}};
+  const _fetch=window.fetch;
+  window.fetch=function(i,o){if(typeof i==='string')i=_pf(i);else if(i&&i.url)i=new Request(_pf(i.url),i);return _fetch.call(this,i,o);};
+  const _xo=XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open=function(m,u,...a){return _xo.call(this,m,_pf(u),...a);};
+  const _WS=window.WebSocket;
+  window.WebSocket=function(u,p){return new _WS(_pf(u),p);};
+  Object.assign(window.WebSocket,_WS);
+})();
+<\/script>`;
+
+  html = html.replace(/(<head(?:\s[^>]*)?>)/i, `$1${interceptor}`);
+
+  // Build blob iframe
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const blobUrl = URL.createObjectURL(blob);
 
-  // Replace loader with the iframe
-  frame.innerHTML = '';
-  frame.style.display = 'block';
-  const iframe = document.createElement('iframe');
-  iframe.src = blobUrl;
-  iframe.allow = 'fullscreen; autoplay; gamepad; pointer-lock';
-  iframe.setAttribute('allowfullscreen', '');
-  // Clean up blob URL once loaded to free memory
-  iframe.onload = () => URL.revokeObjectURL(blobUrl);
-  frame.appendChild(iframe);
+  const f = document.getElementById('gameFrame');
+  f.innerHTML = '';
+  const ifc = document.createElement('iframe');
+  ifc.className = 'gf-iframe';
+  ifc.src = blobUrl;
+  ifc.allow = 'fullscreen; autoplay; gamepad; pointer-lock; gyroscope; accelerometer';
+  ifc.setAttribute('allowfullscreen', '');
+  ifc.setAttribute('scrolling', 'yes');
+  ifc.setAttribute('sandbox',
+    'allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-pointer-lock allow-orientation-lock'
+  );
+  ifc.onload = () => URL.revokeObjectURL(blobUrl);
+  f.appendChild(ifc);
   broadcastGameStatus(name, abs);
 }
 
-function openGame(name, url) {
-  // Legacy calls (custom apps, apps page) → use Tab method
-  openGameTab(name, url);
-}
+function openGame(name, url) { openGameEmbed(name, url); }
 
 function closeGame() {
   if (document.fullscreenElement) document.exitFullscreen();
-  _clearGameFrame();
-  document.getElementById('gameFrame').style.display = '';
+  _gfClear();
   document.getElementById('gameContainer').classList.remove('active');
   broadcastGameStatus(null, null);
   document.getElementById('topNav').classList.remove('minimal');
   if (document.getElementById('homeBtn').classList.contains('active')) {
     document.getElementById('gamesGrid').style.display = 'grid';
-    const cas = document.querySelector('.custom-apps-section'); if (cas) cas.style.display = '';
+    const cas = document.querySelector('.custom-apps-section');
+    if (cas) cas.style.display = '';
   } else if (document.getElementById('appsBtn').classList.contains('active')) {
     document.getElementById('appsPage').classList.add('active');
   }
@@ -2937,7 +2973,7 @@ function closeGame() {
 
 function toggleFullscreen() {
   const gc = document.getElementById('gameContainer');
-  if (!document.fullscreenElement) gc.requestFullscreen().catch(err => alert(err.message));
+  if (!document.fullscreenElement) gc.requestFullscreen().catch(e => console.warn(e));
   else document.exitFullscreen();
 }
 
