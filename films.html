@@ -1063,6 +1063,7 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
   </div>
 </div>
 
+
 <!-- ══ AUTH OVERLAY ══ -->
 <div class="auth-overlay hidden" id="authOverlay">
   <div class="auth-box">
@@ -1867,10 +1868,9 @@ async function checkSitePassword(){
     if(!rows.length){errEl.textContent='No passwords found in database.';errEl.classList.add('show');btn.disabled=false;btn.innerHTML='Unlock Site →';return;}
     const allValues=rows.flatMap(row=>Object.values(row)).filter(v=>typeof v==='string'&&v.length>0);
     if(allValues.includes(entered)){
-      localStorage.setItem(SP_SESSION_KEY,'true');
       const card=document.querySelector('.sitepass-card');
-      card.style.transition='opacity .4s ease,transform .4s ease';card.style.opacity='0';card.style.transform='scale(.95) translateY(-10px)';
-      setTimeout(()=>{document.getElementById('sitePassOverlay').classList.add('hidden');runAppInit();},420);
+      card.style.transition='opacity .15s ease,transform .15s ease';card.style.opacity='0';card.style.transform='scale(.95) translateY(-10px)';
+      setTimeout(()=>{document.getElementById('sitePassOverlay').classList.add('hidden');runAppInit();},160);
     }else{
       input.classList.add('error');errEl.textContent='Incorrect password. Please try again.';errEl.classList.add('show');input.value='';input.focus();btn.disabled=false;btn.innerHTML='Unlock Site →';
     }
@@ -3965,15 +3965,8 @@ function switchDevTab(tab){
   sidebar.addEventListener('mouseleave', () => { chatPage.style.left = '60px'; });
 })();
 
-window.addEventListener('load',async()=>{
-  if(localStorage.getItem(SP_SESSION_KEY)==='true'){sessionStorage.setItem(SP_SESSION_KEY,'true');}
-  if(sessionStorage.getItem(SP_SESSION_KEY)==='true'){
-    const overlay=document.getElementById('sitePassOverlay');
-    overlay.classList.add('hidden');
-    await runAppInit();
-  }else{
-    document.getElementById('sitePassInput').focus();
-  }
+document.addEventListener('DOMContentLoaded',async()=>{
+  document.getElementById('sitePassInput').focus();
 });
 </script>
 
