@@ -532,6 +532,24 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 .msg-tick.sent::before{content:'✓✓';color:rgba(255,255,255,.4)}
 .msg-tick.read::before{content:'✓✓';color:#7dd3fc}
 
+/* ── STICKER BUBBLE ── */
+.bubble-sticker{background:transparent!important;padding:6px!important;border:none!important;box-shadow:none!important}
+.bubble-sticker img{width:120px;height:120px;object-fit:contain;border-radius:12px;display:block}
+.bubble-sticker .bubble-footer{margin-top:3px}
+/* ── STICKER PICKER ── */
+.sticker-picker{position:absolute;bottom:80px;left:32px;width:320px;background:#1e1f36;border:1.5px solid rgba(255,255,255,.12);border-radius:18px;box-shadow:0 16px 48px rgba(0,0,0,.5);z-index:100;overflow:hidden;display:none}
+.sticker-picker.open{display:block;animation:spPickerIn .2s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes spPickerIn{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+.sticker-picker-header{padding:12px 16px 8px;font-size:.82em;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,.07)}
+.sticker-picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px;max-height:220px;overflow-y:auto}
+.sticker-picker-grid::-webkit-scrollbar{width:4px}
+.sticker-picker-grid::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.sticker-picker-item{cursor:pointer;border-radius:10px;padding:4px;transition:background .15s;display:flex;align-items:center;justify-content:center}
+.sticker-picker-item:hover{background:rgba(255,255,255,.1)}
+.sticker-picker-item img{width:60px;height:60px;object-fit:contain;border-radius:8px}
+.sticker-picker-empty{grid-column:1/-1;text-align:center;color:rgba(255,255,255,.3);font-size:.85em;padding:20px 0}
+.sticker-btn{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.13);color:rgba(255,255,255,.7);width:50px;height:50px;border-radius:50%;font-size:1.3em;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.sticker-btn:hover{background:rgba(102,126,234,.3);border-color:rgba(102,126,234,.5);color:#fff}
 /* ── TYPING INDICATOR ── */
 .typing-indicator{display:none;align-items:center;gap:12px;padding:10px 32px;margin:2px 0;animation:bubbleIn .25s ease}
 .typing-indicator.visible{display:flex}
@@ -1037,15 +1055,158 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 .fi-btn.join:hover{background:rgba(34,197,94,.22)}
 .fi-btn.profile{background:rgba(102,126,234,.1);color:#667eea}
 .fi-btn.profile:hover{background:rgba(102,126,234,.2)}
+
+/* ══ MATHS PASS ══════════════════════════════════════════════════ */
+.pass-page{display:none;max-width:960px;margin:0 auto;padding-bottom:40px}
+.pass-page.active{display:block}
+.pass-hero{position:relative;border-radius:24px;overflow:hidden;margin-bottom:24px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);padding:36px 40px;box-shadow:0 12px 48px rgba(0,0,0,.35)}
+.pass-hero-blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.pass-hero-blob-1{width:360px;height:360px;background:radial-gradient(circle,rgba(102,126,234,.4),transparent 70%);top:-100px;left:-80px;animation:spFloat 9s ease-in-out infinite}
+.pass-hero-blob-2{width:280px;height:280px;background:radial-gradient(circle,rgba(118,75,162,.35),transparent 70%);bottom:-80px;right:-40px;animation:spFloat 11s ease-in-out infinite reverse}
+.pass-hero-blob-3{width:180px;height:180px;background:radial-gradient(circle,rgba(255,215,0,.18),transparent 70%);top:40%;right:28%;animation:spFloat 7s ease-in-out infinite 2s}
+.pass-hero-inner{position:relative;z-index:1}
+.pass-season-pill{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#ffd700,#ff8c00);color:#1a1a2e;font-size:.78em;font-weight:800;padding:5px 14px;border-radius:20px;margin-bottom:14px;letter-spacing:.5px;text-transform:uppercase;box-shadow:0 4px 14px rgba(255,215,0,.35)}
+.pass-hero-title{color:#fff;font-size:2em;font-weight:900;letter-spacing:-.5px;line-height:1.1;margin-bottom:8px}
+.pass-hero-sub{color:rgba(255,255,255,.5);font-size:.9em;line-height:1.6;margin-bottom:20px}
+.pass-hero-ends{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.4);font-size:.82em;font-weight:600;flex-wrap:wrap}
+.pass-ends-val{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:4px 12px;color:#a5b4fc;font-weight:700;font-variant-numeric:tabular-nums}
+.pass-currency-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:20px}
+.pass-cur-chip{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 18px;flex:1;min-width:140px}
+.pass-cur-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2em;flex-shrink:0}
+.pass-cur-icon.mp{background:linear-gradient(135deg,rgba(102,126,234,.3),rgba(118,75,162,.3));border:1.5px solid rgba(102,126,234,.45)}
+.pass-cur-icon.mg{background:linear-gradient(135deg,rgba(255,215,0,.25),rgba(255,140,0,.2));border:1.5px solid rgba(255,215,0,.35)}
+.pass-cur-val{font-size:1.35em;font-weight:900;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
+.pass-cur-label{font-size:.72em;color:rgba(255,255,255,.4);font-weight:600;margin-top:2px}
+.pass-xp-card{background:rgba(255,255,255,.97);border-radius:20px;padding:26px 32px;margin-bottom:22px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.pass-xp-card h3{color:#667eea;font-size:1.05em;font-weight:800;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pass-xp-level-pill{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:.75em;font-weight:800;padding:4px 12px;border-radius:20px}
+.pass-xp-track{height:14px;background:#f0f0f5;border-radius:7px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.06);margin-bottom:8px}
+.pass-xp-fill{height:100%;background:linear-gradient(90deg,#667eea,#764ba2,#a855f7);border-radius:7px;transition:width .6s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
+.pass-xp-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:xpShimmer 2s linear infinite}
+@keyframes xpShimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+.pass-xp-sub{display:flex;justify-content:space-between;font-size:.8em;color:#aaa;font-weight:600}
+.pass-tiers-title{color:rgba(255,255,255,.85);font-size:1em;font-weight:800;margin:0 0 16px;display:flex;align-items:center;gap:8px;border-bottom:2px solid rgba(255,255,255,.1);padding-bottom:12px}
+.pass-tiers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:12px;margin-bottom:28px}
+.pass-tier{background:rgba(255,255,255,.97);border:2px solid #f0f0f5;border-radius:16px;padding:16px 14px;text-align:center;transition:all .25s;position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.pass-tier.unlocked{border-color:rgba(102,126,234,.45);background:linear-gradient(135deg,#f0f4ff,#f8f0ff)}
+.pass-tier.unlocked::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#667eea,#764ba2)}
+.pass-tier.current-tier{border-color:#667eea;box-shadow:0 6px 22px rgba(102,126,234,.28);transform:translateY(-2px)}
+.pass-tier.locked{opacity:.45;filter:grayscale(.3)}
+.pass-tier-lv{font-size:.68em;font-weight:800;color:#bbb;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.pass-tier.unlocked .pass-tier-lv{color:#667eea}
+.pass-tier-icon{font-size:1.9em;display:block;margin-bottom:8px}
+.pass-tier-name{font-size:.8em;font-weight:700;color:#333;margin-bottom:3px}
+.pass-tier-sub{font-size:.7em;color:#aaa}
+.pass-tier-xp{font-size:.68em;color:#ccc;margin-top:8px;font-weight:600}
+.pass-tier-check{position:absolute;top:8px;right:8px;width:20px;height:20px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:none;align-items:center;justify-content:center;color:#fff;font-size:.72em;font-weight:800}
+.pass-tier.unlocked .pass-tier-check{display:flex}
+.pass-how-card{background:rgba(255,255,255,.97);border-radius:20px;padding:24px 28px;margin-bottom:22px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.pass-how-card h3{color:#667eea;font-size:1.05em;font-weight:800;margin-bottom:16px;border-bottom:2px solid #f0f4ff;padding-bottom:12px}
+.pass-how-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.pass-how-item{display:flex;align-items:flex-start;gap:12px;padding:14px;background:#f8f9ff;border:1.5px solid #e8edff;border-radius:13px}
+.pass-how-icon{font-size:1.4em;flex-shrink:0;margin-top:1px}
+.pass-how-name{font-size:.88em;font-weight:700;color:#333;margin-bottom:3px}
+.pass-how-sub{font-size:.75em;color:#888;line-height:1.4}
+.pass-how-xp{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:.68em;font-weight:800;padding:2px 8px;border-radius:8px;margin-top:5px}
+.pass-reward-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(30px);background:linear-gradient(135deg,#667eea,#764ba2);border-radius:18px;padding:16px 28px;color:#fff;font-size:.95em;font-weight:700;z-index:99999999;opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);text-align:center;white-space:nowrap;box-shadow:0 12px 40px rgba(102,126,234,.5);pointer-events:none}
+.pass-reward-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ══ SHOP ════════════════════════════════════════════════════════ */
+.shop-page{display:none;max-width:960px;margin:0 auto;padding-bottom:40px}
+.shop-page.active{display:block}
+/* Shop tabs */
+.shop-tabs{display:flex;gap:0;background:rgba(255,255,255,.07);border-radius:16px;padding:5px;margin-bottom:24px;border:1.5px solid rgba(255,255,255,.1)}
+.shop-tab{flex:1;padding:12px 16px;border:none;background:transparent;color:rgba(255,255,255,.5);font-size:.9em;font-weight:700;cursor:pointer;border-radius:12px;transition:all .22s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px}
+.shop-tab.active{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;box-shadow:0 4px 14px rgba(102,126,234,.4)}
+.shop-tab:hover:not(.active){color:rgba(255,255,255,.8);background:rgba(255,255,255,.08)}
+.shop-tab-panel{display:none}
+.shop-tab-panel.active{display:block}
+.shop-hero{background:linear-gradient(135deg,#fff9e6,#fff0cc);border:2px solid rgba(255,215,0,.4);border-radius:22px;padding:24px 30px;margin-bottom:22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;box-shadow:0 4px 20px rgba(255,215,0,.12)}
+.shop-hero-icon{font-size:2.6em;flex-shrink:0}
+.shop-hero-text{flex:1}
+.shop-hero-text h2{color:#b8860b;font-size:1.4em;font-weight:900;margin-bottom:4px}
+.shop-hero-text p{color:#a0740a;font-size:.86em;line-height:1.5}
+.shop-wallet{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.shop-wallet-chip{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #f0d060;border-radius:30px;padding:8px 16px;box-shadow:0 2px 10px rgba(255,215,0,.15)}
+.shop-wallet-chip span{font-size:1.05em;font-weight:900;color:#333}
+.shop-wallet-chip small{color:#aaa;font-size:.76em;font-weight:600}
+.shop-sale-bar{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(22,163,74,.08));border:1.5px solid rgba(34,197,94,.3);border-radius:14px;padding:12px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.shop-sale-icon{font-size:1.4em}
+.shop-sale-text{flex:1;color:rgba(255,255,255,.8);font-size:.88em;font-weight:600}
+.shop-sale-text strong{color:#4ade80}
+.shop-sale-timer{display:flex;gap:6px}
+.sale-unit{background:rgba(0,0,0,.3);border-radius:7px;padding:5px 8px;text-align:center;min-width:42px}
+.sale-unit-num{display:block;font-size:1em;font-weight:900;color:#4ade80;font-variant-numeric:tabular-nums;line-height:1.1}
+.sale-unit-lbl{display:block;font-size:.6em;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.3px;font-weight:600}
+.shop-section-lbl{color:rgba(255,255,255,.8);font-size:.95em;font-weight:800;margin:0 0 14px;display:flex;align-items:center;gap:8px;border-bottom:2px solid rgba(255,255,255,.1);padding-bottom:10px}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;margin-bottom:28px}
+.shop-item{background:rgba(255,255,255,.97);border:2px solid #f0f0f5;border-radius:18px;padding:22px 18px;text-align:center;transition:all .3s;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.06)}
+.shop-item:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(102,126,234,.16);border-color:#667eea}
+.shop-item.sale{border-color:#22c55e;box-shadow:0 3px 14px rgba(34,197,94,.18)}
+.shop-item.sale::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#22c55e,#16a34a)}
+.shop-item.owned-item{border-color:#a5b4fc;background:linear-gradient(135deg,#f0f4ff,#f8f0ff)}
+.shop-item.owned-item::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#667eea,#764ba2)}
+.shop-badge{position:absolute;top:11px;left:11px;font-size:.65em;font-weight:800;padding:3px 9px;border-radius:9px;text-transform:uppercase;letter-spacing:.4px}
+.shop-badge.on-sale{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff}
+.shop-badge.owned{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.shop-badge.hot{background:linear-gradient(135deg,#f64f59,#c0392b);color:#fff}
+.shop-item-icon{font-size:2.8em;display:block;margin:8px 0 12px;line-height:1}
+.shop-item-name{font-size:.98em;font-weight:800;color:#1a1a2e;margin-bottom:4px}
+.shop-item-desc{font-size:.78em;color:#aaa;margin-bottom:14px;line-height:1.4;min-height:32px}
+.shop-tag-preview{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:.75em;font-weight:800;margin-bottom:12px;letter-spacing:.3px}
+.shop-price-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;margin-bottom:12px}
+.shop-price-orig{font-size:.76em;color:#ccc;text-decoration:line-through;font-weight:600}
+.shop-price-final{display:flex;align-items:center;justify-content:center;gap:6px}
+.shop-price-num{font-size:1.2em;font-weight:900;color:#333}
+.shop-price-num.free{color:#22c55e}
+.shop-price-cur{font-size:.76em;color:#888;font-weight:700}
+.shop-sale-note{font-size:.7em;color:#22c55e;font-weight:700;background:rgba(34,197,94,.1);border-radius:6px;padding:2px 8px;margin-top:2px}
+.shop-buy-btn{width:100%;padding:11px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:12px;color:#fff;font-size:.88em;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit;letter-spacing:.3px}
+.shop-buy-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 5px 16px rgba(102,126,234,.4)}
+.shop-buy-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.shop-buy-btn.free-btn{background:linear-gradient(135deg,#22c55e,#16a34a)}
+.shop-buy-btn.free-btn:hover:not(:disabled){box-shadow:0 5px 16px rgba(34,197,94,.4)}
+.shop-equip-btn{width:100%;padding:10px;background:#f0f4ff;border:2px solid #c7d2fe;border-radius:12px;color:#667eea;font-size:.85em;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit;margin-top:6px}
+.shop-equip-btn:hover{background:#e0e7ff}
+.shop-equip-btn.equipped{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-color:transparent}
+/* ── STICKER SYSTEM CSS ── */
+.stickers-page{display:none;max-width:1200px;margin:0 auto;padding-bottom:40px}
+.stickers-page.active{display:block}
+/* Sticker cards */
+.sticker-card{background:#fff;border-radius:18px;padding:16px 14px 14px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.09);transition:all .22s cubic-bezier(.34,1.3,.64,1);border:1.5px solid rgba(0,0,0,.05);display:flex;flex-direction:column;align-items:center}
+.sticker-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 12px 32px rgba(102,126,234,.22);border-color:rgba(102,126,234,.3)}
+.sticker-image{width:110px;height:110px;margin:0 auto;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#f0f1f7,#e8eaf6);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 2px 6px rgba(0,0,0,.06)}
+.sticker-image img{max-width:100%;max-height:100%;object-fit:contain}
+.sticker-name{font-weight:800;margin-top:11px;color:#1a1a2e;font-size:.95em;line-height:1.3;word-break:break-word}
+.sticker-meta{font-size:.72em;color:#999;margin:4px 0 2px;font-weight:500}
+.sticker-price{font-size:.78em;color:#f59e0b;margin:5px 0;font-weight:700;background:#fffbeb;padding:2px 8px;border-radius:8px;border:1px solid #fde68a}
+.sticker-badge{font-size:.68em;padding:3px 9px;border-radius:10px;display:inline-block;margin-top:6px;font-weight:600}
+.sticker-badge.public{background:linear-gradient(135deg,#e8f5e9,#f0fdf4);color:#16a34a;border:1px solid #bbf7d0}
+.sticker-badge.private{background:linear-gradient(135deg,#fff8f0,#fffbeb);color:#d97706;border:1px solid #fde68a}
+/* Sticker page header banner */
+.sticker-hero{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:20px;padding:28px 32px;margin-bottom:26px;display:flex;align-items:center;gap:20px;box-shadow:0 8px 24px rgba(102,126,234,.35)}
+.sticker-hero-icon{font-size:3em;line-height:1}
+.sticker-hero-text h2{color:#fff;font-size:1.6em;font-weight:800;margin-bottom:4px}
+.sticker-hero-text p{color:rgba(255,255,255,.8);font-size:.9em;line-height:1.5}
+.sticker-free-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;font-size:.8em;font-weight:700;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.3);margin-top:8px}
+/* Create form */
+.sticker-create-form{display:flex;flex-direction:column;gap:14px}
+.sticker-file-area{border:2px dashed #d1d5db;border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:#fafbff}
+.sticker-file-area:hover{border-color:#667eea;background:#f0f1ff}
+.sticker-file-area input[type=file]{display:none}
+.sticker-file-label{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;color:#667eea;font-weight:600;font-size:.9em}
+.sticker-preview-wrap{display:none;width:90px;height:90px;border-radius:14px;background:linear-gradient(135deg,#f0f1f7,#e8eaf6);align-items:center;justify-content:center;overflow:hidden;border:2px solid #667eea;box-shadow:0 4px 12px rgba(102,126,234,.2)}
+.sticker-preview-wrap img{max-width:100%;max-height:100%;object-fit:contain}
+.sticker-toggle-row{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#f8f9ff;border-radius:12px;border:1.5px solid #e8eaf6}
+.sticker-toggle-row input[type=checkbox]{width:18px;height:18px;accent-color:#667eea;cursor:pointer}
+.sticker-toggle-label{color:#555;font-size:.9em;cursor:pointer;font-weight:500}
+/* Section headers */
+.sticker-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sticker-section-title{font-size:1.15em;font-weight:800;color:#1a1a2e;display:flex;align-items:center;gap:8px}
+.sticker-count-badge{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:.7em;font-weight:700;padding:2px 9px;border-radius:10px}
 </style>
-<script type="text/javascript">
-window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a){switch(a.name){case"SDK_GAME_PAUSE":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','MuteAudio');break;case"SDK_GAME_START":if(typeof myGameInstance!=='undefined'&&myGameInstance)myGameInstance.SendMessage('AudioManager','UnmuteAudio');break;}}};
-(function(a,b,c){var d=a.getElementsByTagName(b)[0];a.getElementById(c)||(a=a.createElement(b),a.id=c,a.src="https://cdn.jsdelivr.net/gh/testamalame/sef@main/sedk.js",d.parentNode.insertBefore(a,d));})(document,"script","gamemonetize-sdk");
-</script>
 </head>
 <body>
 
-<!-- ══ SITE PASSWORD ══ -->
 <div class="sitepass-overlay" id="sitePassOverlay">
   <div class="sp-blob sp-blob-1"></div><div class="sp-blob sp-blob-2"></div><div class="sp-blob sp-blob-3"></div>
   <div class="sp-grid"></div>
@@ -1062,7 +1223,6 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
     <p class="sp-footer">🔒 Protected by Maths Support</p>
   </div>
 </div>
-
 
 <!-- ══ AUTH OVERLAY ══ -->
 <div class="auth-overlay hidden" id="authOverlay">
@@ -1139,6 +1299,12 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
     <div class="sidebar-item" id="chatBtn" onclick="showSection('chat')">
       <span class="sidebar-item-icon">💬</span><span class="sidebar-item-text">Chat</span>
       <span class="sidebar-badge" id="chatBadge" style="display:none">0</span>
+    </div>
+    <div class="sidebar-item" id="passBtn" onclick="showSection('pass')">
+      <span class="sidebar-item-icon">🎫</span><span class="sidebar-item-text">Maths Pass</span>
+    </div>
+    <div class="sidebar-item" id="shopBtn" onclick="showSection('shop')">
+      <span class="sidebar-item-icon">🛍️</span><span class="sidebar-item-text">Shop</span>
     </div>
     <div class="sidebar-item" id="accountBtn" onclick="showSection('account')">
       <span class="sidebar-item-icon">👤</span><span class="sidebar-item-text">Account</span>
@@ -1295,23 +1461,18 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
       <button class="save-btn" onclick="saveDisplayName()">💾 Save Changes</button>
       <div class="page-msg" id="acctMsg"></div>
     </div>
-    <!-- ROLE CARD -->
+    <!-- ROLE / TAG CARD — now managed via Shop -->
     <div class="page-card">
-      <h3>🏷️ Your Role / Tag</h3>
-      <p style="color:#aaa;font-size:.88em;margin-bottom:16px">Your role tag is shown instead of your real name to people who haven't had it revealed. <strong style="color:#667eea">Admin</strong> is exclusive — only you can have it.</p>
-      <label class="field-label">Select Your Role</label>
-      <select class="role-select" id="roleSelect" onchange="previewRole()">
-        <option value="">None</option>
-        <option value="admin">👑 Admin (exclusive)</option>
-        <option value="moderator">🛡️ Moderator</option>
-        <option value="vip">⭐ VIP</option>
-        <option value="verified">✅ Verified</option>
-      </select>
-      <div class="role-preview" id="rolePreview" style="display:none">
-        Preview: <span id="rolePreviewBadge"></span>
+      <h3>🏷️ Your Active Tag</h3>
+      <p style="color:#aaa;font-size:.88em;margin-bottom:16px">Tags are purchased in the <strong style="color:#667eea">Shop</strong> with Maths Gold. Your equipped tag is shown to other users. Admin tags remain exclusive.</p>
+      <div id="acctActiveTagWrap" style="display:flex;align-items:center;gap:14px;padding:14px;background:#f0f4ff;border-radius:12px;margin-bottom:16px">
+        <span style="font-size:1.8em">🏷️</span>
+        <div style="flex:1">
+          <div style="font-size:.88em;font-weight:700;color:#667eea" id="acctActiveTagName">No tag equipped</div>
+          <div style="font-size:.78em;color:#aaa;margin-top:2px">Equip a tag from the Shop</div>
+        </div>
+        <button class="save-btn" onclick="showSection('shop')" style="padding:9px 18px;font-size:.85em">🛍️ Shop</button>
       </div>
-      <br><br>
-      <button class="save-btn" onclick="saveRole()">💾 Save Role</button>
       <div class="page-msg" id="roleMsg"></div>
     </div>
     <div class="page-card">
@@ -1341,6 +1502,217 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
         <div id="friendsList"><div class="empty-list">No friends yet — share your code!</div></div>
       </div>
     </div>
+  </div>
+
+
+  <!-- ══ MATHS PASS PAGE ══ -->
+  <div class="pass-page" id="passPage">
+
+    <!-- Hero -->
+    <div class="pass-hero">
+      <div class="pass-hero-blob pass-hero-blob-1"></div>
+      <div class="pass-hero-blob pass-hero-blob-2"></div>
+      <div class="pass-hero-blob pass-hero-blob-3"></div>
+      <div class="pass-hero-inner">
+        <div class="pass-season-pill" id="passSeasonPill">🎫 Season 1 · Launch</div>
+        <div class="pass-hero-title">Maths Pass</div>
+        <div class="pass-hero-sub">Earn XP by chatting, logging in daily and playing games.<br>Unlock exclusive rewards every season.</div>
+        <div class="pass-hero-ends">
+          ⏳ Season ends: <span class="pass-ends-val" id="passEndDate">—</span>
+        </div>
+        <div class="pass-currency-row">
+          <div class="pass-cur-chip">
+            <div class="pass-cur-icon mp">🎫</div>
+            <div>
+              <div class="pass-cur-val" id="passBalanceMP">0</div>
+              <div class="pass-cur-label">Maths Pass</div>
+            </div>
+          </div>
+          <div class="pass-cur-chip">
+            <div class="pass-cur-icon mg">🪙</div>
+            <div>
+              <div class="pass-cur-val" id="passBalanceMG">0</div>
+              <div class="pass-cur-label">Maths Gold</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- XP Progress card -->
+    <div class="pass-xp-card">
+      <h3>
+        ⚡ Your Progress
+        <span class="pass-xp-level-pill" id="passLevelPill">Level 1</span>
+      </h3>
+      <div class="pass-xp-track">
+        <div class="pass-xp-fill" id="passXpFill" style="width:0%"></div>
+      </div>
+      <div class="pass-xp-sub">
+        <span id="passXpCur">0 XP this level</span>
+        <span id="passXpNext">/ 100 XP to next level</span>
+      </div>
+    </div>
+
+    <!-- How to earn XP -->
+    <div class="pass-how-card">
+      <h3>💡 How to earn XP</h3>
+      <div class="pass-how-grid">
+        <div class="pass-how-item">
+          <div class="pass-how-icon">🌅</div>
+          <div>
+            <div class="pass-how-name">Daily Login</div>
+            <div class="pass-how-sub">Log in each day to keep earning.</div>
+            <span class="pass-how-xp">+20 XP / day</span>
+          </div>
+        </div>
+        <div class="pass-how-item">
+          <div class="pass-how-icon">💬</div>
+          <div>
+            <div class="pass-how-name">Send Messages</div>
+            <div class="pass-how-sub">Chat with friends in real time.</div>
+            <span class="pass-how-xp">+5 XP / message</span>
+          </div>
+        </div>
+        <div class="pass-how-item">
+          <div class="pass-how-icon">🔥</div>
+          <div>
+            <div class="pass-how-name">Chat Streaks</div>
+            <div class="pass-how-sub">Maintain streaks for bonus XP.</div>
+            <span class="pass-how-xp">+15 XP / streak</span>
+          </div>
+        </div>
+        <div class="pass-how-item">
+          <div class="pass-how-icon">🛍️</div>
+          <div>
+            <div class="pass-how-name">Maths Gold</div>
+            <div class="pass-how-sub">Spend in the Shop on tags &amp; more.</div>
+            <span class="pass-how-xp">1 MP = 5 XP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Season tier rewards -->
+    <div class="pass-tiers-title">🏆 Season Rewards</div>
+    <div class="pass-tiers-grid" id="passTiersGrid">
+      <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:rgba(255,255,255,.3);font-size:.9em">Loading season rewards...</div>
+    </div>
+
+  </div>
+
+  <!-- ══ SHOP PAGE ══ -->
+<!-- ══ STICKERS PAGE ══ -->
+<!-- stickers moved into shopPage -->
+  <div class="shop-page" id="shopPage">
+
+    <!-- Hero -->
+    <div class="shop-hero">
+      <div class="shop-hero-icon">🛍️</div>
+      <div class="shop-hero-text">
+        <h2>Maths Shop</h2>
+        <p>Spend your Maths Gold on tags, cosmetics, and stickers. Limited-time discounts appear regularly!</p>
+      </div>
+      <div class="shop-wallet">
+        <div class="shop-wallet-chip">
+          <span>🪙</span>
+          <span id="shopBalanceMG">0</span>
+          <small>Maths Gold</small>
+        </div>
+        <div class="shop-wallet-chip">
+          <span>🎫</span>
+          <span id="shopBalanceMP">0</span>
+          <small>Maths Pass</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sale countdown bar (shown only when sale active) -->
+    <div class="shop-sale-bar" id="shopSaleBar" style="display:none">
+      <div class="shop-sale-icon">🔥</div>
+      <div class="shop-sale-text">Limited-time offer — <strong id="shopSaleLabel">ends soon</strong></div>
+      <div class="shop-sale-timer">
+        <div class="sale-unit"><span class="sale-unit-num" id="saleH">00</span><span class="sale-unit-lbl">hrs</span></div>
+        <div class="sale-unit"><span class="sale-unit-num" id="saleM">00</span><span class="sale-unit-lbl">min</span></div>
+        <div class="sale-unit"><span class="sale-unit-num" id="saleS">00</span><span class="sale-unit-lbl">sec</span></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="shop-tabs">
+      <button class="shop-tab active" id="shopTabTags" onclick="switchShopTab('tags')">🏷️ Tags &amp; Cosmetics</button>
+      <button class="shop-tab" id="shopTabStickers" onclick="switchShopTab('stickers')">🎨 Stickers</button>
+    </div>
+
+    <!-- Tags panel -->
+    <div class="shop-tab-panel active" id="shopPanelTags">
+      <div class="shop-grid" id="shopGrid">
+        <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:rgba(255,255,255,.3);font-size:.9em">Loading shop...</div>
+      </div>
+    </div>
+
+    <!-- Stickers panel -->
+    <div class="shop-tab-panel" id="shopPanelStickers">
+
+      <!-- Create Sticker Card -->
+      <div class="page-card" style="margin-bottom:22px;background:rgba(255,255,255,.97)">
+        <div class="sticker-section-header">
+          <div class="sticker-section-title">🖼️ Create a Sticker</div>
+          <span style="font-size:.8em;color:#22c55e;font-weight:700;background:#f0fdf4;padding:4px 10px;border-radius:8px;border:1px solid #bbf7d0">✓ FREE</span>
+        </div>
+        <div class="sticker-create-form" style="margin-top:14px">
+          <input type="text" id="stickerName" class="account-field" placeholder="Sticker name (e.g. Happy Dog 🐶)" maxlength="30" style="font-size:.95em">
+          <input type="text" id="stickerDesc" class="account-field" placeholder="Description (optional)" maxlength="100" style="font-size:.93em">
+          <!-- File upload zone -->
+          <div class="sticker-file-area" onclick="document.getElementById('stickerImage').click()">
+            <label class="sticker-file-label" for="stickerImage">
+              <span style="font-size:2em">📁</span>
+              <span id="stickerFileLabel">Click to choose image</span>
+              <span style="color:#aaa;font-size:.8em;font-weight:400">PNG, JPG, GIF, WebP · max 2MB</span>
+            </label>
+            <input type="file" id="stickerImage" accept="image/*">
+          </div>
+          <!-- Preview -->
+          <div id="imagePreview" class="sticker-preview-wrap">
+            <img id="imagePreviewImg" style="max-width:100%;max-height:100%;object-fit:contain">
+          </div>
+          <!-- Public toggle -->
+          <label class="sticker-toggle-row" for="stickerPublic">
+            <input type="checkbox" id="stickerPublic">
+            <span class="sticker-toggle-label">🌍 Make public — earn <strong>50 🪙</strong> each time someone buys it</span>
+          </label>
+          <button class="save-btn" onclick="createSticker()" style="background:linear-gradient(135deg,#667eea,#764ba2);font-size:1em;padding:14px 20px">
+            ✨ Create Sticker (FREE!)
+          </button>
+          <div id="stickerMsg" class="page-msg" style="display:none"></div>
+        </div>
+      </div>
+
+      <!-- My Stickers -->
+      <div class="page-card" style="margin-bottom:22px;background:rgba(255,255,255,.97)">
+        <div class="sticker-section-header">
+          <div class="sticker-section-title">📸 My Stickers</div>
+          <span id="myStickerCount" class="sticker-count-badge">0</span>
+        </div>
+        <div id="myStickersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;margin-top:12px">
+          <div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">No stickers yet — create your first one above! It's FREE 🎉</div>
+        </div>
+      </div>
+
+      <!-- Sticker Marketplace -->
+      <div class="page-card" style="background:rgba(255,255,255,.97)">
+        <div class="sticker-section-header">
+          <div class="sticker-section-title">🛒 Sticker Marketplace</div>
+          <span id="publicStickerCount" class="sticker-count-badge">0</span>
+        </div>
+        <p style="color:#aaa;font-size:.88em;margin-bottom:18px">Buy stickers from other students! Each costs <strong style="color:#f59e0b">50 🪙 Maths Gold</strong>. Creators earn 50 🪙 per sale.</p>
+        <div id="publicStickersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px">
+          <div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">Loading marketplace...</div>
+        </div>
+      </div>
+
+    </div><!-- /shopPanelStickers -->
+
   </div>
 
   <!-- GAME CONTAINER -->
@@ -1426,8 +1798,16 @@ window.SDK_OPTIONS={gameId:"jp112o3o4hzgrnc7zaewjkrfk282pul8",onEvent:function(a
           <span class="typing-label" id="typingLabel">typing...</span>
         </div>
         <!-- Input -->
-        <div class="chat-input-area">
+        <div class="chat-input-area" style="position:relative">
+          <!-- Sticker picker popup -->
+          <div class="sticker-picker" id="stickerPicker">
+            <div class="sticker-picker-header">🎨 Your Stickers</div>
+            <div class="sticker-picker-grid" id="stickerPickerGrid">
+              <div class="sticker-picker-empty">Loading stickers...</div>
+            </div>
+          </div>
           <div class="chat-input-row">
+            <button class="sticker-btn" id="stickerPickerBtn" onclick="toggleStickerPicker()" title="Send a sticker">🎨</button>
             <textarea class="chat-input" id="chatMsgInput" placeholder="Type a message..." rows="1"></textarea>
             <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">➤</button>
           </div>
@@ -1824,26 +2204,27 @@ function displayNameForMe(profile, friendshipData){
 }
 
 function previewRole(){
-  const val = document.getElementById('roleSelect').value;
-  const preview = document.getElementById('rolePreview');
-  const badge   = document.getElementById('rolePreviewBadge');
-  if(!val){ preview.style.display='none'; return; }
-  preview.style.display='inline-flex';
-  badge.innerHTML = roleBadgeHTML(val);
+  const rs=document.getElementById('roleSelect');
+  if(!rs) return;
+  const val=rs.value;
+  const preview=document.getElementById('rolePreview');
+  const badge=document.getElementById('rolePreviewBadge');
+  if(!val){if(preview)preview.style.display='none';return;}
+  if(preview)preview.style.display='inline-flex';
+  if(badge)badge.innerHTML=roleBadgeHTML(val);
 }
 
 async function saveRole(){
-  const val = document.getElementById('roleSelect').value;
+  const rs=document.getElementById('roleSelect');
+  if(!rs) return;
+  const val=rs.value;
   if(val==='admin'){
-    const isAllowed = ADMIN_USER_IDS.includes(currentUser.id) || currentProfile?.is_admin;
-    if(!isAllowed){
-      showMsg('roleMsg','❌ Admin role is exclusive and cannot be claimed.','err');
-      return;
-    }
+    const isAllowed=ADMIN_USER_IDS.includes(currentUser.id)||currentProfile?.is_admin;
+    if(!isAllowed){ showMsg('roleMsg','❌ Admin role is exclusive and cannot be claimed.','err'); return; }
   }
-  const {error} = await sb.from('users').update({role: val||null}).eq('id',currentUser.id);
+  const {error}=await sb.from('users').update({role:val||null}).eq('id',currentUser.id);
   if(error){ showMsg('roleMsg','Error: '+error.message,'err'); return; }
-  currentProfile.role = val||null;
+  currentProfile.role=val||null;
   showMsg('roleMsg','✅ Role saved!','ok');
 }
 
@@ -1983,6 +2364,8 @@ async function onSignedIn(profile){
   const iAmAdmin=ADMIN_USER_IDS.includes(profile.id)||profile?.is_admin;
   const bcBtn=document.getElementById('broadcastBtn');
   if(bcBtn)bcBtn.style.display=iAmAdmin?'':'none';
+  // Init pass: ensure user_pass row exists for active season, award daily login XP
+  try{ await initUserPass(); }catch(e){ console.warn('Pass init error:',e); }
 }
 
 async function restoreSession(){
@@ -2021,17 +2404,12 @@ function populateAccountPage(){
   document.getElementById('acctUsername').value=currentProfile.username;
   document.getElementById('acctEmail').value=currentProfile.username;
   document.getElementById('myFriendCode').textContent=currentProfile.friend_code;
-  // Set role select
-  const rs=document.getElementById('roleSelect');
-  rs.value=currentProfile.role||'';
-  previewRole();
   // Show/hide admin-only UI
   const isAdmin=ADMIN_USER_IDS.includes(currentUser.id)||currentProfile?.is_admin;
-  const adminOpt=rs.querySelector('option[value="admin"]');
-  if(adminOpt) adminOpt.style.display=isAdmin?'':'none';
-  // Show Dev Panel entry button only for admins
   const devEntry=document.getElementById('adminDevEntry');
   if(devEntry) devEntry.classList.toggle('visible', !!isAdmin);
+  // Update equipped tag display (from shop)
+  refreshAccountTagDisplay();
 }
 async function saveDisplayName(){
   const val=document.getElementById('acctDisplayName').value.trim();
@@ -2517,7 +2895,6 @@ function appendBubble(m){
   if(renderedMsgIds.has(m.id))return;
   renderedMsgIds.add(m.id);
   const container=document.getElementById('chatMessages');
-  // Remove empty state
   const empty=container.querySelector('.chat-empty-msgs');if(empty)empty.remove();
   const isMe=m.sender_id===currentUser.id;
   const group=document.createElement('div');
@@ -2525,11 +2902,15 @@ function appendBubble(m){
   group.dataset.msgId=m.id;
   const tickClass=isMe?getTickClass(m.status):'';
   const tickHtml=isMe?`<span class="msg-tick ${tickClass}" id="tick-${m.id}"></span>`:'';
+  const isSticker=m.content_type==='sticker'&&m.sticker_url;
+  const bubbleContent=isSticker
+    ?`<img src="${escapeHtml(m.sticker_url)}" alt="sticker" onerror="this.style.display='none'">`
+    :`<div class="bubble-content">${escapeHtml(m.content||'')}</div>`;
   group.innerHTML=`
     <div class="bubble-row">
       ${!isMe?`<div class="msg-group-avatar">${initials(activeChatFriendName)}</div>`:''}
-      <div class="chat-bubble ${isMe?'me':'them'}">
-        <div class="bubble-content">${escapeHtml(m.content)}</div>
+      <div class="chat-bubble ${isMe?'me':'them'}${isSticker?' bubble-sticker':''}">
+        ${bubbleContent}
         <div class="bubble-footer">
           <span class="bubble-time">${formatTime(m.created_at)}</span>
           ${tickHtml}
@@ -2569,7 +2950,9 @@ function updateLastMsgPreview(friendId,msg){
   if(!msg)return;
   const el=document.getElementById('last-msg-'+friendId);
   const tel=document.getElementById('last-time-'+friendId);
-  if(el)el.textContent=(msg.sender_id===currentUser.id?'You: ':'')+msg.content.substring(0,40)+(msg.content.length>40?'…':'');
+  const prefix=msg.sender_id===currentUser.id?'You: ':'';
+  const text=msg.content_type==='sticker'?'🎨 Sticker':(msg.content||'').substring(0,40)+((msg.content||'').length>40?'…':'');
+  if(el)el.textContent=prefix+text;
   if(tel)tel.textContent=formatTime(msg.created_at);
 }
 
@@ -2596,6 +2979,8 @@ async function sendMessage(){
     updateStreak(activeChatFriendId);
     broadcastTyping(false);
     updateLastMsgPreview(activeChatFriendId,{...data,content});
+    // Award XP for sending a message (deduped by message id)
+    try{ awardChatXP(data.id); }catch(e){}
   }
 }
 
@@ -2760,9 +3145,9 @@ function showSection(section){
   if(chatPollTimer&&section!=='chat'){clearInterval(chatPollTimer);chatPollTimer=null;}
   // Hide all
   document.getElementById('gamesGrid').style.display='none';
-  ['appsPage','accountPage','friendsPage'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  ['appsPage','accountPage','friendsPage','passPage','shopPage'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
   document.getElementById('chatPage').classList.remove('active');
-  ['homeBtn','appsBtn','accountBtn','friendsBtn','chatBtn'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  ['homeBtn','appsBtn','accountBtn','friendsBtn','chatBtn','passBtn','shopBtn','stickersBtn'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
   document.getElementById('topNav').classList.remove('minimal');
   const cas=document.querySelector('.custom-apps-section');
   if(section==='home'){
@@ -2792,6 +3177,18 @@ function showSection(section){
       if(chatPollTimer)clearInterval(chatPollTimer);
       chatPollTimer=setInterval(()=>{if(activeChatFriendId)pollNewMessages(activeChatFriendId);},5000);
     }
+  }else if(section==='pass'){
+    document.getElementById('passPage').classList.add('active');
+    document.getElementById('passBtn').classList.add('active');
+    if(cas)cas.style.display='none';
+    loadPassData();
+  }else if(section==='shop'){
+    document.getElementById('shopPage').classList.add('active');
+    document.getElementById('shopBtn').classList.add('active');
+    if(cas)cas.style.display='none';
+    loadShopData();
+    // Load stickers too
+    if(currentUser){ loadMyStickers(); loadPublicStickers(); }
   }
   if(section!=='chat')window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -3965,9 +4362,792 @@ function switchDevTab(tab){
   sidebar.addEventListener('mouseleave', () => { chatPage.style.left = '60px'; });
 })();
 
+
+
+// ══════════════════════════════════════════════════════════════════
+// MATHS PASS SYSTEM
+// ══════════════════════════════════════════════════════════════════
+let passSeasonData = null;
+let passUserData   = null;
+let passUserItems  = [];
+let shopItems      = [];
+let saleTimerInterval = null;
+
+// ── XP award rates ──────────────────────────────────────────────
+const XP_RATES = {
+  daily_login:  20,
+  chat_message: 5,
+  streak_bonus: 15,
+};
+
+// ── Ensure user has a row in user_pass for the active season ────
+async function initUserPass(){
+  if(!currentUser) return;
+  const {data:season} = await sb.from('pass_seasons').select('*').eq('active',true).maybeSingle();
+  if(!season) return;
+  passSeasonData = season;
+  // Get or create user_pass row
+  let {data:row} = await sb.from('user_pass').select('*').eq('user_id',currentUser.id).eq('season_id',season.id).maybeSingle();
+  if(!row){
+    const {data:newRow} = await sb.from('user_pass').insert({user_id:currentUser.id,season_id:season.id,xp:0,maths_pass:0,maths_gold:0}).select().single();
+    row = newRow;
+  }
+  passUserData = row;
+  // Award daily login XP (once per calendar day)
+  const today = new Date().toISOString().split('T')[0];
+  const {data:existing} = await sb.from('pass_xp_log').select('id').eq('user_id',currentUser.id).eq('season_id',season.id).eq('reason','daily_login').eq('ref_id',today).maybeSingle();
+  if(!existing){
+    await awardPassXP('daily_login', XP_RATES.daily_login, today);
+  }
+  updatePassBadgeUI();
+}
+
+// ── Award XP and update balances ──────────────────────────────────
+async function awardPassXP(reason, amount, refId=null){
+  if(!currentUser||!passSeasonData||!passUserData) return;
+  // Insert log (deduplication handled by DB unique index)
+  try{
+    const logEntry = {user_id:currentUser.id,season_id:passSeasonData.id,reason,xp_awarded:amount};
+    if(refId) logEntry.ref_id = refId;
+    const {error:logErr} = await sb.from('pass_xp_log').insert(logEntry);
+    if(logErr) return; // duplicate or error — skip
+    // Update user_pass row
+    const newXP   = (passUserData.xp||0) + amount;
+    const newMP   = (passUserData.maths_pass||0) + Math.floor(amount/5); // 1 MP per 5 XP
+    const {data:updated} = await sb.from('user_pass').update({xp:newXP, maths_pass:newMP, updated_at:new Date().toISOString()}).eq('user_id',currentUser.id).eq('season_id',passSeasonData.id).select().single();
+    if(updated){
+      const oldLevel = getPassLevel(passUserData.xp, passSeasonData.tiers);
+      passUserData = updated;
+      const newLevel = getPassLevel(updated.xp, passSeasonData.tiers);
+      // Level-up toast + auto-grant currency rewards
+      if(newLevel > oldLevel){
+        const tier = passSeasonData.tiers[newLevel-1];
+        if(tier){
+          showPassRewardToast('🎉 Level '+newLevel+'! '+tier.icon+' '+tier.reward_name);
+          if(tier.reward_type==='currency'){
+            await sb.from('user_pass').update({maths_gold:(passUserData.maths_gold||0)+tier.reward_value}).eq('user_id',currentUser.id).eq('season_id',passSeasonData.id);
+            passUserData.maths_gold=(passUserData.maths_gold||0)+tier.reward_value;
+          }
+        }
+      }
+      updatePassBadgeUI();
+    }
+  }catch(e){ console.warn('awardPassXP error:',e); }
+}
+
+// ── Called when user sends a chat message ─────────────────────────
+async function awardChatXP(msgId){
+  if(!msgId) return;
+  await awardPassXP('chat_message', XP_RATES.chat_message, String(msgId));
+}
+
+// ── Level calculation ─────────────────────────────────────────────
+function getPassLevel(totalXP, tiers){
+  if(!tiers||!tiers.length) return 1;
+  let level = 1;
+  for(let i=0;i<tiers.length;i++){
+    if(totalXP >= tiers[i].xp_required) level = tiers[i].level;
+    else break;
+  }
+  return level;
+}
+
+function getXPForNextLevel(totalXP, tiers){
+  if(!tiers) return {current:totalXP, needed:100, nextLevel:2};
+  for(let i=0;i<tiers.length;i++){
+    const next = tiers[i+1];
+    if(!next) return {current:totalXP-tiers[i].xp_required, needed:999, nextLevel:null};
+    if(totalXP < next.xp_required){
+      const base = tiers[i].xp_required;
+      return {current:totalXP-base, needed:next.xp_required-base, nextLevel:next.level};
+    }
+  }
+  return {current:totalXP, needed:100, nextLevel:2};
+}
+
+// ── Update currency chips in navbar/top UI ──────────────────────
+function updatePassBadgeUI(){
+  if(!passUserData) return;
+  const mp = passUserData.maths_pass||0;
+  const mg = passUserData.maths_gold||0;
+  ['passBalanceMP','shopBalanceMP'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=mp;});
+  ['passBalanceMG','shopBalanceMG'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=mg;});
+  // Update account page equipped tag display
+  updateAccountTagDisplay();
+}
+
+// refreshAccountTagDisplay is defined in the Maths Pass section above
+
+// ── Load Pass Page ────────────────────────────────────────────────
+async function loadPassData(){
+  if(!currentUser){ showPassRewardToast('Sign in to view your Maths Pass!'); return; }
+  if(!passSeasonData) await initUserPass();
+  if(!passUserData||!passSeasonData) return;
+
+  // Update header
+  document.getElementById('passSeasonBadge').textContent = '🎫 '+passSeasonData.name;
+  const endDate = new Date(passSeasonData.end_date);
+  document.getElementById('passEndDate').textContent = endDate.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+  // XP bar
+  const tiers = passSeasonData.tiers||[];
+  const totalXP = passUserData.xp||0;
+  const level = getPassLevel(totalXP, tiers);
+  const xpInfo = getXPForNextLevel(totalXP, tiers);
+  const pct = xpInfo.needed>0 ? Math.min(100, Math.round((xpInfo.current/xpInfo.needed)*100)) : 100;
+
+  document.getElementById('passCurrentLevel').textContent = 'Level '+level;
+  document.getElementById('passXpNums').textContent = xpInfo.current+' / '+xpInfo.needed+' XP';
+  document.getElementById('passXpFill').style.width = pct+'%';
+  document.getElementById('passXpTotal').textContent = 'Total: '+totalXP+' XP';
+  document.getElementById('passNextReward').textContent = xpInfo.nextLevel ? 'Next reward: Level '+xpInfo.nextLevel : 'Max level reached! 🏆';
+
+  // Currency
+  updatePassBadgeUI();
+
+  // Load user items for equipped check
+  const {data:items} = await sb.from('user_items').select('*,shop_items(*)').eq('user_id',currentUser.id);
+  passUserItems = items||[];
+
+  // Render tier grid
+  renderTierGrid(tiers, level);
+}
+
+function renderTierGrid(tiers, currentLevel){
+  const grid = document.getElementById('passTierGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  tiers.forEach(tier=>{
+    const unlocked = currentLevel >= tier.level;
+    const card = document.createElement('div');
+    card.className = 'pass-tier-card '+(unlocked?'unlocked':'locked');
+    card.innerHTML = `
+      <div class="pass-tier-level">Level ${tier.level}</div>
+      <span class="pass-tier-reward-icon">${tier.icon}</span>
+      <div class="pass-tier-reward-name">${tier.reward_name}</div>
+      <div class="pass-tier-xp-needed">${tier.xp_required} XP needed</div>
+      ${unlocked?'<div class="pass-tier-check">✓</div>':''}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ── Load Shop Page ────────────────────────────────────────────────
+async function loadShopData(){
+  if(!currentUser){ showPassRewardToast('Sign in to visit the Shop!'); return; }
+  if(!passUserData) await initUserPass();
+
+  updatePassBadgeUI();
+
+  // Load shop items with live sale status
+  const {data:items} = await sb.from('shop_items_live').select('*');
+  shopItems = items||[];
+
+  // Load user's owned items
+  const {data:owned} = await sb.from('user_items').select('*,shop_items(*)').eq('user_id',currentUser.id);
+  passUserItems = owned||[];
+
+  // Find earliest sale_until for the countdown timer
+  const saleItems = shopItems.filter(i=>i.on_sale && i.sale_until);
+  if(saleItems.length>0){
+    const earliest = saleItems.reduce((a,b)=>new Date(a.sale_until)<new Date(b.sale_until)?a:b);
+    startSaleTimer(new Date(earliest.sale_until), earliest.name);
+  } else {
+    document.getElementById('saleTimerBar').style.display='none';
+    if(saleTimerInterval){ clearInterval(saleTimerInterval); saleTimerInterval=null; }
+  }
+
+  renderShopGrid(shopItems, passUserItems);
+}
+
+function renderShopGrid(items, ownedItems){
+  const grid = document.getElementById('shopGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  items.forEach(item=>{
+    const ownedRow = ownedItems.find(o=>o.item_id===item.id);
+    const isOwned = !!ownedRow;
+    const isEquipped = ownedRow?.equipped===true;
+    const onSale = item.on_sale;
+    const isFree = item.is_free;
+    const effectivePrice = onSale ? item.sale_price : item.price_gold;
+    const style = item.tag_style;
+
+    const div = document.createElement('div');
+    div.className = 'shop-item'+(onSale?' on-sale':'')+(isOwned?' owned':'');
+
+    // Badge
+    let badgeHTML = '';
+    if(isOwned) badgeHTML = '<span class="shop-item-badge owned-badge">Owned</span>';
+    else if(isFree) badgeHTML = '<span class="shop-item-badge sale">FREE</span>';
+    else if(onSale) badgeHTML = '<span class="shop-item-badge sale">SALE</span>';
+
+    // Tag preview
+    let tagPreview = '';
+    if(item.type==='tag' && style){
+      tagPreview = `<div class="shop-tag-preview" style="background:${style.bg||'#667eea'};color:${style.color||'#fff'}">${style.icon||''} ${style.label||item.name}</div>`;
+    }
+
+    // Price block
+    let priceHTML = '';
+    if(isOwned){
+      priceHTML = '<div class="shop-item-price-wrap"><div class="shop-item-price-final"><span class="shop-item-price-num" style="color:#667eea">Owned</span></div></div>';
+    } else if(isFree){
+      priceHTML = `<div class="shop-item-price-wrap">
+        <div class="shop-item-price-orig">500 🪙</div>
+        <div class="shop-item-price-final"><span class="shop-item-price-num free">FREE</span></div>
+        <div class="shop-item-sale-note">Limited time offer!</div>
+      </div>`;
+    } else if(onSale){
+      priceHTML = `<div class="shop-item-price-wrap">
+        <div class="shop-item-price-orig">${item.price_gold} 🪙</div>
+        <div class="shop-item-price-final"><span class="shop-item-price-num">${effectivePrice}</span><span class="shop-item-price-cur">🪙 Maths Gold</span></div>
+        <div class="shop-item-sale-note">On sale!</div>
+      </div>`;
+    } else {
+      priceHTML = `<div class="shop-item-price-wrap">
+        <div class="shop-item-price-final"><span class="shop-item-price-num">${effectivePrice}</span><span class="shop-item-price-cur">🪙 Maths Gold</span></div>
+      </div>`;
+    }
+
+    // Button
+    let btnHTML = '';
+    if(isOwned){
+      btnHTML = `<button class="shop-equip-btn ${isEquipped?'equipped':''}" onclick="equipShopItem('${item.id}','${isEquipped}')">${isEquipped?'✓ Equipped':'Equip'}</button>`;
+    } else {
+      btnHTML = `<button class="shop-buy-btn ${isFree?'free-btn':''}" onclick="buyShopItem('${item.id}','${effectivePrice}','${isFree}')">${isFree?'Claim Free':'Buy'}</button>`;
+    }
+
+    div.innerHTML = `
+      ${badgeHTML}
+      <span class="shop-item-icon">${item.icon}</span>
+      <div class="shop-item-name">${item.name}</div>
+      <div class="shop-item-desc">${item.description}</div>
+      ${tagPreview}
+      ${priceHTML}
+      ${btnHTML}
+    `;
+    grid.appendChild(div);
+  });
+}
+
+// ── Buy item ─────────────────────────────────────────────────────
+async function buyShopItem(itemId, price, isFree){
+  if(!currentUser||!passUserData){ showToast('Sign in first!'); return; }
+  const cost = isFree==='true'||isFree===true ? 0 : parseInt(price)||0;
+  const gold = passUserData.maths_gold||0;
+  if(cost>0 && gold<cost){ showToast('❌ Not enough Maths Gold! You need '+cost+' 🪙'); return; }
+
+  // Deduct gold
+  if(cost>0){
+    const {error} = await sb.from('user_pass').update({maths_gold:gold-cost}).eq('user_id',currentUser.id).eq('season_id',passSeasonData.id);
+    if(error){ showToast('❌ Purchase failed: '+error.message); return; }
+    passUserData.maths_gold = gold-cost;
+  }
+
+  // Record ownership
+  const {error:insErr} = await sb.from('user_items').insert({user_id:currentUser.id, item_id:itemId, equipped:false});
+  if(insErr){ showToast('❌ Could not save item: '+insErr.message); return; }
+
+  showToast('🎉 Item purchased!');
+  updatePassBadgeUI();
+  await loadShopData(); // refresh
+}
+
+// ── Equip/unequip tag ────────────────────────────────────────────
+async function equipShopItem(itemId, isEquipped){
+  if(!currentUser) return;
+  const currentlyEquipped = isEquipped==='true'||isEquipped===true;
+
+  if(currentlyEquipped){
+    // Unequip
+    await sb.from('user_items').update({equipped:false}).eq('user_id',currentUser.id).eq('item_id',itemId);
+    // Clear role
+    await sb.from('users').update({role:null,custom_tag:null}).eq('id',currentUser.id);
+    showToast('Tag unequipped');
+  } else {
+    // Unequip all others first
+    await sb.from('user_items').update({equipped:false}).eq('user_id',currentUser.id);
+    // Equip this one
+    await sb.from('user_items').update({equipped:true}).eq('user_id',currentUser.id).eq('item_id',itemId);
+    // Find item style and apply as role
+    const item = shopItems.find(i=>i.id===itemId);
+    if(item && item.tag_style){
+      // Store tag reference in users table for chat display
+      await sb.from('users').update({custom_tag:JSON.stringify(item.tag_style)}).eq('id',currentUser.id);
+      if(currentProfile) currentProfile.custom_tag = item.tag_style;
+    }
+    showToast('✓ Tag equipped!');
+  }
+  await loadShopData();
+}
+
+// ── Sale countdown timer ──────────────────────────────────────────
+function startSaleTimer(endDate, itemName){
+  const bar = document.getElementById('saleTimerBar');
+  if(!bar) return;
+  bar.style.display='flex';
+  document.getElementById('saleTimerLabel').textContent = itemName+' ends';
+  if(saleTimerInterval) clearInterval(saleTimerInterval);
+  function tick(){
+    const now = Date.now();
+    const diff = endDate.getTime()-now;
+    if(diff<=0){ bar.style.display='none'; clearInterval(saleTimerInterval); return; }
+    const h = Math.floor(diff/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    document.getElementById('saleH').textContent = String(h).padStart(2,'0');
+    document.getElementById('saleM').textContent = String(m).padStart(2,'0');
+    document.getElementById('saleS').textContent = String(s).padStart(2,'0');
+  }
+  tick();
+  saleTimerInterval = setInterval(tick,1000);
+}
+
+// ── Pass reward toast ──────────────────────────────────────────────
+function showPassRewardToast(msg){
+  let t = document.getElementById('passRewardToast');
+  if(!t){ t=document.createElement('div'); t.id='passRewardToast'; t.className='pass-reward-toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>t.classList.remove('show'), 3500);
+}
+
+// ── Hook into sendMessage to award XP ────────────────────────────
+const _origSendMessage = typeof sendMessage === 'function' ? sendMessage : null;
+// We patch after all scripts load via the DOMContentLoaded override below
+
 document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('sitePassInput').focus();
 });
+// ══════════════════════════════════════════════════════════════════
+// SHOP TABS
+// ══════════════════════════════════════════════════════════════════
+function switchShopTab(tab) {
+  document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.shop-tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('shopTab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+  document.getElementById('shopPanel' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+  if (tab === 'stickers' && currentUser) {
+    loadMyStickers();
+    loadPublicStickers();
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════
+// STICKER SYSTEM - FREE to create, 50 coins to buy from others
+// ══════════════════════════════════════════════════════════════════
+
+// Image preview when file is selected
+document.getElementById('stickerImage')?.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  const preview = document.getElementById('imagePreview');
+  const previewImg = document.getElementById('imagePreviewImg');
+  const fileArea = document.querySelector('.sticker-file-area');
+
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      previewImg.src = event.target.result;
+      preview.style.display = 'flex';
+      if (fileArea) {
+        const labelEl = document.getElementById('stickerFileLabel');
+        if (labelEl) labelEl.textContent = file.name;
+      }
+    };
+    reader.readAsDataURL(file);
+  } else {
+    preview.style.display = 'none';
+  }
+});
+
+// Upload sticker image to Supabase Storage
+async function uploadStickerImage(file, userId) {
+  const fileName = `${userId}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+  
+  const { data, error } = await sb.storage
+    .from('stickers')
+    .upload(fileName, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
+  
+  if (error) throw error;
+  
+  const { data: { publicUrl } } = sb.storage
+    .from('stickers')
+    .getPublicUrl(fileName);
+  
+  return publicUrl;
+}
+
+// Create a new sticker - FREE!
+async function createSticker() {
+  if (!currentUser) {
+    showStickerMsg('⚠️ Please sign in first!', 'err');
+    return;
+  }
+  const uid = currentUser.id;
+
+  const name = document.getElementById('stickerName').value.trim();
+  const description = document.getElementById('stickerDesc').value.trim();
+  const fileInput = document.getElementById('stickerImage');
+  const isPublic = document.getElementById('stickerPublic').checked;
+  const msgDiv = document.getElementById('stickerMsg');
+
+  if (!name) {
+    showStickerMsg('⚠️ Please enter a sticker name', 'err');
+    return;
+  }
+
+  if (!fileInput.files || !fileInput.files[0]) {
+    showStickerMsg('⚠️ Please select an image for your sticker', 'err');
+    return;
+  }
+
+  const file = fileInput.files[0];
+
+  if (!file.type.startsWith('image/')) {
+    showStickerMsg('⚠️ Please upload an image file (PNG, JPG, GIF, WebP)', 'err');
+    return;
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    showStickerMsg('⚠️ Image must be less than 2MB', 'err');
+    return;
+  }
+
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '⏳ Uploading image...';
+  msgDiv.style.display = 'none';
+
+  try {
+    // Upload image first
+    const imageUrl = await uploadStickerImage(file, uid);
+
+    btn.textContent = '⏳ Saving sticker...';
+
+    // Build the insert payload carefully — only include columns that exist
+    const payload = {
+      user_id: uid,
+      name: name,
+      image_url: imageUrl,
+      price: 50,
+      is_public: isPublic
+    };
+    // Only add optional fields if they have values (avoids NOT NULL constraint issues)
+    if (description) payload.description = description;
+
+    const { data: sticker, error } = await sb
+      .from('stickers')
+      .insert(payload)
+      .select()
+      .single();
+
+    if (error) {
+      // If RLS still triggers, give a clear actionable message
+      if (error.code === '42501' || error.message?.includes('row-level security') || error.message?.includes('policy')) {
+        throw new Error('RLS policy blocked the insert. In Supabase, go to the stickers table → Policies and either disable RLS or add an INSERT policy with: WITH CHECK (true)');
+      }
+      throw error;
+    }
+
+    showStickerMsg('🎉 Sticker created! It\'s live' + (isPublic ? ' in the marketplace.' : ' (private).'), 'ok');
+
+    // Clear form
+    document.getElementById('stickerName').value = '';
+    document.getElementById('stickerDesc').value = '';
+    document.getElementById('stickerImage').value = '';
+    document.getElementById('imagePreview').style.display = 'none';
+    document.getElementById('stickerPublic').checked = false;
+
+    // Refresh grids
+    loadMyStickers();
+    loadPublicStickers();
+
+  } catch (error) {
+    showStickerMsg('❌ ' + error.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✨ Create Sticker (FREE!)';
+  }
+}
+
+// Load user's own stickers
+async function loadMyStickers() {
+  if (!currentUser) return;
+  
+  const { data: stickers, error } = await sb.from('stickers')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('created_at', { ascending: false });
+  
+  const grid = document.getElementById('myStickersGrid');
+  const countBadge = document.getElementById('myStickerCount');
+
+  if (error || !stickers || !stickers.length) {
+    if (countBadge) countBadge.textContent = '0';
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">No stickers yet — create your first one above! It\'s FREE 🎉</div>';
+    return;
+  }
+  if (countBadge) countBadge.textContent = stickers.length;
+  
+  grid.innerHTML = stickers.map(sticker => `
+    <div class="sticker-card" data-id="${sticker.id}">
+      <div class="sticker-image">
+        <img src="${sticker.image_url}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23ccc%22%3E%3Crect width=%2224%22 height=%2224%22 fill=%22%23ddd%22/%3E%3C/svg%3E'">
+      </div>
+      <div class="sticker-name">${escapeHtml(sticker.name)}</div>
+      <div class="sticker-meta">${sticker.downloads || 0} sold</div>
+      <div class="sticker-price">🪙 ${sticker.price} to buy</div>
+      <div class="sticker-badge ${sticker.is_public ? 'public' : 'private'}">
+        ${sticker.is_public ? '🌍 Public - Earn 50 🪙 when bought' : '🔒 Private - Only you can see'}
+      </div>
+      <button class="shop-equip-btn" style="margin-top: 10px; width: 100%;" onclick="deleteSticker('${sticker.id}')">
+        🗑️ Delete
+      </button>
+    </div>
+  `).join('');
+}
+
+// Load public stickers for purchase
+async function loadPublicStickers() {
+  if (!currentUser) return;
+  
+  const { data: stickers, error } = await sb.from('stickers')
+    .select('*, users!stickers_user_id_fkey(username, display_name)')
+    .eq('is_public', true)
+    .neq('user_id', currentUser.id)
+    .order('created_at', { ascending: false });
+  
+  const grid = document.getElementById('publicStickersGrid');
+  const countBadge = document.getElementById('publicStickerCount');
+
+  if (error || !stickers || !stickers.length) {
+    if (countBadge) countBadge.textContent = '0';
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">No public stickers yet — be the first to create and share one! 🎨</div>';
+    return;
+  }
+  if (countBadge) countBadge.textContent = stickers.length;
+  
+  // Get purchased stickers
+  const { data: purchased } = await sb.from('user_purchased_stickers')
+    .select('sticker_id')
+    .eq('user_id', currentUser.id);
+  
+  const purchasedIds = new Set(purchased?.map(p => p.sticker_id) || []);
+  
+  grid.innerHTML = stickers.map(sticker => {
+    const creatorName = sticker.users?.display_name || sticker.users?.username || 'User';
+    return `
+    <div class="sticker-card">
+      <div class="sticker-image">
+        <img src="${sticker.image_url}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23ccc%22%3E%3Crect width=%2224%22 height=%2224%22 fill=%22%23ddd%22/%3E%3C/svg%3E'">
+      </div>
+      <div class="sticker-name">${escapeHtml(sticker.name)}</div>
+      <div class="sticker-meta">by ${escapeHtml(creatorName)}</div>
+      <div class="sticker-price">🪙 ${sticker.price} Maths Gold</div>
+      ${purchasedIds.has(sticker.id) 
+        ? '<button class="shop-equip-btn equipped" style="width: 100%;" disabled>✓ Already Owned</button>'
+        : `<button class="shop-buy-btn" style="width: 100%;" onclick="purchaseSticker('${sticker.id}', ${sticker.price}, '${sticker.user_id}')">Buy Sticker (${sticker.price} 🪙)</button>`
+      }
+    </div>
+  `}).join('');
+}
+
+// Purchase a sticker from another user
+async function purchaseSticker(stickerId, price, creatorId) {
+  if (!currentUser) {
+    showStickerMsg('Please sign in first!', 'err');
+    return;
+  }
+  
+  if (currentUser.id === creatorId) {
+    showStickerMsg('You cannot buy your own sticker!', 'err');
+    return;
+  }
+  
+  if (price > 0 && (!passUserData || (passUserData.maths_gold || 0) < price)) {
+    showStickerMsg(`❌ You need ${price} 🪙 Maths Gold but only have ${passUserData?.maths_gold || 0} 🪙`, 'err');
+    return;
+  }
+  
+  const btn = event.target;
+  btn.disabled = true;
+  btn.textContent = '⏳ Purchasing...';
+  
+  try {
+    // Record purchase
+    const { error: purchaseError } = await sb.from('user_purchased_stickers').insert({
+      user_id: currentUser.id,
+      sticker_id: stickerId
+    });
+    
+    if (purchaseError) throw purchaseError;
+    
+    // Deduct Maths Gold from buyer (only if price > 0)
+    if (price > 0) {
+      const buyerNewGold = (passUserData.maths_gold || 0) - price;
+      await sb.from('user_pass')
+        .update({ maths_gold: buyerNewGold, updated_at: new Date().toISOString() })
+        .eq('user_id', currentUser.id)
+        .eq('season_id', passSeasonData.id);
+      passUserData.maths_gold = buyerNewGold;
+      syncPassUI();
+    }
+    
+    // Add Maths Gold to creator (50 coins goes to creator)
+    const { data: creatorPass } = await sb.from('user_pass')
+      .select('maths_gold')
+      .eq('user_id', creatorId)
+      .eq('season_id', passSeasonData.id)
+      .maybeSingle();
+    
+    if (creatorPass) {
+      const creatorNewGold = (creatorPass.maths_gold || 0) + price;
+      await sb.from('user_pass')
+        .update({ maths_gold: creatorNewGold, updated_at: new Date().toISOString() })
+        .eq('user_id', creatorId)
+        .eq('season_id', passSeasonData.id);
+    }
+    
+    // Increment downloads/sales count on sticker (safe increment)
+    try {
+      const { data: stickerRow } = await sb.from('stickers').select('downloads').eq('id', stickerId).single();
+      await sb.from('stickers').update({ downloads: (stickerRow?.downloads || 0) + 1 }).eq('id', stickerId);
+    } catch (_) { /* non-critical */ }
+    
+    showStickerMsg(price > 0 ? `✅ Sticker purchased! ${price} 🪙 sent to creator.` : '✅ Free sticker added to your collection!', 'ok');
+    
+    // Refresh
+    loadPublicStickers();
+    loadMyStickers();
+    
+  } catch (error) {
+    showStickerMsg('❌ Error: ' + error.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = `Buy Sticker (${price} 🪙)`;
+  }
+}
+
+// Delete a sticker (creator only)
+async function deleteSticker(stickerId) {
+  if (!confirm('Are you sure you want to delete this sticker?')) return;
+  
+  const { error } = await sb.from('stickers')
+    .delete()
+    .eq('id', stickerId)
+    .eq('user_id', currentUser.id);
+  
+  if (error) {
+    showStickerMsg('❌ Error deleting sticker', 'err');
+    return;
+  }
+  
+  showStickerMsg('✅ Sticker deleted', 'ok');
+  loadMyStickers();
+  loadPublicStickers();
+}
+
+// Helper function for sticker messages
+function showStickerMsg(text, type) {
+  const msgDiv = document.getElementById('stickerMsg');
+  msgDiv.textContent = text;
+  msgDiv.className = 'page-msg show ' + type;
+  msgDiv.style.display = 'block';
+  setTimeout(() => {
+    msgDiv.style.display = 'none';
+  }, 4000);
+}
+
+// Stickers are now part of the Shop page (🎨 Stickers tab)
+
+// ── STICKER PICKER (chat) ─────────────────────────────────────────
+let stickerPickerOpen = false;
+
+function toggleStickerPicker() {
+  const picker = document.getElementById('stickerPicker');
+  stickerPickerOpen = !stickerPickerOpen;
+  if (stickerPickerOpen) {
+    picker.classList.add('open');
+    loadStickerPicker();
+  } else {
+    picker.classList.remove('open');
+  }
+}
+
+// Close picker when clicking outside
+document.addEventListener('click', function(e) {
+  const picker = document.getElementById('stickerPicker');
+  const btn = document.getElementById('stickerPickerBtn');
+  if (picker && btn && !picker.contains(e.target) && !btn.contains(e.target)) {
+    picker.classList.remove('open');
+    stickerPickerOpen = false;
+  }
+});
+
+async function loadStickerPicker() {
+  if (!currentUser) return;
+  const grid = document.getElementById('stickerPickerGrid');
+  grid.innerHTML = '<div class="sticker-picker-empty">Loading...</div>';
+
+  // Load stickers owned by the user (their own + purchased)
+  const [{ data: mine }, { data: bought }] = await Promise.all([
+    sb.from('stickers').select('id,name,image_url').eq('user_id', currentUser.id),
+    sb.from('user_purchased_stickers').select('sticker_id, stickers(id,name,image_url)').eq('user_id', currentUser.id)
+  ]);
+
+  const ownStickers = mine || [];
+  const purchasedStickers = (bought || []).map(r => r.stickers).filter(Boolean);
+  // Merge and deduplicate by id
+  const allMap = new Map();
+  [...ownStickers, ...purchasedStickers].forEach(s => s && allMap.set(s.id, s));
+  const all = Array.from(allMap.values());
+
+  if (!all.length) {
+    grid.innerHTML = '<div class="sticker-picker-empty">No stickers yet!<br>Buy some in the Shop 🛍️</div>';
+    return;
+  }
+
+  grid.innerHTML = all.map(s => `
+    <div class="sticker-picker-item" onclick="sendSticker('${s.id}','${escapeHtml(s.image_url)}','${escapeHtml(s.name)}')" title="${escapeHtml(s.name)}">
+      <img src="${escapeHtml(s.image_url)}" alt="${escapeHtml(s.name)}"
+           onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22%3E%3Crect width=%2260%22 height=%2260%22 fill=%22%23ddd%22/%3E%3Ctext x=%2230%22 y=%2238%22 text-anchor=%22middle%22 font-size=%2224%22%3E🎨%3C/text%3E%3C/svg%3E'">
+    </div>`).join('');
+}
+
+async function sendSticker(stickerId, imageUrl, name) {
+  if (!currentUser || !activeChatFriendId) return;
+
+  // Close picker
+  document.getElementById('stickerPicker').classList.remove('open');
+  stickerPickerOpen = false;
+
+  const { data, error } = await sb.from('messages').insert({
+    sender_id: currentUser.id,
+    receiver_id: activeChatFriendId,
+    content: '🎨 ' + name,        // fallback text for notifications
+    content_type: 'sticker',
+    sticker_url: imageUrl,
+    status: 'sending'
+  }).select().single();
+
+  if (!error && data) {
+    appendBubble(data);
+    lastMsgId = data.id;
+    const container = document.getElementById('chatMessages');
+    container.scrollTop = container.scrollHeight;
+    await sb.from('messages').update({ status: 'sent' }).eq('id', data.id);
+    const tick = document.getElementById('tick-' + data.id);
+    if (tick) tick.className = 'msg-tick sent';
+    updateLastMsgPreview(activeChatFriendId, { ...data });
+    broadcastTyping(false);
+    try { awardChatXP(data.id); } catch(e) {}
+  }
+}
 </script>
 
 <!-- VERCEL LOG MODAL -->
