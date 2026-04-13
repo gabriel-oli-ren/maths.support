@@ -1055,6 +1055,58 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 .fi-btn.join:hover{background:rgba(34,197,94,.22)}
 .fi-btn.profile{background:rgba(102,126,234,.1);color:#667eea}
 .fi-btn.profile:hover{background:rgba(102,126,234,.2)}
+/* ── ADVERTISEMENT CONTAINERS ── */
+.ad-bottom-banner {
+  max-width: 1400px;
+  margin: 20px auto 0;
+  text-align: center;
+  min-height: 90px;
+  background: rgba(0,0,0,0.02);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.game-ad-container {
+  display: flex;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.game-ad-left, .game-ad-right {
+  width: 160px;
+  min-height: 600px;
+  background: rgba(0,0,0,0.02);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.game-ad-bottom {
+  max-width: 1200px;
+  margin: 10px auto 0;
+  text-align: center;
+  min-height: 90px;
+  background: rgba(0,0,0,0.02);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.game-main-wrapper {
+  display: flex;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.game-main-wrapper .game-container {
+  flex: 1;
+  min-width: 0;
+}
+@media (max-width: 1100px) {
+  .game-ad-left, .game-ad-right { display: none; }
+}
 
 /* ══ MATHS PASS ══════════════════════════════════════════════════ */
 .pass-page{display:none;max-width:960px;margin:0 auto;padding-bottom:40px}
@@ -1377,6 +1429,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
     <button class="game-button" onclick="openGame('Idle Futbol Manager','https://idle-futbol-manager.gabriel-oli-ren-micro.workers.dev/')"><img src=" img/idle-footbal.png" alt="Idle Futbol Manager" class="game-image"><div class="game-info"><h3>Idle Futbol Manager</h3></div></button>
     <button class="game-button" onclick="openGame('Fallzone.io','https://fallzone.gabriel-oli-ren-micro.workers.dev/')"><img src=" img/fallzone.png" alt="Fallzone.io" class="game-image"><div class="game-info"><h3>Fallzone.io</h3></div></button>
   </div>
+  <!-- Ad at bottom of games grid -->
+  <div class="ad-bottom-banner" id="gamesAdBottom">
+    <!-- Ad will be injected here -->
+  </div>  
 
     <!-- Custom user apps -->
     <div class="custom-apps-section">
@@ -1405,6 +1461,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 
     </div>
   </div>
+  <!-- Ad at bottom of apps page -->
+  <div class="ad-bottom-banner" id="appsAdBottom" style="display:none;">
+    <!-- Ad will be injected here -->
+  </div>  
 
   <!-- ADD APP MODAL -->
   <div class="add-app-overlay" id="addAppOverlay">
@@ -1723,18 +1783,31 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 
   </div>
 
-  <!-- GAME CONTAINER -->
-  <div class="game-container" id="gameContainer">
-    <div class="game-header">
-      <h2 id="gameTitle">Game</h2>
-      <div class="game-controls">
-        <button class="fullscreen-button" onclick="toggleFullscreen()">⛶ Fullscreen</button>
-        <button class="close-button" onclick="closeGame()">✕ Close Game</button>
-      </div>
+  <!-- GAME CONTAINER WITH ADS -->
+  <div class="game-main-wrapper" id="gameMainWrapper" style="display:none;">
+    <div class="game-ad-left" id="gameAdLeft">
+      <!-- Left side ad -->
     </div>
-    <iframe id="gameFrame" class="game-frame" src=""></iframe>
+    
+    <div class="game-container" id="gameContainer">
+      <div class="game-header">
+        <h2 id="gameTitle">Game</h2>
+        <div class="game-controls">
+          <button class="fullscreen-button" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+          <button class="close-button" onclick="closeGame()">✕ Close Game</button>
+        </div>
+      </div>
+      <iframe id="gameFrame" class="game-frame" src=""></iframe>
+    </div>
+    
+    <div class="game-ad-right" id="gameAdRight">
+      <!-- Right side ad -->
+    </div>
   </div>
-</div>
+
+  <div class="game-ad-bottom" id="gameAdBottom" style="display:none;">
+    <!-- Bottom ad for game -->
+  </div>
 
 <!-- ══ FULLSCREEN CHAT PAGE ══ -->
 <div class="chat-page" id="chatPage">
@@ -3112,24 +3185,36 @@ function disableSecurityProtection(){document.removeEventListener('contextmenu',
 // GAMES (unchanged)
 // ══════════════════════════════════════════════════════════════════
 function openGame(name,url){
-  document.getElementById('gameTitle').textContent=name;document.getElementById('gameFrame').src=url;
-  ['gamesGrid','appsPage','accountPage','friendsPage'].forEach(id=>{const el=document.getElementById(id);if(!el)return;if(id==='gamesGrid')el.style.display='none';else el.classList.remove('active');});
+  document.getElementById('gameTitle').textContent=name;
+  document.getElementById('gameFrame').src=url;
+  ['gamesGrid','appsPage','accountPage','friendsPage'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    if(id==='gamesGrid')el.style.display='none';
+    else el.classList.remove('active');
+  });
   document.getElementById('chatPage').classList.remove('active');
-  document.getElementById('gameContainer').classList.add('active');
+  document.getElementById('gameMainWrapper').style.display='flex';
+  document.getElementById('gameAdBottom').style.display='block';
   document.getElementById('topNav').classList.add('minimal');
   const cas=document.querySelector('.custom-apps-section');if(cas)cas.style.display='none';
-  window.scrollTo({top:0,behavior:'smooth'});startClock();
+  window.scrollTo({top:0,behavior:'smooth'});
+  startClock();
   broadcastGameStatus(name,url);
 }
 function closeGame(){
   if(document.fullscreenElement)document.exitFullscreen();
-  document.getElementById('gameFrame').src='';document.getElementById('gameContainer').classList.remove('active');
+  document.getElementById('gameFrame').src='';
+  document.getElementById('gameMainWrapper').style.display='none';
+  document.getElementById('gameAdBottom').style.display='none';
   broadcastGameStatus(null,null);
   document.getElementById('topNav').classList.remove('minimal');
   if(document.getElementById('homeBtn').classList.contains('active')){
     document.getElementById('gamesGrid').style.display='grid';
     const cas=document.querySelector('.custom-apps-section');if(cas)cas.style.display='';
-  }else if(document.getElementById('appsBtn').classList.contains('active')){document.getElementById('appsPage').classList.add('active');}
+  }else if(document.getElementById('appsBtn').classList.contains('active')){
+    document.getElementById('appsPage').classList.add('active');
+  }
   stopClock();
 }
 function toggleFullscreen(){const gc=document.getElementById('gameContainer');if(!document.fullscreenElement)gc.requestFullscreen().catch(err=>alert(err.message));else document.exitFullscreen();}
@@ -3150,6 +3235,11 @@ async function initializeGrannyGame(){const canvas=document.querySelector('#unit
 function showSection(section){
   const gc=document.getElementById('gameContainer');
   if(gc.classList.contains('active'))closeGame();
+  // Show/hide appropriate ad containers
+  document.getElementById('gamesAdBottom').style.display = 
+    (section==='home') ? 'block' : 'none';
+  document.getElementById('appsAdBottom').style.display = 
+    (section==='apps') ? 'block' : 'none';
   if(chatPollTimer&&section!=='chat'){clearInterval(chatPollTimer);chatPollTimer=null;}
   // Hide all
   document.getElementById('gamesGrid').style.display='none';
