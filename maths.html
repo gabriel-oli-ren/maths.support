@@ -1107,6 +1107,130 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 @media (max-width: 1100px) {
   .game-ad-left, .game-ad-right { display: none; }
 }
+/* ── FULLSCREEN GAME BANNER AD ── */
+.game-banner-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  animation: bannerFadeIn 0.3s ease;
+}
+.game-banner-overlay.active {
+  display: flex;
+}
+@keyframes bannerFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.game-banner-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px 40px;
+  max-width: 800px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+  position: relative;
+  animation: bannerSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes bannerSlideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.game-banner-header {
+  margin-bottom: 24px;
+}
+.game-banner-header h3 {
+  color: #667eea;
+  font-size: 1.3em;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.game-banner-header p {
+  color: #aaa;
+  font-size: 0.9em;
+}
+.game-banner-ad-container {
+  min-height: 250px;
+  background: linear-gradient(135deg, #f8f9ff, #f0f1f7);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  border: 2px dashed #d0d5e8;
+}
+.game-banner-countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.game-banner-timer {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  font-size: 1.8em;
+  font-weight: 900;
+  padding: 8px 24px;
+  border-radius: 40px;
+  font-variant-numeric: tabular-nums;
+  min-width: 100px;
+  text-align: center;
+}
+.game-banner-skip-btn {
+  background: rgba(102, 126, 234, 0.1);
+  border: 1.5px solid rgba(102, 126, 234, 0.3);
+  color: #667eea;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-size: 0.95em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: inherit;
+  opacity: 0.6;
+}
+.game-banner-skip-btn.enabled {
+  opacity: 1;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+.game-banner-skip-btn.enabled:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+.game-banner-skip-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.game-banner-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  color: #999;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.game-banner-close:hover {
+  background: rgba(246, 79, 89, 0.15);
+  color: #f64f59;
+}
 
 /* ══ MATHS PASS ══════════════════════════════════════════════════ */
 .pass-page{display:none;max-width:960px;margin:0 auto;padding-bottom:40px}
@@ -1800,6 +1924,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
       <iframe id="gameFrame" class="game-frame" src=""></iframe>
     </div>
     
+    
     <div class="game-ad-right" id="gameAdRight">
       <!-- Right side ad -->
     </div>
@@ -1808,6 +1933,29 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
   <div class="game-ad-bottom" id="gameAdBottom" style="display:none;">
     <!-- Bottom ad for game -->
   </div>
+<!-- FULLSCREEN BANNER AD BEFORE GAME LOADS -->
+<div class="game-banner-overlay" id="gameBannerOverlay">
+  <div class="game-banner-card">
+    <button class="game-banner-close" onclick="skipGameBanner()" id="bannerCloseBtn">✕</button>
+    <div class="game-banner-header">
+      <h3 id="bannerGameTitle">Loading Game...</h3>
+      <p>Your game will start in a moment</p>
+    </div>
+    <div class="game-banner-ad-container" id="gameBannerAdContainer">
+      <!-- Ad will be injected here -->
+      <div style="color:#aaa;text-align:center;padding:40px">
+        <div style="font-size:2.5em;margin-bottom:10px">🎮</div>
+        <p>Advertisement</p>
+      </div>
+    </div>
+    <div class="game-banner-countdown">
+      <div class="game-banner-timer" id="bannerCountdown">5</div>
+    </div>
+    <button class="game-banner-skip-btn" id="bannerSkipBtn" onclick="skipGameBanner()" disabled>
+      Please wait <span id="skipCountdown">5</span>s...
+    </button>
+  </div>
+</div>  
 
 <!-- ══ FULLSCREEN CHAT PAGE ══ -->
 <div class="chat-page" id="chatPage">
@@ -2236,7 +2384,11 @@ let streakCache = {}, currentStreakData = null;
 let typingTimeout = null, isTyping = false;
 let revealPendingFriendshipId = null, revealPendingRequester = null;
 let lastMsgId = null; // for incremental polling
-const SP_SESSION_KEY = 'sitepass_granted';
+let currentUser = null, currentProfile = null;
+let myGameInstance = null, isAdShown = false, grannyGameLoaded = false;
+let clockIntervalId = null, alertIntervalId = null, alertShownForKey = null, alertCountdownVal = 180;
+let gameBannerTimer = null, pendingGameUrl = null, pendingGameName = null;
+const SP_SESSION_KEY = 'sitepass_granted';  
 
 // ADMIN user IDs (only these users can have 'admin' role tag)
 // Put your own Supabase user UUID here after first login:
@@ -3184,15 +3336,90 @@ function disableSecurityProtection(){document.removeEventListener('contextmenu',
 // ══════════════════════════════════════════════════════════════════
 // GAMES (unchanged)
 // ══════════════════════════════════════════════════════════════════
-function openGame(name,url){
-  document.getElementById('gameTitle').textContent=name;
-  document.getElementById('gameFrame').src=url;
-  ['gamesGrid','appsPage','accountPage','friendsPage'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    if(id==='gamesGrid')el.style.display='none';
+// ── Fullscreen Banner Ad System ──────────────────────────────────
+function showGameBanner(gameName, gameUrl) {
+  pendingGameName = gameName;
+  pendingGameUrl = gameUrl;
+  
+  const overlay = document.getElementById('gameBannerOverlay');
+  const titleEl = document.getElementById('bannerGameTitle');
+  const timerEl = document.getElementById('bannerCountdown');
+  const skipBtn = document.getElementById('bannerSkipBtn');
+  const skipSpan = document.getElementById('skipCountdown');
+  const closeBtn = document.getElementById('bannerCloseBtn');
+  
+  titleEl.textContent = '🎮 ' + gameName;
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  
+  // Reset and start countdown
+  let secondsLeft = 5;
+  timerEl.textContent = secondsLeft;
+  skipSpan.textContent = secondsLeft;
+  skipBtn.disabled = true;
+  skipBtn.classList.remove('enabled');
+  closeBtn.style.display = 'none'; // Hide close until timer ends
+  
+  if (gameBannerTimer) clearInterval(gameBannerTimer);
+  
+  gameBannerTimer = setInterval(() => {
+    secondsLeft--;
+    timerEl.textContent = secondsLeft;
+    skipSpan.textContent = secondsLeft;
+    
+    if (secondsLeft <= 0) {
+      clearInterval(gameBannerTimer);
+      gameBannerTimer = null;
+      skipBtn.disabled = false;
+      skipBtn.classList.add('enabled');
+      skipBtn.innerHTML = '🎮 Play Now →';
+      closeBtn.style.display = 'flex';
+      timerEl.textContent = '✓';
+    }
+  }, 1000);
+}
+
+function skipGameBanner() {
+  if (gameBannerTimer) {
+    clearInterval(gameBannerTimer);
+    gameBannerTimer = null;
+  }
+  
+  const overlay = document.getElementById('gameBannerOverlay');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  
+  // Now actually open the game
+  if (pendingGameName && pendingGameUrl) {
+    actuallyOpenGame(pendingGameName, pendingGameUrl);
+    pendingGameName = null;
+    pendingGameUrl = null;
+  }
+}
+
+function actuallyOpenGame(name, url) {
+  document.getElementById('gameTitle').textContent = name;
+  document.getElementById('gameFrame').src = url;
+  ['gamesGrid','appsPage','accountPage','friendsPage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (id === 'gamesGrid') el.style.display = 'none';
     else el.classList.remove('active');
   });
+  document.getElementById('chatPage').classList.remove('active');
+  document.getElementById('gameMainWrapper').style.display = 'flex';
+  document.getElementById('gameAdBottom').style.display = 'block';
+  document.getElementById('topNav').classList.add('minimal');
+  const cas = document.querySelector('.custom-apps-section');
+  if (cas) cas.style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  startClock();
+  broadcastGameStatus(name, url);
+}
+function openGame(name, url) {
+  // Show banner ad first, then open game
+  showGameBanner(name, url);
+}
   document.getElementById('chatPage').classList.remove('active');
   document.getElementById('gameMainWrapper').style.display='flex';
   document.getElementById('gameAdBottom').style.display='block';
@@ -3348,6 +3575,20 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'&&document.getElementById('chatPage').classList.contains('active'))showSection('home');
   if(e.key==='Escape'&&document.getElementById('fprofileOverlay')?.classList.contains('active'))closeFriendProfile();
   if(e.key==='Escape'&&document.getElementById('petModalOverlay')?.classList.contains('active'))closePetModal();
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter'&&document.activeElement.id==='sitePassInput')checkSitePassword();
+  if(e.key==='Enter'&&!e.shiftKey&&document.activeElement.id==='chatMsgInput'){e.preventDefault();sendMessage();}
+  if(e.key==='Enter'&&document.activeElement.id==='addCodeInput')sendFriendRequest();
+  if(e.key==='Enter'&&document.activeElement.id==='loginUsername')document.getElementById('loginPassword').focus();
+  if(e.key==='Enter'&&document.activeElement.id==='loginPassword')doLogin();
+  if(e.key==='Enter'&&document.activeElement.id==='regPasswordConfirm')doRegister();
+  if(e.key==='Escape'&&document.getElementById('chatPage').classList.contains('active'))showSection('home');
+  if(e.key==='Escape'&&document.getElementById('fprofileOverlay')?.classList.contains('active'))closeFriendProfile();
+  if(e.key==='Escape'&&document.getElementById('petModalOverlay')?.classList.contains('active'))closePetModal();
+  
+  // ADD THIS LINE HERE:
+  if(e.key==='Escape'&&document.getElementById('gameBannerOverlay')?.classList.contains('active')){const skipBtn=document.getElementById('bannerSkipBtn');if(skipBtn&&!skipBtn.disabled)skipGameBanner();}
+});  
 });
 
 // ══════════════════════════════════════════════════════════════════
