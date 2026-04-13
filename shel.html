@@ -1,8 +1,14 @@
-<div style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:2147483647; background:#fff;">
-  <!-- This uses a Data URI to load the iframe without a direct URL in the 'src' -->
-  <iframe 
-    src="data:text/html;base64,PGh0bWw+PGJvZHk+PHNjcmlwdD53aW5kb3cubG9jYXRpb24ucmVwbGFjZSgnaHR0cHM6Ly9vcGVuZnJvbnQuaW8vJyk8L3NjcmlwdD48L2JvZHk+PC9odG1sPg==" 
-    style="width:100%; height:100%; border:none;"
-    allow="fullscreen">
-  </iframe>
-</div>
+<div id="host"></div>
+<script>
+  // Create a Shadow Root that is 'closed' to outside scripts/extensions
+  const host = document.querySelector('#host');
+  const shadow = host.attachShadow({mode: 'closed'});
+
+  shadow.innerHTML = `
+    <div style="position: fixed !important; top: 0; left: 0; width: 100vw; height: 100vh; 
+                z-index: 2147483647 !important; background: white !important;">
+      <iframe src="https://openfront.io" 
+              style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+  `;
+</script>
