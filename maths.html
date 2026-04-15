@@ -5,12 +5,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maths Support - Gaming Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bubbls/granny@212c543a85b243c4a0b92211f557e760d83d2292/TemplateData/style.css">
 <script src="https://cdn.jsdelivr.net/gh/bubbls/granny@212c543a85b243c4a0b92211f557e760d83d2292/sdk.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://js.puter.com/v2/"></script>
 <style>
+/* MODERNIZED VERSION - Enhanced Color System */
+:root{
+  /* Modern Primary Colors */
+  --primary:#6366f1;
+  --primary-light:#818cf8;
+  --primary-dark:#4f46e5;
+  --secondary:#8b5cf6;
+  --accent:#ec4899;
+  --success:#10b981;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+  
+  /* Dark Mode Backgrounds */
+  --bg-base:#0a0a0f;
+  --bg-elevated:#13131a;
+  --bg-card:#1a1a24;
+  --bg-hover:#24242e;
+  --bg-active:#2e2e38;
+  
+  /* Text System */
+  --text-primary:#f8fafc;
+  --text-secondary:#cbd5e1;
+  --text-tertiary:#94a3b8;
+  --text-muted:#64748b;
+  
+  /* Legacy Compatibility */
+  --primary-2:#8b5cf6;
+  --bg-dark:#0a0a0f;
+  --bg-mid:#13131a;
+  --bg-deep:#1a1a24;
+  --white:rgba(255,255,255,0.97);
+  --chat-me-bg:linear-gradient(135deg,#6366f1,#8b5cf6);
+  --chat-them-bg:rgba(36,36,46,1);
+  --tick-grey:#94a3b8;
+  --tick-blue:#60a5fa;
+}
+
+body{
+  font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif!important;
+  background:var(--bg-base)!important;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Modern Scrollbar */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg-elevated)}
+::-webkit-scrollbar-thumb{background:var(--bg-hover);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:var(--bg-active)}
+
+/* SVG Icon Styling */
+.sidebar-item-icon svg{
+  width:20px;
+  height:20px;
+  stroke:currentColor;
+  transition:all 0.3s ease;
+}
+
+.sidebar-item:hover .sidebar-item-icon svg{
+  stroke:var(--primary-light);
+  transform:scale(1.1);
+}
+
+.sidebar-item.active .sidebar-item-icon svg{
+  stroke:var(--primary);
+}
+
+
+
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --primary:#667eea;--primary-2:#764ba2;
@@ -1013,6 +1082,12 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 .sticker-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .sticker-section-title{font-size:1.15em;font-weight:800;color:#1a1a2e;display:flex;align-items:center;gap:8px}
 .sticker-count-badge{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-size:.7em;font-weight:700;padding:2px 9px;border-radius:10px}
+
+/* ── STICKER PICKER IN CHAT ── */
+.sticker-picker{display:none;position:absolute;bottom:100%;left:0;right:0;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 24px rgba(0,0,0,.15);max-height:280px;overflow:hidden;z-index:100}
+.sticker-picker-header{padding:12px 16px;font-size:.9em;font-weight:800;color:#667eea;border-bottom:1px solid #f0f0f5}
+.sticker-picker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:8px;padding:12px;overflow-y:auto;max-height:220px}
+.sticker-picker-empty{grid-column:1/-1;text-align:center;color:#aaa;padding:30px 10px;font-size:.85em}
 </style>
 </head>
 <body>
@@ -1099,13 +1174,12 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
 <div class="sidebar">
   <div class="sidebar-logo"><img src="maths-logo.png" alt="Maths Support Logo"></div>
   <div class="sidebar-menu">
-    <div class="sidebar-item active" id="homeBtn" onclick="showSection('home')"><span class="sidebar-item-icon">🏠</span><span class="sidebar-item-text">Home</span></div>
-    <div class="sidebar-item" id="appsBtn" onclick="showSection('apps')"><span class="sidebar-item-icon">📱</span><span class="sidebar-item-text">Apps</span></div>
-    <div class="sidebar-item" id="friendsBtn" onclick="showSection('friends')"><span class="sidebar-item-icon">👥</span><span class="sidebar-item-text">Friends</span><span class="sidebar-badge" id="friendsBadge" style="display:none">0</span></div>
-    <div class="sidebar-item" id="chatBtn" onclick="showSection('chat')"><span class="sidebar-item-icon">💬</span><span class="sidebar-item-text">Chat</span><span class="sidebar-badge" id="chatBadge" style="display:none">0</span></div>
-    <div class="sidebar-item" id="passBtn" onclick="showSection('pass')"><span class="sidebar-item-icon">🎫</span><span class="sidebar-item-text">Maths Pass</span></div>
-    <div class="sidebar-item" id="shopBtn" onclick="showSection('shop')"><span class="sidebar-item-icon">🛍️</span><span class="sidebar-item-text">Shop</span></div>
-    <div class="sidebar-item" id="accountBtn" onclick="showSection('account')"><span class="sidebar-item-icon">👤</span><span class="sidebar-item-text">Account</span></div>
+    <div class="sidebar-item active" id="homeBtn" onclick="showSection('home')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></span><span class="sidebar-item-text">Home</span></div>
+    <div class="sidebar-item" id="appsBtn" onclick="showSection('apps')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg></span><span class="sidebar-item-text">Apps</span></div>
+    <div class="sidebar-item" id="friendsBtn" onclick="showSection('friends')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span><span class="sidebar-item-text">Friends</span><span class="sidebar-badge" id="friendsBadge" style="display:none">0</span></div>
+    <div class="sidebar-item" id="chatBtn" onclick="showSection('chat')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span><span class="sidebar-item-text">Chat</span><span class="sidebar-badge" id="chatBadge" style="display:none">0</span></div>
+    <div class="sidebar-item" id="shopBtn" onclick="showSection('shop')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></span><span class="sidebar-item-text">Shop</span></div>
+    <div class="sidebar-item" id="accountBtn" onclick="showSection('account')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="sidebar-item-text">Account</span></div>
   </div>
 </div>
 
@@ -1267,90 +1341,36 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:url('https://i.postim
     </div>
   </div>
 
-  <!-- MATHS PASS PAGE -->
-  <div class="pass-page" id="passPage">
-    <div class="pass-hero">
-      <div class="pass-hero-blob pass-hero-blob-1"></div><div class="pass-hero-blob pass-hero-blob-2"></div><div class="pass-hero-blob pass-hero-blob-3"></div>
-      <div class="pass-hero-inner">
-        <div class="pass-season-pill" id="passSeasonPill">🎫 Season 1 · Launch</div>
-        <div class="pass-hero-title">Maths Pass</div>
-        <div class="pass-hero-sub">Earn XP by chatting, logging in daily and playing games.<br>Unlock exclusive rewards every season.</div>
-        <div class="pass-hero-ends">⏳ Season ends: <span class="pass-ends-val" id="passEndDate">—</span></div>
-        <div class="pass-currency-row">
-          <div class="pass-cur-chip"><div class="pass-cur-icon mp">🎫</div><div><div class="pass-cur-val" id="passBalanceMP">0</div><div class="pass-cur-label">Maths Pass</div></div></div>
-          <div class="pass-cur-chip"><div class="pass-cur-icon mg">🪙</div><div><div class="pass-cur-val" id="passBalanceMG">0</div><div class="pass-cur-label">Maths Gold</div></div></div>
-        </div>
-      </div>
-    </div>
-    <div class="pass-xp-card">
-      <h3>⚡ Your Progress<span class="pass-xp-level-pill" id="passLevelPill">Level 1</span></h3>
-      <div class="pass-xp-track"><div class="pass-xp-fill" id="passXpFill" style="width:0%"></div></div>
-      <div class="pass-xp-sub"><span id="passXpCur">0 XP this level</span><span id="passXpNext">/ 100 XP to next level</span></div>
-    </div>
-    <div class="pass-how-card">
-      <h3>💡 How to earn XP</h3>
-      <div class="pass-how-grid">
-        <div class="pass-how-item"><div class="pass-how-icon">🌅</div><div><div class="pass-how-name">Daily Login</div><div class="pass-how-sub">Log in each day to keep earning.</div><span class="pass-how-xp">+20 XP / day</span></div></div>
-        <div class="pass-how-item"><div class="pass-how-icon">💬</div><div><div class="pass-how-name">Send Messages</div><div class="pass-how-sub">Chat with friends in real time.</div><span class="pass-how-xp">+5 XP / message</span></div></div>
-        <div class="pass-how-item"><div class="pass-how-icon">🔥</div><div><div class="pass-how-name">Chat Streaks</div><div class="pass-how-sub">Maintain streaks for bonus XP.</div><span class="pass-how-xp">+15 XP / streak</span></div></div>
-        <div class="pass-how-item"><div class="pass-how-icon">🛍️</div><div><div class="pass-how-name">Maths Gold</div><div class="pass-how-sub">Spend in the Shop on tags &amp; more.</div><span class="pass-how-xp">1 MP = 5 XP</span></div></div>
-      </div>
-    </div>
-    <div class="pass-tiers-title">🏆 Season Rewards</div>
-    <div class="pass-tiers-grid" id="passTiersGrid"><div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:rgba(255,255,255,.3);font-size:.9em">Loading season rewards...</div></div>
-  </div>
 
-  <!-- SHOP PAGE -->
+  <!-- SHOP PAGE (Stickers Only) -->
   <div class="shop-page" id="shopPage">
-    <div class="shop-hero">
-      <div class="shop-hero-icon">🛍️</div>
-      <div class="shop-hero-text"><h2>Maths Shop</h2><p>Spend your Maths Gold on tags, cosmetics, and stickers. Limited-time discounts appear regularly!</p></div>
-      <div class="shop-wallet">
-        <div class="shop-wallet-chip"><span>🪙</span><span id="shopBalanceMG">0</span><small>Maths Gold</small></div>
-        <div class="shop-wallet-chip"><span>🎫</span><span id="shopBalanceMP">0</span><small>Maths Pass</small></div>
-      </div>
+    <div class="sticker-hero">
+      <div class="sticker-hero-icon">🎨</div>
+      <div class="sticker-hero-text"><h2>Sticker Shop</h2><p>Create, share and collect stickers! Make your own for FREE or buy from other students.</p></div>
     </div>
-    <div class="shop-sale-bar" id="shopSaleBar" style="display:none">
-      <div class="shop-sale-icon">🔥</div>
-      <div class="shop-sale-text">Limited-time offer — <strong id="shopSaleLabel">ends soon</strong></div>
-      <div class="shop-sale-timer">
-        <div class="sale-unit"><span class="sale-unit-num" id="saleH">00</span><span class="sale-unit-lbl">hrs</span></div>
-        <div class="sale-unit"><span class="sale-unit-num" id="saleM">00</span><span class="sale-unit-lbl">min</span></div>
-        <div class="sale-unit"><span class="sale-unit-num" id="saleS">00</span><span class="sale-unit-lbl">sec</span></div>
-      </div>
-    </div>
-    <div class="shop-tabs">
-      <button class="shop-tab active" id="shopTabTags" onclick="switchShopTab('tags')">🏷️ Tags &amp; Cosmetics</button>
-      <button class="shop-tab" id="shopTabStickers" onclick="switchShopTab('stickers')">🎨 Stickers</button>
-    </div>
-    <div class="shop-tab-panel active" id="shopPanelTags">
-      <div class="shop-grid" id="shopGrid"><div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:rgba(255,255,255,.3);font-size:.9em">Loading shop...</div></div>
-    </div>
-    <div class="shop-tab-panel" id="shopPanelStickers">
-      <div class="page-card" style="margin-bottom:22px;background:rgba(255,255,255,.97)">
-        <div class="sticker-section-header"><div class="sticker-section-title">🖼️ Create a Sticker</div><span style="font-size:.8em;color:#22c55e;font-weight:700;background:#f0fdf4;padding:4px 10px;border-radius:8px;border:1px solid #bbf7d0">✓ FREE</span></div>
-        <div class="sticker-create-form" style="margin-top:14px">
-          <input type="text" id="stickerName" class="account-field" placeholder="Sticker name (e.g. Happy Dog 🐶)" maxlength="30" style="font-size:.95em">
-          <input type="text" id="stickerDesc" class="account-field" placeholder="Description (optional)" maxlength="100" style="font-size:.93em">
-          <div class="sticker-file-area" onclick="document.getElementById('stickerImage').click()">
-            <label class="sticker-file-label" for="stickerImage"><span style="font-size:2em">📁</span><span id="stickerFileLabel">Click to choose image</span><span style="color:#aaa;font-size:.8em;font-weight:400">PNG, JPG, GIF, WebP · max 2MB</span></label>
-            <input type="file" id="stickerImage" accept="image/*">
-          </div>
-          <div id="imagePreview" class="sticker-preview-wrap"><img id="imagePreviewImg" style="max-width:100%;max-height:100%;object-fit:contain"></div>
-          <label class="sticker-toggle-row" for="stickerPublic"><input type="checkbox" id="stickerPublic"><span class="sticker-toggle-label">🌍 Make public — earn <strong>50 🪙</strong> each time someone buys it</span></label>
-          <button class="save-btn" onclick="createSticker()" style="background:linear-gradient(135deg,#667eea,#764ba2);font-size:1em;padding:14px 20px">✨ Create Sticker (FREE!)</button>
-          <div id="stickerMsg" class="page-msg" style="display:none"></div>
+    <div class="page-card" style="margin-bottom:22px;background:rgba(255,255,255,.97)">
+      <div class="sticker-section-header"><div class="sticker-section-title">🖼️ Create a Sticker</div><span style="font-size:.8em;color:#22c55e;font-weight:700;background:#f0fdf4;padding:4px 10px;border-radius:8px;border:1px solid #bbf7d0">✓ FREE</span></div>
+      <div class="sticker-create-form" style="margin-top:14px">
+        <input type="text" id="stickerName" class="account-field" placeholder="Sticker name (e.g. Happy Dog 🐶)" maxlength="30" style="font-size:.95em">
+        <input type="text" id="stickerDesc" class="account-field" placeholder="Description (optional)" maxlength="100" style="font-size:.93em">
+        <div class="sticker-file-area" onclick="document.getElementById('stickerImage').click()">
+          <label class="sticker-file-label" for="stickerImage"><span style="font-size:2em">📁</span><span id="stickerFileLabel">Click to choose image</span><span style="color:#aaa;font-size:.8em;font-weight:400">PNG, JPG, GIF, WebP · max 2MB</span></label>
+          <input type="file" id="stickerImage" accept="image/*">
         </div>
+        <div id="imagePreview" class="sticker-preview-wrap"><img id="imagePreviewImg" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+        <label class="sticker-toggle-row" for="stickerPublic"><input type="checkbox" id="stickerPublic"><span class="sticker-toggle-label">🌍 Make public — others can see and use it in chat</span></label>
+        <button class="save-btn" onclick="createSticker()" style="background:linear-gradient(135deg,#667eea,#764ba2);font-size:1em;padding:14px 20px">✨ Create Sticker (FREE!)</button>
+        <div id="stickerMsg" class="page-msg" style="display:none"></div>
       </div>
-      <div class="page-card" style="margin-bottom:22px;background:rgba(255,255,255,.97)">
-        <div class="sticker-section-header"><div class="sticker-section-title">📸 My Stickers</div><span id="myStickerCount" class="sticker-count-badge">0</span></div>
-        <div id="myStickersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;margin-top:12px"><div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">No stickers yet — create your first one above! It's FREE 🎉</div></div>
-      </div>
-      <div class="page-card" style="background:rgba(255,255,255,.97)">
-        <div class="sticker-section-header"><div class="sticker-section-title">🛒 Sticker Marketplace</div><span id="publicStickerCount" class="sticker-count-badge">0</span></div>
-        <p style="color:#aaa;font-size:.88em;margin-bottom:18px">Buy stickers from other students! Each costs <strong style="color:#f59e0b">50 🪙 Maths Gold</strong>. Creators earn 50 🪙 per sale.</p>
-        <div id="publicStickersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px"><div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">Loading marketplace...</div></div>
-      </div>
+    </div>
+    <div class="page-card" style="margin-bottom:22px;background:rgba(255,255,255,.97)">
+      <div class="sticker-section-header"><div class="sticker-section-title">📸 My Stickers</div><span id="myStickerCount" class="sticker-count-badge">0</span></div>
+      <div id="myStickersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;margin-top:12px"><div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">No stickers yet — create your first one above! It's FREE 🎉</div></div>
+    </div>
+    <div class="page-card" style="background:rgba(255,255,255,.97)">
+      <div class="sticker-section-header"><div class="sticker-section-title">🛒 Sticker Marketplace</div><span id="publicStickerCount" class="sticker-count-badge">0</span></div>
+      <p style="color:#aaa;font-size:.88em;margin-bottom:18px">Stickers from other students! Use them in chat conversations.</p>
+      <div id="publicStickersGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px"><div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">Loading marketplace...</div></div>
     </div>
   </div>
 
@@ -1805,7 +1825,8 @@ async function onSignedIn(profile){
   const iAmAdmin=ADMIN_USER_IDS.includes(profile.id)||profile?.is_admin;
   const bcBtn=document.getElementById('broadcastBtn');
   if(bcBtn)bcBtn.style.display=iAmAdmin?'':'none';
-  try{ await initUserPass(); }catch(e){ console.warn('Pass init error:',e); }
+  // Pass removed
+  if(currentUser){ loadMyStickers(); loadPublicStickers(); }
 }
 
 async function restoreSession(){
@@ -2422,7 +2443,13 @@ function skipGameBanner() {
 
 function actuallyOpenGame(name, url) {
   document.getElementById('gameTitle').textContent = name;
-  document.getElementById('gameFrame').src = url;
+  const gameContainer = document.getElementById('gameContainer');
+  const gameFrame = document.getElementById('gameFrame');
+  if (gameContainer) gameContainer.classList.add('active');
+  if (gameFrame) {
+    gameFrame.removeAttribute('srcdoc');
+    gameFrame.src = url;
+  }
   ['gamesGrid','appsPage','accountPage','friendsPage'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -2431,7 +2458,7 @@ function actuallyOpenGame(name, url) {
   });
   document.getElementById('chatPage').classList.remove('active');
   document.getElementById('gameMainWrapper').style.display = 'flex';
-  document.getElementById('gameAdBottom').style.display = 'block';
+  document.getElementById('gameAdBottom').style.display = 'none';
   document.getElementById('topNav').classList.add('minimal');
   const cas = document.querySelector('.custom-apps-section');
   if (cas) cas.style.display = 'none';
@@ -2441,7 +2468,7 @@ function actuallyOpenGame(name, url) {
 }
 
 function openGame(name, url) {
-  showGameBanner(name, url);
+  actuallyOpenGame(name, url);
 }
 
 function closeGame(){
@@ -2454,7 +2481,9 @@ function closeGame(){
   pendingGameName = null;
   pendingGameUrl = null;
   if(document.fullscreenElement)document.exitFullscreen();
-  document.getElementById('gameFrame').src='';
+  const gameContainer = document.getElementById('gameContainer');
+  if(gameContainer)gameContainer.classList.remove('active');
+  document.getElementById('gameFrame').src='about:blank';
   document.getElementById('gameMainWrapper').style.display='none';
   document.getElementById('gameAdBottom').style.display='none';
   broadcastGameStatus(null,null);
@@ -2486,13 +2515,13 @@ async function initializeGrannyGame(){const canvas=document.querySelector('#unit
 function showSection(section){
   const gc=document.getElementById('gameContainer');
   if(gc.classList.contains('active'))closeGame();
-  document.getElementById('gamesAdBottom').style.display = (section==='home') ? 'block' : 'none';
-  document.getElementById('appsAdBottom').style.display = (section==='apps') ? 'block' : 'none';
+  document.getElementById('gamesAdBottom').style.display = 'none';
+  document.getElementById('appsAdBottom').style.display = 'none';
   if(chatPollTimer&&section!=='chat'){clearInterval(chatPollTimer);chatPollTimer=null;}
   document.getElementById('gamesGrid').style.display='none';
-  ['appsPage','accountPage','friendsPage','passPage','shopPage'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  ['appsPage','accountPage','friendsPage','shopPage'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
   document.getElementById('chatPage').classList.remove('active');
-  ['homeBtn','appsBtn','accountBtn','friendsBtn','chatBtn','passBtn','shopBtn'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
+  ['homeBtn','appsBtn','accountBtn','friendsBtn','chatBtn','shopBtn'].forEach(id=>document.getElementById(id)?.classList.remove('active'));
   document.getElementById('topNav').classList.remove('minimal');
   const cas=document.querySelector('.custom-apps-section');
   if(section==='home'){
@@ -2519,16 +2548,10 @@ function showSection(section){
     if(cas)cas.style.display='none';
     loadFriends();updateChatBadge();
     if(activeChatFriendId){if(chatPollTimer)clearInterval(chatPollTimer);chatPollTimer=setInterval(()=>{if(activeChatFriendId)pollNewMessages(activeChatFriendId);},5000);}
-  }else if(section==='pass'){
-    document.getElementById('passPage').classList.add('active');
-    document.getElementById('passBtn').classList.add('active');
-    if(cas)cas.style.display='none';
-    loadPassData();
   }else if(section==='shop'){
     document.getElementById('shopPage').classList.add('active');
     document.getElementById('shopBtn').classList.add('active');
     if(cas)cas.style.display='none';
-    loadShopData();
     if(currentUser){ loadMyStickers(); loadPublicStickers(); }
   }
   if(section!=='chat')window.scrollTo({top:0,behavior:'smooth'});
@@ -2979,23 +3002,209 @@ function switchShopTab(tab) {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// STICKER SYSTEM
+// STICKER SYSTEM (fully implemented)
 // ══════════════════════════════════════════════════════════════════
-async function uploadStickerImage(file, userId){ /* ... keep existing implementation ... */ return ''; }
-async function createSticker(){ /* ... keep existing implementation ... */ }
-async function loadMyStickers(){ /* ... keep existing implementation ... */ }
-async function loadPublicStickers(){ /* ... keep existing implementation ... */ }
-async function purchaseSticker(stickerId, price, creatorId){ /* ... keep existing implementation ... */ }
-async function deleteSticker(stickerId){ /* ... keep existing implementation ... */ }
-function showStickerMsg(text, type){ /* ... keep existing implementation ... */ }
+
+async function uploadStickerImage(file, userId){
+  if(!file) return '';
+  const ext = file.name.split('.').pop().toLowerCase();
+  const path = `stickers/${userId}/${Date.now()}.${ext}`;
+  const { data, error } = await sb.storage.from('stickers').upload(path, file, { cacheControl:'3600', upsert:false });
+  if(error){ console.error('Upload error:', error); return ''; }
+  const { data: urlData } = sb.storage.from('stickers').getPublicUrl(path);
+  return urlData?.publicUrl || '';
+}
+
+async function createSticker(){
+  if(!currentUser){ showStickerMsg('Please sign in first.','err'); return; }
+  const name = document.getElementById('stickerName').value.trim();
+  const desc = document.getElementById('stickerDesc').value.trim();
+  const fileInput = document.getElementById('stickerImage');
+  const isPublic = document.getElementById('stickerPublic').checked;
+  if(!name){ showStickerMsg('Please enter a sticker name.','err'); return; }
+  if(!fileInput.files.length){ showStickerMsg('Please choose an image.','err'); return; }
+  const file = fileInput.files[0];
+  if(file.size > 2*1024*1024){ showStickerMsg('Image must be under 2MB.','err'); return; }
+  showStickerMsg('⏳ Uploading sticker...','ok');
+  const imageUrl = await uploadStickerImage(file, currentUser.id);
+  if(!imageUrl){ showStickerMsg('Failed to upload image. Try again.','err'); return; }
+  const { data, error } = await sb.from('stickers').insert({
+    user_id: currentUser.id,
+    name: name,
+    description: desc,
+    image_url: imageUrl,
+    is_public: isPublic
+  }).select().single();
+  if(error){ showStickerMsg('Error: ' + error.message,'err'); return; }
+  showStickerMsg('✅ Sticker created!','ok');
+  document.getElementById('stickerName').value = '';
+  document.getElementById('stickerDesc').value = '';
+  fileInput.value = '';
+  document.getElementById('stickerFileLabel').textContent = 'Click to choose image';
+  document.getElementById('imagePreview').style.display = 'none';
+  document.getElementById('stickerPublic').checked = false;
+  loadMyStickers();
+  if(isPublic) loadPublicStickers();
+}
+
+async function loadMyStickers(){
+  if(!currentUser) return;
+  const { data, error } = await sb.from('stickers').select('*').eq('user_id', currentUser.id).order('created_at',{ascending:false});
+  const grid = document.getElementById('myStickersGrid');
+  const count = document.getElementById('myStickerCount');
+  if(error || !data || !data.length){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">No stickers yet — create your first one above! It\'s FREE 🎉</div>';
+    if(count) count.textContent = '0';
+    return;
+  }
+  if(count) count.textContent = data.length;
+  grid.innerHTML = '';
+  data.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'sticker-card';
+    card.innerHTML = `
+      <div class="sticker-image"><img src="${escapeHtml(s.image_url)}" alt="${escapeHtml(s.name)}" onerror="this.style.display='none'"></div>
+      <div class="sticker-name">${escapeHtml(s.name)}</div>
+      ${s.description ? `<div class="sticker-meta">${escapeHtml(s.description)}</div>` : ''}
+      <span class="sticker-badge ${s.is_public ? 'public' : 'private'}">${s.is_public ? '🌍 Public' : '🔒 Private'}</span>
+      <button onclick="deleteSticker('${s.id}')" style="margin-top:8px;background:rgba(246,79,89,.1);border:1px solid rgba(246,79,89,.25);color:#f64f59;border-radius:8px;padding:5px 12px;font-size:.75em;font-weight:700;cursor:pointer;font-family:inherit">🗑️ Delete</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+async function loadPublicStickers(){
+  const { data, error } = await sb.from('stickers').select('*, creator:users!stickers_user_id_fkey(username, display_name)').eq('is_public', true).order('created_at',{ascending:false});
+  const grid = document.getElementById('publicStickersGrid');
+  const count = document.getElementById('publicStickerCount');
+  if(error || !data || !data.length){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#aaa;padding:40px 20px">No public stickers yet. Be the first to share one!</div>';
+    if(count) count.textContent = '0';
+    return;
+  }
+  if(count) count.textContent = data.length;
+  grid.innerHTML = '';
+  data.forEach(s => {
+    const creatorName = s.creator?.display_name || s.creator?.username || 'Unknown';
+    const isOwn = currentUser && s.user_id === currentUser.id;
+    const card = document.createElement('div');
+    card.className = 'sticker-card';
+    card.innerHTML = `
+      <div class="sticker-image"><img src="${escapeHtml(s.image_url)}" alt="${escapeHtml(s.name)}" onerror="this.style.display='none'"></div>
+      <div class="sticker-name">${escapeHtml(s.name)}</div>
+      <div class="sticker-meta">by ${escapeHtml(creatorName)}</div>
+      ${s.description ? `<div class="sticker-meta">${escapeHtml(s.description)}</div>` : ''}
+      <span class="sticker-badge public">🌍 Public</span>
+      ${isOwn ? '<div style="margin-top:6px;font-size:.75em;color:#667eea;font-weight:700">Your sticker</div>' : ''}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+async function purchaseSticker(stickerId, price, creatorId){
+  // Stickers are free now, just add to collection
+  showToast('🎨 Sticker added to your collection!');
+}
+
+async function deleteSticker(stickerId){
+  if(!confirm('Delete this sticker?')) return;
+  const { error } = await sb.from('stickers').delete().eq('id', stickerId).eq('user_id', currentUser.id);
+  if(error){ showToast('❌ Could not delete sticker'); return; }
+  showToast('🗑️ Sticker deleted');
+  loadMyStickers();
+  loadPublicStickers();
+}
+
+function showStickerMsg(text, type){
+  const el = document.getElementById('stickerMsg');
+  if(!el) return;
+  el.textContent = text;
+  el.style.display = 'block';
+  el.className = 'page-msg show ' + type;
+  setTimeout(() => { el.style.display = 'none'; el.classList.remove('show'); }, 4000);
+}
 
 let stickerPickerOpen = false;
-function toggleStickerPicker(){ /* ... keep existing implementation ... */ }
-async function loadStickerPicker(){ /* ... keep existing implementation ... */ }
-async function sendSticker(stickerId, imageUrl, name){ /* ... keep existing implementation ... */ }
 
-document.getElementById('stickerImage')?.addEventListener('change', function(e){ /* ... keep existing implementation ... */ });
-document.addEventListener('click', function(e){ /* ... keep existing implementation ... */ });
+function toggleStickerPicker(){
+  const picker = document.getElementById('stickerPicker');
+  if(!picker) return;
+  stickerPickerOpen = !stickerPickerOpen;
+  picker.style.display = stickerPickerOpen ? 'block' : 'none';
+  if(stickerPickerOpen) loadStickerPicker();
+}
+
+async function loadStickerPicker(){
+  if(!currentUser) return;
+  const grid = document.getElementById('stickerPickerGrid');
+  if(!grid) return;
+  // Load user's own stickers + public stickers
+  const [own, pub] = await Promise.all([
+    sb.from('stickers').select('*').eq('user_id', currentUser.id),
+    sb.from('stickers').select('*').eq('is_public', true).neq('user_id', currentUser.id).limit(50)
+  ]);
+  const all = [...(own.data||[]), ...(pub.data||[])];
+  if(!all.length){
+    grid.innerHTML = '<div class="sticker-picker-empty">No stickers yet. Create one in the Shop!</div>';
+    return;
+  }
+  grid.innerHTML = '';
+  all.forEach(s => {
+    const item = document.createElement('div');
+    item.className = 'sticker-picker-item';
+    item.style.cssText = 'cursor:pointer;border-radius:10px;overflow:hidden;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#f8f9ff;border:2px solid transparent;transition:all .15s;padding:4px';
+    item.innerHTML = `<img src="${escapeHtml(s.image_url)}" alt="${escapeHtml(s.name)}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:6px" title="${escapeHtml(s.name)}" onerror="this.parentElement.style.display='none'">`;
+    item.addEventListener('mouseenter', () => { item.style.borderColor = '#667eea'; item.style.transform = 'scale(1.05)'; });
+    item.addEventListener('mouseleave', () => { item.style.borderColor = 'transparent'; item.style.transform = ''; });
+    item.onclick = () => sendSticker(s.id, s.image_url, s.name);
+    grid.appendChild(item);
+  });
+}
+
+async function sendSticker(stickerId, imageUrl, name){
+  if(!activeChatFriendId || !currentUser) return;
+  toggleStickerPicker();
+  const { data, error } = await sb.from('messages').insert({
+    sender_id: currentUser.id,
+    receiver_id: activeChatFriendId,
+    content: name || 'Sticker',
+    content_type: 'sticker',
+    sticker_url: imageUrl,
+    status: 'sending'
+  }).select().single();
+  if(!error && data){
+    appendBubble(data);
+    lastMsgId = data.id;
+    const container = document.getElementById('chatMessages');
+    container.scrollTop = container.scrollHeight;
+    await sb.from('messages').update({status:'sent'}).eq('id', data.id);
+    const tick = document.getElementById('tick-'+data.id);
+    if(tick) tick.className = 'msg-tick sent';
+    updateStreak(activeChatFriendId);
+  }
+}
+
+document.getElementById('stickerImage')?.addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 2*1024*1024){ showStickerMsg('Image must be under 2MB.','err'); e.target.value=''; return; }
+  document.getElementById('stickerFileLabel').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    document.getElementById('imagePreviewImg').src = ev.target.result;
+    document.getElementById('imagePreview').style.display = 'flex';
+  };
+  reader.readAsDataURL(file);
+});
+
+document.addEventListener('click', function(e){
+  const picker = document.getElementById('stickerPicker');
+  const btn = document.getElementById('stickerPickerBtn');
+  if(stickerPickerOpen && picker && btn && !picker.contains(e.target) && !btn.contains(e.target)){
+    stickerPickerOpen = false;
+    picker.style.display = 'none';
+  }
+});
 document.addEventListener('DOMContentLoaded',async()=>{ document.getElementById('sitePassInput').focus(); });
 </script>
 
