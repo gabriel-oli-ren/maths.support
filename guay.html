@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StudyHub — Science & Maths Learning</title>
+<meta name="description" content="Interactive single-page study hub for Science and Maths: lessons, quizzes, calculator, periodic table, formulas and progress tracking." />
+<style>
+  :root{
+    --bg:#0b1020; --bg2:#111935; --card:#161e3d; --card2:#1c2550;
+    --text:#e8ecff; --muted:#9aa6d4; --border:#252e5c;
+    --primary:#6366f1; --primary2:#8b5cf6; --accent:#22d3ee; --good:#10b981; --bad:#ef4444; --warn:#f59e0b;
+    --radius:14px; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:linear-gradient(135deg,var(--bg),#0e1430 60%,#1a1148);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;min-height:100%}
+  a{color:var(--accent);text-decoration:none}
+  header{position:sticky;top:0;z-index:50;backdrop-filter:blur(10px);background:rgba(11,16,32,.7);border-bottom:1px solid var(--border)}
+  .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;gap:12px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:.3px}
+  .logo .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--accent));display:grid;place-items:center;box-shadow:var(--shadow)}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px}
+  .tab{padding:8px 14px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:14px;transition:.2s}
+  .tab:hover{color:var(--text)}
+  .tab.active{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-color:transparent;box-shadow:var(--shadow)}
+  main{max-width:1200px;margin:0 auto;padding:28px 22px 80px}
+  section{display:none;animation:fade .35s ease}
+  section.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  h1,h2,h3{margin:0 0 10px}
+  h1{font-size:34px;background:linear-gradient(135deg,#fff,#a5b4fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--muted);margin-bottom:22px}
+  .grid{display:grid;gap:16px}
+  .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+  .grid.cols-4{grid-template-columns:repeat(4,1fr)}
+  @media (max-width:820px){.grid.cols-2,.grid.cols-3,.grid.cols-4{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+  .card h3{font-size:18px}
+  .pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;background:rgba(99,102,241,.15);color:#c7d2fe;border:1px solid rgba(99,102,241,.3);margin-right:6px}
+  .btn{cursor:pointer;border:none;padding:10px 16px;border-radius:10px;font-weight:600;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;transition:.2s;box-shadow:var(--shadow)}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+  .btn.good{background:linear-gradient(135deg,#10b981,#059669)}
+  .btn.bad{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+  input,select,textarea{background:#0f1635;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:15px;width:100%;font-family:inherit}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary)}
+  /* Hero */
+  .hero{position:relative;border-radius:20px;padding:36px;background:radial-gradient(1200px 400px at -10% -20%,rgba(99,102,241,.35),transparent 60%),radial-gradient(800px 300px at 110% 0%,rgba(34,211,238,.25),transparent 60%),linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);overflow:hidden;margin-bottom:24px}
+  .hero h1{font-size:42px}
+  .hero p{color:var(--muted);max-width:640px}
+  .hero .cta{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+  .stat{display:flex;align-items:center;gap:12px}
+  .stat .ico{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-size:20px;background:rgba(99,102,241,.15);border:1px solid var(--border)}
+  .progress{height:8px;background:#0e1430;border-radius:999px;overflow:hidden;border:1px solid var(--border)}
+  .progress > div{height:100%;background:linear-gradient(90deg,var(--accent),var(--primary));width:0%;transition:width .4s}
+  /* Lessons */
+  .lesson-list{display:grid;gap:12px}
+  .lesson{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:#10173a}
+  .lesson .left{display:flex;gap:12px;align-items:center}
+  .badge{font-size:11px;padding:3px 8px;border-radius:6px;background:#0e1430;border:1px solid var(--border);color:var(--muted)}
+  .check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:grid;place-items:center;cursor:pointer;color:transparent}
+  .check.done{background:var(--good);border-color:var(--good);color:#fff}
+  /* Quiz */
+  .quiz-q{font-size:18px;margin-bottom:14px}
+  .options{display:grid;gap:10px}
+  .opt{padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:#10173a;cursor:pointer;transition:.15s}
+  .opt:hover{border-color:var(--primary)}
+  .opt.correct{background:rgba(16,185,129,.15);border-color:var(--good)}
+  .opt.wrong{background:rgba(239,68,68,.15);border-color:var(--bad)}
+  .quiz-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;color:var(--muted);font-size:14px}
+  /* Calculator */
+  .calc{max-width:340px;margin:0 auto}
+  .calc .display{background:#0a0f29;border:1px solid var(--border);border-radius:12px;padding:18px;text-align:right;font-size:28px;min-height:62px;word-break:break-all;margin-bottom:12px}
+  .calc .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .key{padding:16px;background:#10173a;border:1px solid var(--border);border-radius:10px;font-size:18px;cursor:pointer;color:var(--text);transition:.15s}
+  .key:hover{background:#1a2350}
+  .key.op{background:linear-gradient(135deg,var(--primary),var(--primary2));border-color:transparent;color:#fff}
+  .key.eq{background:linear-gradient(135deg,var(--accent),#0891b2);border-color:transparent;color:#001b22;grid-column:span 2;font-weight:700}
+  .key.clr{background:linear-gradient(135deg,#ef4444,#b91c1c);border-color:transparent;color:#fff}
+  /* Periodic table */
+  .ptable{display:grid;grid-template-columns:repeat(18,1fr);gap:3px;font-size:10px}
+  .el{aspect-ratio:1;background:#10173a;border:1px solid var(--border);border-radius:4px;padding:3px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;transition:.15s;color:var(--text);overflow:hidden}
+  .el:hover{transform:scale(1.15);z-index:10;box-shadow:var(--shadow);border-color:var(--accent)}
+  .el .num{font-size:8px;color:var(--muted)}
+  .el .sym{font-size:14px;font-weight:700;text-align:center}
+  .el .name{font-size:7px;text-align:center;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .el.nm{background:rgba(34,211,238,.18);border-color:rgba(34,211,238,.35)}
+  .el.am{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.35)}
+  .el.tm{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4)}
+  .el.mt{background:rgba(99,102,241,.18);border-color:rgba(99,102,241,.4)}
+  .el.nb{background:rgba(16,185,129,.18);border-color:rgba(16,185,129,.4)}
+  .el.hg{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.4)}
+  .el.ng{background:rgba(168,85,247,.18);border-color:rgba(168,85,247,.4)}
+  .el.la{background:rgba(244,114,182,.18);border-color:rgba(244,114,182,.4)}
+  .el.ac{background:rgba(251,113,133,.18);border-color:rgba(251,113,133,.4)}
+  .el.spacer{background:transparent;border:none;cursor:default}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;font-size:12px;color:var(--muted)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  /* Modal */
+  .modal{position:fixed;inset:0;background:rgba(5,8,20,.7);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;backdrop-filter:blur(4px)}
+  .modal.show{display:flex}
+  .modal .box{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;padding:24px;max-width:420px;width:100%;box-shadow:var(--shadow)}
+  .modal h3{font-size:24px;margin-bottom:6px}
+  .modal .close{float:right;cursor:pointer;color:var(--muted);font-size:22px;background:none;border:none}
+  /* Formulas */
+  .formula{padding:14px;background:#10173a;border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
+  .formula code{display:block;background:#0a0f29;padding:10px 12px;border-radius:8px;color:var(--accent);font-size:16px;margin:6px 0;font-family:"SF Mono",Menlo,monospace}
+  .formula small{color:var(--muted)}
+  footer{text-align:center;color:var(--muted);padding:24px;border-top:1px solid var(--border);margin-top:30px;font-size:14px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="logo"><div class="dot">🧠</div> StudyHub</div>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="home">Home</button>
+      <button class="tab" data-tab="lessons">Lessons</button>
+      <button class="tab" data-tab="quiz">Quiz</button>
+      <button class="tab" data-tab="calc">Calculator</button>
+      <button class="tab" data-tab="periodic">Periodic Table</button>
+      <button class="tab" data-tab="formulas">Formulas</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section id="home" class="active">
+    <div class="hero">
+      <span class="pill">Science</span><span class="pill">Mathematics</span>
+      <h1>Master Science & Maths, one lesson at a time.</h1>
+      <p>Interactive lessons, quick quizzes, a built-in scientific calculator, the periodic table, and a formula bank — all in one place.</p>
+      <div class="cta">
+        <button class="btn" onclick="go('lessons')">📚 Start Learning</button>
+        <button class="btn ghost" onclick="go('quiz')">🎯 Take a Quiz</button>
+      </div>
+    </div>
+
+    <div class="grid cols-3">
+      <div class="card stat"><div class="ico">📖</div><div><div style="font-size:24px;font-weight:700" id="s-lessons">0/8</div><div class="sub" style="margin:0">Lessons completed</div></div></div>
+      <div class="card stat"><div class="ico">🏆</div><div><div style="font-size:24px;font-weight:700" id="s-score">0</div><div class="sub" style="margin:0">Quiz best score</div></div></div>
+      <div class="card stat"><div class="ico">🔥</div><div><div style="font-size:24px;font-weight:700" id="s-streak">1</div><div class="sub" style="margin:0">Day streak</div></div></div>
+    </div>
+
+    <h2 style="margin-top:28px">Pick a topic</h2>
+    <div class="grid cols-4" style="margin-top:10px">
+      <div class="card" onclick="go('lessons')" style="cursor:pointer">
+        <div style="font-size:32px">⚛️</div><h3>Physics</h3><div class="sub" style="margin:0">Motion, forces, energy</div>
+      </div>
+      <div class="card" onclick="go('lessons')" style="cursor:pointer">
+        <div style="font-size:32px">🧪</div><h3>Chemistry</h3><div class="sub" style="margin:0">Atoms, reactions, bonds</div>
+      </div>
+      <div class="card" onclick="go('lessons')" style="cursor:pointer">
+        <div style="font-size:32px">🧬</div><h3>Biology</h3><div class="sub" style="margin:0">Cells, life, genetics</div>
+      </div>
+      <div class="card" onclick="go('lessons')" style="cursor:pointer">
+        <div style="font-size:32px">∫</div><h3>Mathematics</h3><div class="sub" style="margin:0">Algebra, geometry, calculus</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LESSONS -->
+  <section id="lessons">
+    <h1>Lessons</h1>
+    <p class="sub">Tap the circle to mark a lesson as complete.</p>
+    <div class="row" style="margin-bottom:14px">
+      <div class="progress" style="flex:1"><div id="lessonBar"></div></div>
+      <span id="lessonPct" style="color:var(--muted);font-size:14px">0%</span>
+    </div>
+    <div class="lesson-list" id="lessonList"></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz">
+    <h1>Quick Quiz</h1>
+    <p class="sub">Mix of science and maths — see how many you can ace.</p>
+    <div class="card">
+      <div class="quiz-meta">
+        <span>Question <b id="qNum">1</b> / <b id="qTotal">0</b></span>
+        <span>Score: <b id="qScore">0</b></span>
+      </div>
+      <div class="quiz-q" id="qText">Loading…</div>
+      <div class="options" id="qOptions"></div>
+      <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn ghost" onclick="restartQuiz()">Restart</button>
+        <button class="btn" id="nextBtn" onclick="nextQ()" disabled>Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALC -->
+  <section id="calc">
+    <h1>Calculator</h1>
+    <p class="sub">Supports + − × ÷ , parentheses, decimals, square root and powers.</p>
+    <div class="calc card">
+      <div class="display" id="display">0</div>
+      <div class="keys">
+        <button class="key clr" onclick="cClear()">C</button>
+        <button class="key" onclick="cPush('(')">(</button>
+        <button class="key" onclick="cPush(')')">)</button>
+        <button class="key op" onclick="cPush('/')">÷</button>
+        <button class="key" onclick="cPush('7')">7</button>
+        <button class="key" onclick="cPush('8')">8</button>
+        <button class="key" onclick="cPush('9')">9</button>
+        <button class="key op" onclick="cPush('*')">×</button>
+        <button class="key" onclick="cPush('4')">4</button>
+        <button class="key" onclick="cPush('5')">5</button>
+        <button class="key" onclick="cPush('6')">6</button>
+        <button class="key op" onclick="cPush('-')">−</button>
+        <button class="key" onclick="cPush('1')">1</button>
+        <button class="key" onclick="cPush('2')">2</button>
+        <button class="key" onclick="cPush('3')">3</button>
+        <button class="key op" onclick="cPush('+')">+</button>
+        <button class="key" onclick="cPush('0')">0</button>
+        <button class="key" onclick="cPush('.')">.</button>
+        <button class="key op" onclick="cPush('**')">xʸ</button>
+        <button class="key op" onclick="cSqrt()">√</button>
+        <button class="key" onclick="cBack()">⌫</button>
+        <button class="key" onclick="cPush('Math.PI')">π</button>
+        <button class="key eq" onclick="cEq()">=</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERIODIC -->
+  <section id="periodic">
+    <h1>Periodic Table</h1>
+    <p class="sub">Click any element for details.</p>
+    <div class="ptable" id="ptable"></div>
+    <div class="legend">
+      <span><i style="background:rgba(34,211,238,.5)"></i>Nonmetal</span>
+      <span><i style="background:rgba(168,85,247,.5)"></i>Noble gas</span>
+      <span><i style="background:rgba(245,158,11,.5)"></i>Alkali metal</span>
+      <span><i style="background:rgba(139,92,246,.5)"></i>Transition metal</span>
+      <span><i style="background:rgba(99,102,241,.5)"></i>Metalloid</span>
+      <span><i style="background:rgba(16,185,129,.5)"></i>Post-transition</span>
+      <span><i style="background:rgba(239,68,68,.5)"></i>Halogen</span>
+      <span><i style="background:rgba(244,114,182,.5)"></i>Lanthanide</span>
+      <span><i style="background:rgba(251,113,133,.5)"></i>Actinide</span>
+    </div>
+  </section>
+
+  <!-- FORMULAS -->
+  <section id="formulas">
+    <h1>Formulas Bank</h1>
+    <p class="sub">Filter by subject:</p>
+    <div class="row" style="margin-bottom:14px">
+      <select id="fFilter" style="max-width:240px" onchange="renderFormulas()">
+        <option value="all">All subjects</option>
+        <option value="Math">Math</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+      </select>
+      <input id="fSearch" placeholder="Search…" oninput="renderFormulas()" style="flex:1;min-width:200px"/>
+    </div>
+    <div id="formulasList"></div>
+  </section>
+</main>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="box">
+    <button class="close" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<footer>Built with ❤️ for curious minds — StudyHub © 2026</footer>
+
+<script>
+/* ---------- Tabs ---------- */
+const tabs = document.querySelectorAll('.tab');
+tabs.forEach(t => t.onclick = () => go(t.dataset.tab));
+function go(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- Lessons ---------- */
+const lessons = [
+  {s:'Physics',t:'Newton\'s Laws of Motion',d:'Inertia, F=ma, action-reaction.'},
+  {s:'Physics',t:'Energy & Work',d:'Kinetic, potential and conservation.'},
+  {s:'Chemistry',t:'Atomic Structure',d:'Protons, neutrons, electrons & shells.'},
+  {s:'Chemistry',t:'Chemical Bonds',d:'Ionic, covalent and metallic bonding.'},
+  {s:'Biology',t:'The Cell',d:'Organelles and basic cell function.'},
+  {s:'Biology',t:'DNA & Genetics',d:'Heredity, genes and traits.'},
+  {s:'Math',t:'Quadratic Equations',d:'ax²+bx+c=0 and the discriminant.'},
+  {s:'Math',t:'Trigonometry Basics',d:'Sine, cosine, tangent and the unit circle.'},
+];
+let done = JSON.parse(localStorage.getItem('done')||'[]');
+function renderLessons(){
+  const el = document.getElementById('lessonList'); el.innerHTML='';
+  lessons.forEach((l,i)=>{
+    const isDone = done.includes(i);
+    el.innerHTML += `<div class="lesson"><div class="left">
+      <div class="check ${isDone?'done':''}" onclick="toggle(${i})">✓</div>
+      <div><div style="font-weight:600">${l.t}</div><div style="color:var(--muted);font-size:13px">${l.d}</div></div>
+    </div><span class="badge">${l.s}</span></div>`;
+  });
+  const pct = Math.round(done.length/lessons.length*100);
+  document.getElementById('lessonBar').style.width = pct+'%';
+  document.getElementById('lessonPct').textContent = pct+'%';
+  document.getElementById('s-lessons').textContent = `${done.length}/${lessons.length}`;
+}
+function toggle(i){
+  if(done.includes(i)) done = done.filter(x=>x!==i); else done.push(i);
+  localStorage.setItem('done', JSON.stringify(done));
+  renderLessons();
+}
+
+/* ---------- Quiz ---------- */
+const quiz = [
+  {q:'What is the value of π (to 2 decimals)?',o:['3.14','3.41','2.17','3.16'],a:0},
+  {q:'Chemical symbol for Sodium?',o:['So','Na','S','Sd'],a:1},
+  {q:'Solve: 7 × 8 = ?',o:['54','56','64','58'],a:1},
+  {q:'Force = mass × ?',o:['velocity','acceleration','distance','time'],a:1},
+  {q:'Powerhouse of the cell?',o:['Nucleus','Ribosome','Mitochondria','Golgi'],a:2},
+  {q:'Derivative of x²?',o:['x','2x','x²/2','2'],a:1},
+  {q:'Speed of light (m/s, approx)?',o:['3×10⁸','3×10⁶','1.5×10⁸','3×10¹⁰'],a:0},
+  {q:'pH of pure water?',o:['0','7','14','1'],a:1},
+];
+let qi=0, score=0, answered=false;
+function renderQ(){
+  answered=false;
+  document.getElementById('nextBtn').disabled=true;
+  document.getElementById('qNum').textContent = qi+1;
+  document.getElementById('qTotal').textContent = quiz.length;
+  document.getElementById('qScore').textContent = score;
+  document.getElementById('qText').textContent = quiz[qi].q;
+  const opts = document.getElementById('qOptions'); opts.innerHTML='';
+  quiz[qi].o.forEach((opt,i)=>{
+    const d = document.createElement('div');
+    d.className='opt'; d.textContent=opt;
+    d.onclick=()=>answer(i,d);
+    opts.appendChild(d);
+  });
+}
+function answer(i,el){
+  if(answered) return;
+  answered=true;
+  const correct = quiz[qi].a;
+  const all = document.querySelectorAll('#qOptions .opt');
+  all.forEach((o,idx)=>{
+    if(idx===correct) o.classList.add('correct');
+    else if(idx===i) o.classList.add('wrong');
+  });
+  if(i===correct) score++;
+  document.getElementById('qScore').textContent = score;
+  const best = +localStorage.getItem('best')||0;
+  if(score>best){ localStorage.setItem('best',score); document.getElementById('s-score').textContent = score; }
+  document.getElementById('nextBtn').disabled=false;
+  if(qi===quiz.length-1) document.getElementById('nextBtn').textContent='See result';
+}
+function nextQ(){
+  if(qi<quiz.length-1){ qi++; renderQ(); }
+  else { openModal(`<h3>🎉 Quiz finished!</h3><p>Your score: <b>${score}</b> / ${quiz.length}</p><p style="color:var(--muted)">${score===quiz.length?'Flawless! 🏆':score>=quiz.length/2?'Nice work — keep going!':'Review the lessons and try again!'}</p><button class="btn" onclick="closeModal();restartQuiz()">Play again</button>`); }
+}
+function restartQuiz(){ qi=0;score=0;document.getElementById('nextBtn').textContent='Next →';renderQ(); }
+
+/* ---------- Calculator ---------- */
+let expr = '';
+const display = ()=>document.getElementById('display');
+function show(){ display().textContent = expr.replace(/\*/g,'×').replace(/\//g,'÷').replace(/Math\.PI/g,'π').replace(/Math\.sqrt/g,'√')||'0'; }
+function cPush(v){ expr+=v; show(); }
+function cClear(){ expr=''; show(); }
+function cBack(){ expr=expr.slice(0,-1); show(); }
+function cSqrt(){ expr+='Math.sqrt('; show(); }
+function cEq(){
+  try{
+    if(!expr) return;
+    const r = Function('"use strict";return ('+expr+')')();
+    expr = String(Number.isFinite(r) ? +r.toFixed(10) : 'Error');
+    show();
+  }catch(e){ expr='Error'; show(); expr=''; }
+}
+
+/* ---------- Periodic table ---------- */
+const ELEMENTS = [
+{n:1,s:'H',na:'Hydrogen',c:'nm',w:1.008},{n:2,s:'He',na:'Helium',c:'ng',w:4.0026},
+{n:3,s:'Li',na:'Lithium',c:'am',w:6.94},{n:4,s:'Be',na:'Beryllium',c:'am',w:9.012},
+{n:5,s:'B',na:'Boron',c:'mt',w:10.81},{n:6,s:'C',na:'Carbon',c:'nm',w:12.011},
+{n:7,s:'N',na:'Nitrogen',c:'nm',w:14.007},{n:8,s:'O',na:'Oxygen',c:'nm',w:15.999},
+{n:9,s:'F',na:'Fluorine',c:'hg',w:18.998},{n:10,s:'Ne',na:'Neon',c:'ng',w:20.18},
+{n:11,s:'Na',na:'Sodium',c:'am',w:22.99},{n:12,s:'Mg',na:'Magnesium',c:'am',w:24.305},
+{n:13,s:'Al',na:'Aluminum',c:'nb',w:26.982},{n:14,s:'Si',na:'Silicon',c:'mt',w:28.085},
+{n:15,s:'P',na:'Phosphorus',c:'nm',w:30.974},{n:16,s:'S',na:'Sulfur',c:'nm',w:32.06},
+{n:17,s:'Cl',na:'Chlorine',c:'hg',w:35.45},{n:18,s:'Ar',na:'Argon',c:'ng',w:39.948},
+{n:19,s:'K',na:'Potassium',c:'am',w:39.098},{n:20,s:'Ca',na:'Calcium',c:'am',w:40.078},
+{n:21,s:'Sc',na:'Scandium',c:'tm',w:44.956},{n:22,s:'Ti',na:'Titanium',c:'tm',w:47.867},
+{n:23,s:'V',na:'Vanadium',c:'tm',w:50.942},{n:24,s:'Cr',na:'Chromium',c:'tm',w:51.996},
+{n:25,s:'Mn',na:'Manganese',c:'tm',w:54.938},{n:26,s:'Fe',na:'Iron',c:'tm',w:55.845},
+{n:27,s:'Co',na:'Cobalt',c:'tm',w:58.933},{n:28,s:'Ni',na:'Nickel',c:'tm',w:58.693},
+{n:29,s:'Cu',na:'Copper',c:'tm',w:63.546},{n:30,s:'Zn',na:'Zinc',c:'tm',w:65.38},
+{n:31,s:'Ga',na:'Gallium',c:'nb',w:69.723},{n:32,s:'Ge',na:'Germanium',c:'mt',w:72.63},
+{n:33,s:'As',na:'Arsenic',c:'mt',w:74.922},{n:34,s:'Se',na:'Selenium',c:'nm',w:78.971},
+{n:35,s:'Br',na:'Bromine',c:'hg',w:79.904},{n:36,s:'Kr',na:'Krypton',c:'ng',w:83.798},
+];
+// layout: row,col for first 36
+const POS = {
+1:[1,1],2:[1,18],
+3:[2,1],4:[2,2],5:[2,13],6:[2,14],7:[2,15],8:[2,16],9:[2,17],10:[2,18],
+11:[3,1],12:[3,2],13:[3,13],14:[3,14],15:[3,15],16:[3,16],17:[3,17],18:[3,18],
+19:[4,1],20:[4,2],21:[4,3],22:[4,4],23:[4,5],24:[4,6],25:[4,7],26:[4,8],27:[4,9],28:[4,10],29:[4,11],30:[4,12],31:[4,13],32:[4,14],33:[4,15],34:[4,16],35:[4,17],36:[4,18],
+};
+function renderPT(){
+  const grid = document.getElementById('ptable');
+  // 4 rows × 18 cols, fill with spacers
+  const cells = Array(4*18).fill(null);
+  ELEMENTS.forEach(e=>{
+    const [r,c]=POS[e.n];
+    cells[(r-1)*18+(c-1)] = e;
+  });
+  grid.innerHTML = cells.map(e=> e
+    ? `<div class="el ${e.c}" onclick='showEl(${JSON.stringify(e)})'><div class="num">${e.n}</div><div class="sym">${e.s}</div><div class="name">${e.na}</div></div>`
+    : `<div class="el spacer"></div>`
+  ).join('');
+}
+function showEl(e){
+  openModal(`<h3>${e.s} — ${e.na}</h3>
+    <p style="color:var(--muted);margin-top:0">Atomic number ${e.n}</p>
+    <div class="grid cols-2" style="gap:8px;font-size:14px">
+      <div class="formula" style="margin:0"><small>Symbol</small><code>${e.s}</code></div>
+      <div class="formula" style="margin:0"><small>Atomic mass</small><code>${e.w}</code></div>
+    </div>`);
+}
+
+/* ---------- Formulas ---------- */
+const formulas = [
+  {s:'Math',n:'Quadratic formula',f:'x = (-b ± √(b²-4ac)) / 2a',d:'Solves ax²+bx+c=0'},
+  {s:'Math',n:'Pythagoras',f:'a² + b² = c²',d:'Right triangle sides'},
+  {s:'Math',n:'Slope',f:'m = (y₂-y₁)/(x₂-x₁)',d:'Slope between two points'},
+  {s:'Math',n:'Area of circle',f:'A = π r²',d:'Where r = radius'},
+  {s:'Physics',n:'Newton\'s 2nd law',f:'F = m · a',d:'Force = mass × acceleration'},
+  {s:'Physics',n:'Kinetic energy',f:'E_k = ½ m v²',d:'Energy of motion'},
+  {s:'Physics',n:'Ohm\'s law',f:'V = I · R',d:'Voltage, current, resistance'},
+  {s:'Physics',n:'Gravitational PE',f:'E_p = m · g · h',d:'Near Earth\'s surface'},
+  {s:'Chemistry',n:'Ideal gas law',f:'P · V = n · R · T',d:'For an ideal gas'},
+  {s:'Chemistry',n:'Molarity',f:'M = moles / liters',d:'Solution concentration'},
+  {s:'Chemistry',n:'Density',f:'ρ = m / V',d:'Mass per unit volume'},
+];
+function renderFormulas(){
+  const f = document.getElementById('fFilter').value;
+  const q = document.getElementById('fSearch').value.toLowerCase();
+  const list = document.getElementById('formulasList');
+  const items = formulas.filter(x=> (f==='all'||x.s===f) && (x.n.toLowerCase().includes(q)||x.f.toLowerCase().includes(q)));
+  list.innerHTML = items.length? items.map(x=>`
+    <div class="formula"><span class="pill">${x.s}</span> <b>${x.n}</b>
+    <code>${x.f}</code><small>${x.d}</small></div>`).join('')
+    : `<p style="color:var(--muted)">No formulas found.</p>`;
+}
+
+/* ---------- Modal ---------- */
+function openModal(html){ document.getElementById('modalContent').innerHTML = html; document.getElementById('modal').classList.add('show'); }
+function closeModal(){ document.getElementById('modal').classList.remove('show'); }
+
+/* ---------- Init ---------- */
+renderLessons(); renderQ(); renderPT(); renderFormulas();
+document.getElementById('s-score').textContent = +localStorage.getItem('best')||0;
+</script>
+</body>
+</html>
