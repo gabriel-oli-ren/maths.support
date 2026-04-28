@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="https://quge5.com/88/tag.min.js" data-zone="232467" async data-cfasync="false"></script>
+<!-- ad script removed -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maths Support - Gaming Hub</title>
@@ -83,17 +83,25 @@ body{
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-image: url('maths-bg.png');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: #0a0a0f;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(99,102,241,.22), transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(139,92,246,.20), transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(236,72,153,.10), transparent 60%),
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(135deg, #0a0a0f 0%, #13131a 50%, #1a1a24 100%);
+  background-size: auto, auto, auto, 48px 48px, 48px 48px, auto;
   background-attachment: fixed;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat, no-repeat;
   min-height: 100vh;
   overflow-x: hidden;
 }
-/* Ad containers - hidden by default */
-#gamesAdBottom, #appsAdBottom, #gameAdLeft, #gameAdRight, #gameAdBottom {
-  display: none;
+/* Ad containers - permanently hidden */
+#gamesAdBottom, #appsAdBottom, #gameAdLeft, #gameAdRight, #gameAdBottom,
+.ad-bottom-banner, .game-ad-container, .game-ad-left, .game-ad-right,
+.game-ad-bottom, .game-banner-ad-container, ins.adsbygoogle {
+  display: none !important;
 }
 
 /* ── SITE PASSWORD OVERLAY ── */
@@ -1090,8 +1098,7 @@ body {
 </style>
 </head>
 <body>
-<meta name="google-adsense-account" content="ca-pub-1664746955932118">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1664746955932118" crossorigin="anonymous"></script>
+<!-- adsense removed -->
 
 <!-- SITE PASSWORD OVERLAY -->
 <div class="sitepass-overlay" id="sitePassOverlay">
@@ -1197,6 +1204,7 @@ body {
         <div class="dropdown-item" onclick="showSection('account');closeDropdown()"><span>👤</span> My Account</div>
         <div class="dropdown-item" onclick="showSection('friends');closeDropdown()"><span>👥</span> Friends</div>
         <div class="dropdown-item" onclick="showSection('chat');closeDropdown()"><span>💬</span> Chat</div>
+        <div class="dropdown-item" onclick="openExperimental();closeDropdown()"><span>🧪</span> Experimental</div>
         <div class="dropdown-item danger" onclick="doSignOut(event)"><span>🚪</span> Sign Out</div>
       </div>
     </div>
@@ -3213,5 +3221,178 @@ document.addEventListener('DOMContentLoaded',async()=>{ document.getElementById(
 <script src="https://cdn.apitiny.net/scripts/v2.0/main.js" data-site-id="69dce897a70b9c4ef5d47080" data-test-mode="false" async></script>
 <script defer src="/_vercel/insights/script.js"></script>
 
+<!-- EXPERIMENTAL / CUSTOM CURSOR MODAL -->
+<style>
+.exp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);z-index:99999;display:none;justify-content:center;align-items:center;padding:20px}
+.exp-overlay.active{display:flex}
+.exp-box{background:#13131a;color:#f8fafc;border:1px solid rgba(255,255,255,.08);border-radius:20px;max-width:460px;width:100%;padding:28px;box-shadow:0 24px 64px rgba(0,0,0,.5);font-family:'Inter',sans-serif}
+.exp-title{display:flex;align-items:center;gap:10px;font-size:1.2em;font-weight:800;margin-bottom:6px}
+.exp-sub{font-size:.85em;color:#94a3b8;margin-bottom:20px}
+.exp-label{font-size:.82em;font-weight:700;color:#cbd5e1;margin:14px 0 8px;display:block}
+.exp-drop{border:1.5px dashed rgba(255,255,255,.15);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.03);cursor:pointer;transition:all .2s}
+.exp-drop:hover{border-color:#6366f1;background:rgba(99,102,241,.08)}
+.exp-drop img{width:48px;height:48px;object-fit:contain;background:rgba(255,255,255,.05);border-radius:8px;padding:4px}
+.exp-drop .exp-drop-info{flex:1;font-size:.82em;color:#cbd5e1}
+.exp-drop .exp-drop-info small{display:block;color:#64748b;margin-top:2px}
+.exp-row{display:flex;gap:10px;margin-top:20px}
+.exp-btn{flex:1;padding:11px;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:.9em;transition:all .2s}
+.exp-btn.save{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+.exp-btn.save:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(99,102,241,.4)}
+.exp-btn.clear{background:rgba(239,68,68,.15);color:#ef4444}
+.exp-btn.clear:hover{background:rgba(239,68,68,.25)}
+.exp-btn.close{background:rgba(255,255,255,.08);color:#cbd5e1}
+.exp-msg{font-size:.82em;margin-top:12px;padding:8px 12px;border-radius:8px;display:none}
+.exp-msg.ok{display:block;background:rgba(16,185,129,.12);color:#10b981}
+.exp-msg.err{display:block;background:rgba(239,68,68,.12);color:#ef4444}
+.exp-warn{font-size:.75em;color:#f59e0b;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);padding:8px 10px;border-radius:8px;margin-top:14px}
+</style>
+<div class="exp-overlay" id="expOverlay" onclick="if(event.target===this)closeExperimental()">
+  <div class="exp-box">
+    <div class="exp-title">🧪 Experimental</div>
+    <div class="exp-sub">Try out experimental features. Things here may break or change.</div>
+
+    <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:16px;margin-top:8px">
+      <div style="font-weight:800;margin-bottom:4px">🖱️ Custom Cursor</div>
+      <div style="font-size:.8em;color:#94a3b8">Upload 2 PNG images — one for normal, one for clicking. Stored on your account.</div>
+
+      <label class="exp-label">Normal cursor</label>
+      <label class="exp-drop" for="expCursorNormal">
+        <img id="expPreviewNormal" src="" alt="" style="display:none">
+        <div class="exp-drop-info" id="expLabelNormal">Click to choose image<small>PNG/SVG, max 128×128 recommended</small></div>
+      </label>
+      <input type="file" id="expCursorNormal" accept="image/png,image/svg+xml,image/gif" style="display:none">
+
+      <label class="exp-label">Clicking cursor</label>
+      <label class="exp-drop" for="expCursorClick">
+        <img id="expPreviewClick" src="" alt="" style="display:none">
+        <div class="exp-drop-info" id="expLabelClick">Click to choose image<small>Shown while mouse is pressed</small></div>
+      </label>
+      <input type="file" id="expCursorClick" accept="image/png,image/svg+xml,image/gif" style="display:none">
+
+      <div class="exp-warn" id="expWarn" style="display:none">⚠️ You need a <code>cursors</code> Supabase storage bucket (public). Ask an admin to create one.</div>
+      <div class="exp-msg" id="expMsg"></div>
+
+      <div class="exp-row">
+        <button class="exp-btn clear" onclick="clearCustomCursor()">Reset</button>
+        <button class="exp-btn save" onclick="saveCustomCursor()">Save</button>
+        <button class="exp-btn close" onclick="closeExperimental()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  let pendingNormal=null, pendingClick=null;
+  const CURSOR_BUCKET='cursors';
+
+  function setPreview(id,lblId,file){
+    const img=document.getElementById(id); const lbl=document.getElementById(lblId);
+    const url=URL.createObjectURL(file);
+    img.src=url; img.style.display='block';
+    lbl.innerHTML='<strong>'+file.name+'</strong><small>'+(file.size/1024).toFixed(1)+' KB — click drop zone to change</small>';
+  }
+  document.getElementById('expCursorNormal').addEventListener('change',e=>{
+    const f=e.target.files[0]; if(!f)return; pendingNormal=f; setPreview('expPreviewNormal','expLabelNormal',f);
+  });
+  document.getElementById('expCursorClick').addEventListener('change',e=>{
+    const f=e.target.files[0]; if(!f)return; pendingClick=f; setPreview('expPreviewClick','expLabelClick',f);
+  });
+
+  function msg(t,k){const m=document.getElementById('expMsg');m.textContent=t;m.className='exp-msg '+(k||'ok');}
+
+  window.openExperimental=function(){
+    document.getElementById('expOverlay').classList.add('active');
+    // Prefill from localStorage preview if exists
+    const n=localStorage.getItem('customCursorNormal');
+    const c=localStorage.getItem('customCursorClick');
+    if(n){const i=document.getElementById('expPreviewNormal');i.src=n;i.style.display='block';document.getElementById('expLabelNormal').innerHTML='<strong>Current normal cursor</strong><small>Click to replace</small>';}
+    if(c){const i=document.getElementById('expPreviewClick');i.src=c;i.style.display='block';document.getElementById('expLabelClick').innerHTML='<strong>Current clicking cursor</strong><small>Click to replace</small>';}
+  };
+  window.closeExperimental=function(){document.getElementById('expOverlay').classList.remove('active');};
+
+  async function uploadOne(file,kind){
+    const ext=(file.name.split('.').pop()||'png').toLowerCase();
+    const path=window.currentUser.id+'/'+kind+'.'+ext+'?t='+Date.now();
+    const cleanPath=window.currentUser.id+'/'+kind+'.'+ext;
+    const {error}=await sb.storage.from(CURSOR_BUCKET).upload(cleanPath,file,{cacheControl:'3600',upsert:true,contentType:file.type});
+    if(error) throw error;
+    const {data}=sb.storage.from(CURSOR_BUCKET).getPublicUrl(cleanPath);
+    return data.publicUrl+'?t='+Date.now();
+  }
+
+  function fileToDataUrl(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});}
+
+  window.saveCustomCursor=async function(){
+    try{
+      let nUrl=localStorage.getItem('customCursorNormal')||'';
+      let cUrl=localStorage.getItem('customCursorClick')||'';
+      if(pendingNormal) nUrl=await fileToDataUrl(pendingNormal);
+      if(pendingClick) cUrl=await fileToDataUrl(pendingClick);
+      if(!nUrl && !cUrl){msg('Pick at least one image','err');return;}
+      localStorage.setItem('customCursorNormal',nUrl);
+      localStorage.setItem('customCursorClick',cUrl);
+      if(window.currentUser){try{ await sb.from('users').update({cursor_normal_url:nUrl,cursor_click_url:cUrl}).eq('id',window.currentUser.id); }catch(e){}}
+      applyCustomCursor();
+      msg('✅ Saved! Your custom cursor is active.','ok');
+      pendingNormal=null; pendingClick=null;
+    }catch(e){
+      console.error(e);
+      msg('❌ '+(e.message||'Save failed'),'err');
+    }
+  };
+
+  window.clearCustomCursor=async function(){
+    localStorage.removeItem('customCursorNormal');
+    localStorage.removeItem('customCursorClick');
+    document.documentElement.style.cursor='';
+    const s=document.getElementById('customCursorStyle'); if(s)s.remove();
+    document.getElementById('expPreviewNormal').style.display='none';
+    document.getElementById('expPreviewClick').style.display='none';
+    document.getElementById('expLabelNormal').innerHTML='Click to choose image<small>PNG/SVG, max 128×128 recommended</small>';
+    document.getElementById('expLabelClick').innerHTML='Click to choose image<small>Shown while mouse is pressed</small>';
+    pendingNormal=null; pendingClick=null;
+    try{ if(window.currentUser) await sb.from('users').update({cursor_normal_url:null,cursor_click_url:null}).eq('id',window.currentUser.id); }catch(e){}
+    msg('Cursor reset to default','ok');
+  };
+
+  function applyCustomCursor(){
+    const n=localStorage.getItem('customCursorNormal');
+    const c=localStorage.getItem('customCursorClick');
+    let css='';
+    if(n) css+=`*, html, body { cursor: url("${n}") 4 4, auto !important; }`;
+    if(c) css+=`*:active, html:active, body:active, .cursor-pressed, .cursor-pressed * { cursor: url("${c}") 4 4, auto !important; }`;
+    let s=document.getElementById('customCursorStyle');
+    if(!s){s=document.createElement('style');s.id='customCursorStyle';document.head.appendChild(s);}
+    s.textContent=css;
+    // Also toggle a class on mousedown for broader support
+    if(c){
+      document.addEventListener('mousedown',()=>document.documentElement.classList.add('cursor-pressed'));
+      document.addEventListener('mouseup',()=>document.documentElement.classList.remove('cursor-pressed'));
+      document.addEventListener('mouseleave',()=>document.documentElement.classList.remove('cursor-pressed'));
+    }
+  }
+
+  // Apply on load if already saved
+  async function loadFromProfile(){
+    try{
+      if(!window.currentUser) return;
+      const {data}=await sb.from('users').select('cursor_normal_url,cursor_click_url').eq('id',window.currentUser.id).maybeSingle();
+      if(data){
+        if(data.cursor_normal_url) localStorage.setItem('customCursorNormal',data.cursor_normal_url);
+        if(data.cursor_click_url) localStorage.setItem('customCursorClick',data.cursor_click_url);
+      }
+    }catch(e){}
+    applyCustomCursor();
+  }
+
+  // Run once DOM + auth probably ready, and retry a couple times
+  let tries=0; const iv=setInterval(()=>{
+    tries++;
+    if(window.currentUser){loadFromProfile();clearInterval(iv);}
+    if(tries>20){applyCustomCursor();clearInterval(iv);}
+  },500);
+})();
+</script>
 </body>
 </html>
