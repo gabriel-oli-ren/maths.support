@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vectaria Game Loader</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #game-container {
+      width: 100%;
+      height: 100%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <!-- LAYER 4: The ACTUAL game from the official source -->
+    <iframe 
+      src="https://vectaria.io/"
+      allowfullscreen
+      allow="autoplay; fullscreen; gamepad; microphone; camera">
+    </iframe>
+  </div>
+  <script>
+    // Prevent right-click on game
+    document.querySelector('iframe').addEventListener('contextmenu', (e) => e.preventDefault());
+  </script>
+</body>
+</html>
