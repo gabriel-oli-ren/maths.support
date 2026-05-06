@@ -1236,6 +1236,27 @@ body {
 
   <!-- APPS PAGE — populated dynamically from APPS_DATA -->
   <div class="apps-page" id="appsPage">
+    <!-- Real proxy browser bar -->
+    <div class="proxy-bar-wrap" style="max-width:1400px;margin:0 auto 24px;padding:18px 20px;background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(139,92,246,.10));border:1px solid rgba(99,102,241,.25);border-radius:16px;backdrop-filter:blur(10px);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;color:var(--text-primary);font-weight:700;font-size:.95em;">
+        <span style="font-size:1.2em;">🌐</span> Unblocked Web Proxy
+        <span style="margin-left:auto;font-size:.72em;font-weight:600;color:var(--text-tertiary);background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);padding:3px 9px;border-radius:999px;">● search.mathssupport.cat</span>
+      </div>
+      <form id="proxyBarForm" style="display:flex;gap:8px;flex-wrap:wrap;" onsubmit="return openProxyFromBar(event)">
+        <input id="proxyBarInput" type="text" placeholder="Type a URL or search query (e.g. youtube.com or 'minecraft skins')"
+          style="flex:1;min-width:240px;padding:13px 16px;border-radius:11px;background:var(--bg-card);border:1px solid rgba(255,255,255,.08);color:var(--text-primary);font:600 .95em 'Inter',sans-serif;outline:none;"
+          autocomplete="off" spellcheck="false">
+        <button type="submit" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;color:#fff;padding:13px 24px;border-radius:11px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:.2px;">Browse →</button>
+      </form>
+      <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;font-size:.78em;">
+        <span style="color:var(--text-tertiary);align-self:center;margin-right:4px;">Quick:</span>
+        <button type="button" class="proxy-quick" onclick="openProxyTarget('https://browsergamers.gg/iframe/vectaria-io')">Vectaria.io</button>
+      </div>
+    </div>
+    <style>
+      .proxy-quick{background:var(--bg-card);border:1px solid rgba(255,255,255,.08);color:var(--text-secondary);padding:6px 12px;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s;}
+      .proxy-quick:hover{background:var(--bg-hover);color:var(--primary-light);border-color:var(--primary);transform:translateY(-1px);}
+    </style>
     <div class="apps-grid" id="appsGrid"></div>
   </div>
 
@@ -2406,12 +2427,12 @@ const GAMES_DATA = [
 ];
 
 const APPS_DATA = [
-  { name:'Strong Dog',     url:'https://colute.net/',                                           img:'img/favicon.png',      desc:'🐕 Game portal',              proxy:false },
-  { name:'Rtve Play',      url:'https://rtve.es/play/',                                         img:'img/rt-ve.png',         desc:'📺 Video streaming',          proxy:false },
-  { name:'ROYALEDLE',      url:'https://clash.gabriel-oli-ren-micro.workers.dev/',              img:'img/royaledle.png',     desc:'👑 Puzzle guessing game',     proxy:false },
-  { name:'Sound Buttons',  url:'https://myinstants.online/',                                    img:'img/my-instants.png',   desc:'🔊 Fun sound effects',        proxy:false },
-  { name:'Maths Browser',  url:'https://browserlol.gabriel-oli-ren-micro.workers.dev/',         img:'img/maths-logo.png',    desc:'🔍 Search online unblocked',  proxy:false },
-  { name:'Diario As',      url:'https://heavy-spider-48.maths.deno.net/',                       img:'img/as.png',            desc:'⚽ Sports news',              proxy:false },
+  { name:'Strong Dog',     url:'https://colute.net/',                                           img:'img/favicon.png',      desc:'🐕 Game portal',              proxy:true },
+  { name:'Rtve Play',      url:'https://rtve.es/play/',                                         img:'img/rt-ve.png',         desc:'📺 Video streaming',          proxy:true },
+  { name:'ROYALEDLE',      url:'https://clash.gabriel-oli-ren-micro.workers.dev/',              img:'img/royaledle.png',     desc:'👑 Puzzle guessing game',     proxy:true },
+  { name:'Sound Buttons',  url:'https://myinstants.online/',                                    img:'img/my-instants.png',   desc:'🔊 Fun sound effects',        proxy:true },
+  { name:'Maths Browser',  url:'https://browserlol.gabriel-oli-ren-micro.workers.dev/',         img:'img/maths-logo.png',    desc:'🔍 Search online unblocked',  proxy:true },
+  { name:'Diario As',      url:'https://heavy-spider-48.maths.deno.net/',                       img:'img/as.png',            desc:'⚽ Sports news',              proxy:true },
 ];
 
 // ── PROXY ENGINE ───────────────────────────────────────────────────────────
@@ -2529,6 +2550,27 @@ function actuallyOpenGame(name, url, useProxy) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   startClock();
   broadcastGameStatus(name, url);
+}
+
+// Open arbitrary URL or search query through the Cloudflare Worker proxy
+function openProxyTarget(input){
+  let q = String(input||'').trim();
+  if(!q) return;
+  let target;
+  if(/^https?:\/\//i.test(q)){
+    target = q;
+  } else if(/^[\w-]+(\.[\w-]+)+(\/.*)?$/.test(q)){
+    target = 'https://' + q;
+  } else {
+    target = 'https://duckduckgo.com/?q=' + encodeURIComponent(q);
+  }
+  openGame('🌐 ' + (target.replace(/^https?:\/\//,'').split('/')[0]), target, true);
+}
+function openProxyFromBar(e){
+  e.preventDefault();
+  const v = document.getElementById('proxyBarInput').value;
+  openProxyTarget(v);
+  return false;
 }
 
 function openGame(name, url, useProxy) {
@@ -3453,6 +3495,62 @@ document.addEventListener('DOMContentLoaded',async()=>{ document.getElementById(
     if(window.currentUser){loadFromProfile();clearInterval(iv);}
     if(tries>20){applyCustomCursor();clearInterval(iv);}
   },500);
+
+  // ---- Resize helper: browsers ignore cursor images >128px or large data URLs.
+  // Downscale to a square ≤ MAX_SIZE PNG so cursor: url(...) actually applies.
+  const MAX_CURSOR_SIZE = 64;
+  window.__resizeCursorFile = function(file){
+    return new Promise((resolve,reject)=>{
+      const fr = new FileReader();
+      fr.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          try{
+            const max = MAX_CURSOR_SIZE;
+            const ratio = Math.min(max/img.width, max/img.height, 1);
+            const w = Math.max(1, Math.round(img.width*ratio));
+            const h = Math.max(1, Math.round(img.height*ratio));
+            const c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            const ctx = c.getContext('2d');
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(c.toDataURL('image/png'));
+          }catch(e){ reject(e); }
+        };
+        img.onerror = () => reject(new Error('Bad image'));
+        img.src = fr.result;
+      };
+      fr.onerror = () => reject(new Error('Read failed'));
+      fr.readAsDataURL(file);
+    });
+  };
+
+  // Override the older fileToDataUrl path: re-wrap save to use the resizer
+  const _origSave = window.saveCustomCursor;
+  window.saveCustomCursor = async function(){
+    try{
+      let nUrl = localStorage.getItem('customCursorNormal') || '';
+      let cUrl = localStorage.getItem('customCursorClick')  || '';
+      if(pendingNormal) nUrl = await window.__resizeCursorFile(pendingNormal);
+      if(pendingClick)  cUrl = await window.__resizeCursorFile(pendingClick);
+      if(!nUrl && !cUrl){ msg('Pick at least one image','err'); return; }
+      localStorage.setItem('customCursorNormal', nUrl);
+      localStorage.setItem('customCursorClick',  cUrl);
+      if(window.currentUser){
+        try{ await sb.from('users').update({cursor_normal_url:nUrl,cursor_click_url:cUrl}).eq('id',window.currentUser.id); }catch(e){}
+      }
+      applyCustomCursor();
+      // Visually confirm by briefly flashing the cursor box
+      document.documentElement.style.cursor = 'url("'+nUrl+'") 4 4, auto';
+      msg('✅ Saved! Move your mouse to see the new cursor.','ok');
+      pendingNormal = null; pendingClick = null;
+    }catch(e){
+      console.error('[cursor save]', e);
+      msg('❌ '+(e.message||'Save failed — try a smaller PNG'),'err');
+    }
+  };
 })();
 </script>
 </body>
