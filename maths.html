@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1184,6 +1185,7 @@ body {
     <div class="sidebar-item" id="appsBtn" onclick="showSection('apps')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg></span><span class="sidebar-item-text">Apps</span></div>
     <div class="sidebar-item" id="friendsBtn" onclick="showSection('friends')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span><span class="sidebar-item-text">Friends</span><span class="sidebar-badge" id="friendsBadge" style="display:none">0</span></div>
     <div class="sidebar-item" id="chatBtn" onclick="showSection('chat')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span><span class="sidebar-item-text">Chat</span><span class="sidebar-badge" id="chatBadge" style="display:none">0</span></div>
+    <div class="sidebar-item" id="aurisBtn" onclick="openAurisPlayer()"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></span><span class="sidebar-item-text">Auris</span></div>
     <div class="sidebar-item" id="shopBtn" onclick="showSection('shop')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></span><span class="sidebar-item-text">Shop</span></div>
     <div class="sidebar-item" id="accountBtn" onclick="showSection('account')"><span class="sidebar-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span class="sidebar-item-text">Account</span></div>
   </div>
@@ -2433,8 +2435,6 @@ const APPS_DATA = [
   { name:'Sound Buttons',  url:'https://myinstants.online/',                                    img:'img/my-instants.png',   desc:'🔊 Fun sound effects',        proxy:true },
   { name:'Maths Browser',  url:'https://browserlol.gabriel-oli-ren-micro.workers.dev/',         img:'img/maths-logo.png',    desc:'🔍 Search online unblocked',  proxy:true },
   { name:'Diario As',      url:'https://heavy-spider-48.maths.deno.net/',                       img:'img/as.png',            desc:'⚽ Sports news',              proxy:true },
-  { name:'Auris Player',      url:'auris.html',                       img:'img/auris.png',            desc:'Free music player',              proxy:true },
-
 ];
 
 // ── PROXY ENGINE ───────────────────────────────────────────────────────────
@@ -3325,6 +3325,104 @@ document.addEventListener('DOMContentLoaded',async()=>{ document.getElementById(
 
 <script src="https://cdn.apitiny.net/scripts/v2.0/main.js" data-site-id="69dce897a70b9c4ef5d47080" data-test-mode="false" async></script>
 <script defer src="/_vercel/insights/script.js"></script>
+
+<!-- AURIS PLAYER PANEL -->
+<style>
+.auris-panel{
+  display:none;
+  position:fixed;
+  top:0;
+  bottom:0;
+  left:60px;
+  right:0;
+  z-index:950;
+  background:#0a0a0f;
+  flex-direction:column;
+  transition:left 0.2s ease;
+}
+.auris-panel.active{display:flex;}
+.sidebar:hover ~ .auris-panel,
+.auris-panel.sidebar-expanded{left:250px;}
+.auris-topbar{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:12px 20px;
+  background:rgba(99,102,241,.08);
+  border-bottom:1px solid rgba(99,102,241,.2);
+  flex-shrink:0;
+}
+.auris-back{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  color:#fff;
+  width:36px;height:36px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:1.1em;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+  flex-shrink:0;
+}
+.auris-back:hover{background:rgba(255,255,255,.15);}
+.auris-title{color:#fff;font-size:1em;font-weight:800;letter-spacing:-.2px;display:flex;align-items:center;gap:8px;}
+.auris-title-badge{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-size:.65em;font-weight:800;letter-spacing:1px;padding:3px 10px;border-radius:12px;text-transform:uppercase;}
+.auris-frame{flex:1;border:none;width:100%;display:block;}
+</style>
+<div class="auris-panel" id="aurisPanel">
+  <div class="auris-topbar">
+    <button class="auris-back" onclick="closeAurisPlayer()">←</button>
+    <div class="auris-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+      Auris Player
+      <span class="auris-title-badge">Music</span>
+    </div>
+  </div>
+  <iframe class="auris-frame" id="aurisFrame" src="" allow="autoplay; clipboard-write" allowfullscreen></iframe>
+</div>
+<script>
+(function(){
+  const sidebar = document.querySelector('.sidebar');
+  const panel   = document.getElementById('aurisPanel');
+
+  // Keep left offset in sync with sidebar hover
+  if(sidebar && panel){
+    sidebar.addEventListener('mouseenter', () => { if(panel.classList.contains('active')) panel.style.left = '250px'; });
+    sidebar.addEventListener('mouseleave', () => { if(panel.classList.contains('active')) panel.style.left = '60px'; });
+  }
+
+  window.openAurisPlayer = function(){
+    // Mark auris sidebar btn active, clear others
+    ['homeBtn','appsBtn','friendsBtn','chatBtn','shopBtn','accountBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.classList.remove('active');
+    });
+    const aurisBtn = document.getElementById('aurisBtn');
+    if(aurisBtn) aurisBtn.classList.add('active');
+
+    // Load frame if not already loaded
+    const frame = document.getElementById('aurisFrame');
+    if(!frame.src || frame.src === window.location.href || frame.src === 'about:blank' || frame.src === '') {
+      frame.src = 'auris.html';
+    }
+
+    panel.style.left = (sidebar && sidebar.matches(':hover')) ? '250px' : '60px';
+    panel.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeAurisPlayer = function(){
+    panel.classList.remove('active');
+    document.body.style.overflow = '';
+    const aurisBtn = document.getElementById('aurisBtn');
+    if(aurisBtn) aurisBtn.classList.remove('active');
+    // Re-activate whatever section was previously showing
+    if(document.getElementById('homeBtn') && !['appsBtn','friendsBtn','chatBtn','shopBtn','accountBtn'].some(id => document.getElementById(id)?.classList.contains('active'))){
+      document.getElementById('homeBtn').classList.add('active');
+    }
+  };
+})();
+</script>
 
 <!-- EXPERIMENTAL / CUSTOM CURSOR MODAL -->
 <style>
