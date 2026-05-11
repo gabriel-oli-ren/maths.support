@@ -4,297 +4,529 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Auris Player</title>
+<title>Auris</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;background:#06040f}
+html,body{width:100%;height:100%;overflow:hidden}
 :root{
-  --accent:#a78bfa;
-  --accent-dim:rgba(167,139,250,0.15);
-  --accent-border:rgba(167,139,250,0.35);
-  --glass:rgba(255,255,255,0.05);
-  --glass-b:rgba(255,255,255,0.09);
-  --glass-hover:rgba(255,255,255,0.09);
-  --text:#ede9f6;
-  --muted:rgba(237,233,246,0.45);
-  --surface:#06040f;
-  --sidebar-w:290px;
-  --fav:#f472b6;
+  --bg:#0a0812;
+  --bg2:#100d1e;
+  --bg3:#16122a;
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);
+  --text:#f0ecff;
+  --muted:rgba(240,236,255,0.4);
+  --muted2:rgba(240,236,255,0.6);
+  --accent:#8b5cf6;
+  --accent2:#a78bfa;
+  --accent-glow:rgba(139,92,246,0.2);
+  --fav:#ec4899;
+  --fav-glow:rgba(236,72,153,0.15);
+  --sidebar:260px;
+  --bar:72px;
 }
-body{font-family:'DM Sans',sans-serif;color:var(--text);position:relative}
-.orb{position:absolute;border-radius:50%;pointer-events:none;z-index:0}
-.o1{width:500px;height:500px;background:rgba(124,58,237,0.13);top:-160px;left:-120px;filter:blur(90px)}
-.o2{width:380px;height:380px;background:rgba(59,130,246,0.09);bottom:-100px;right:-80px;filter:blur(80px)}
-.o3{width:260px;height:260px;background:rgba(236,72,153,0.08);top:45%;left:42%;filter:blur(70px)}
-.layout{position:relative;z-index:1;display:flex;width:100vw;height:100vh}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);display:flex;flex-direction:column;height:100vh}
 
-/* Sidebar */
-.sidebar{width:var(--sidebar-w);flex-shrink:0;background:rgba(6,4,15,0.75);border-right:0.5px solid var(--glass-b);display:flex;flex-direction:column;height:100vh;overflow:hidden}
-.logo{padding:22px 18px 14px;font-size:12px;font-weight:500;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:8px}
-.logo-mark{color:var(--accent);font-size:18px}
-.logo-name{color:var(--text)}
-.search-row{padding:0 12px 10px;display:flex;gap:8px}
-.sbox{flex:1;display:flex;align-items:center;gap:7px;background:var(--glass);border:0.5px solid var(--glass-b);border-radius:10px;padding:8px 11px}
-.sbox input{background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;width:100%}
-.sbox input::placeholder{color:var(--muted)}
-.sbox i{color:var(--muted);font-size:15px;flex-shrink:0}
-.mode-row{display:flex;gap:6px;padding:0 12px 12px}
-.mtab{flex:1;padding:6px 0;border-radius:8px;border:0.5px solid var(--glass-b);background:transparent;color:var(--muted);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s}
-.mtab.on{background:var(--accent-dim);border-color:var(--accent-border);color:var(--accent)}
-.section-label{padding:0 16px 7px;font-size:10.5px;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;justify-content:space-between}
-.section-label .clr{cursor:pointer;font-size:10px;color:var(--muted);transition:color .2s;text-transform:none;letter-spacing:0}
-.section-label .clr:hover{color:var(--text)}
-.queue{flex:1;overflow-y:auto;padding:0 8px 12px}
+/* Layout */
+.wrap{display:flex;flex:1;overflow:hidden;min-height:0}
+
+/* ── Sidebar ── */
+aside{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.logo{
+  padding:20px 16px 14px;
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--border);
+}
+.logo-icon{
+  width:30px;height:30px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),#ec4899);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:#fff;font-weight:600;flex-shrink:0;
+}
+.logo-text{font-size:15px;font-weight:600;letter-spacing:-0.02em}
+.logo-sub{font-size:10px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-left:auto}
+
+.sb-search{padding:10px 10px 8px}
+.sb-sbox{
+  display:flex;align-items:center;gap:7px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:8px 11px;
+  transition:border-color .2s;
+}
+.sb-sbox:focus-within{border-color:var(--accent)}
+.sb-sbox input{
+  background:none;border:none;outline:none;
+  color:var(--text);font-family:'Inter',sans-serif;font-size:12.5px;width:100%;
+}
+.sb-sbox input::placeholder{color:var(--muted)}
+.sb-sbox i{color:var(--muted);font-size:14px;flex-shrink:0}
+
+.sb-modes{display:flex;gap:5px;padding:0 10px 10px}
+.sb-mode{
+  flex:1;padding:5px 0;border-radius:7px;
+  border:1px solid var(--border);background:transparent;
+  color:var(--muted);font-size:11.5px;font-family:'Inter',sans-serif;
+  cursor:pointer;transition:all .15s;letter-spacing:0.01em;
+}
+.sb-mode.on{
+  background:var(--accent-glow);border-color:var(--accent);
+  color:var(--accent2);font-weight:500;
+}
+
+.sb-sec{
+  padding:0 14px 6px;
+  font-size:10px;letter-spacing:0.1em;color:var(--muted);
+  text-transform:uppercase;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sb-sec button{
+  background:none;border:none;color:var(--muted);font-size:10px;
+  font-family:'Inter',sans-serif;cursor:pointer;text-transform:none;letter-spacing:0;
+  transition:color .15s;
+}
+.sb-sec button:hover{color:var(--text)}
+
+.queue{flex:1;overflow-y:auto;padding:0 6px 8px}
 .queue::-webkit-scrollbar{width:2px}
-.queue::-webkit-scrollbar-thumb{background:var(--glass-b);border-radius:2px}
-.qi{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:9px;cursor:pointer;transition:background .15s;margin-bottom:1px}
-.qi:hover{background:var(--glass-hover)}
-.qi.on{background:var(--accent-dim)}
-.qi img{width:40px;height:40px;border-radius:7px;object-fit:cover;flex-shrink:0;background:var(--glass)}
-.qi-info{min-width:0;flex:1}
-.qi-title{font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.qi-sub{font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.qi-actions{display:flex;align-items:center;gap:4px;flex-shrink:0}
-.qi-fav{background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px;padding:3px;transition:color .15s;line-height:1}
-.qi-fav.active{color:var(--fav)}
-.qi-fav:hover{color:var(--fav)}
-.played-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.queue::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 
-/* Main */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:0.5px solid var(--glass-b);background:rgba(6,4,15,0.5);flex-shrink:0}
-.algo-pills{display:flex;gap:6px;flex-wrap:wrap}
-.pill{padding:5px 12px;border-radius:20px;font-size:11.5px;background:var(--glass);border:0.5px solid var(--glass-b);color:var(--muted);cursor:pointer;transition:all .2s}
-.pill.on{background:var(--accent-dim);border-color:var(--accent-border);color:var(--accent)}
-.topbar-right{display:flex;align-items:center;gap:8px}
-.icon-btn{background:none;border:0.5px solid var(--glass-b);border-radius:8px;color:var(--muted);font-size:15px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .2s}
-.icon-btn:hover{color:var(--text)}
+.qi{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 8px;border-radius:8px;cursor:pointer;
+  transition:background .12s;margin-bottom:1px;
+  position:relative;
+}
+.qi:hover{background:rgba(255,255,255,0.04)}
+.qi.on{background:var(--accent-glow)}
+.qi.on::before{
+  content:'';position:absolute;left:0;top:6px;bottom:6px;
+  width:2px;background:var(--accent2);border-radius:2px;
+}
+.qi-thumb{
+  width:38px;height:38px;border-radius:6px;object-fit:cover;
+  flex-shrink:0;background:var(--bg3);
+}
+.qi-info{min-width:0;flex:1}
+.qi-title{
+  font-size:12px;font-weight:500;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  color:var(--text);
+}
+.qi.on .qi-title{color:var(--accent2)}
+.qi-sub{
+  font-size:10.5px;color:var(--muted);margin-top:1px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.qi-end{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.qi-heart{
+  background:none;border:none;cursor:pointer;
+  color:var(--muted);font-size:13px;padding:2px;
+  transition:color .15s;line-height:1;
+}
+.qi-heart.on{color:var(--fav)}
+.qi-heart:hover{color:var(--fav)}
+.qi-dot{width:4px;height:4px;border-radius:50%;background:var(--accent2);flex-shrink:0}
+
+/* ── Main ── */
+main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+/* Top bar */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;
+  border-bottom:1px solid var(--border);
+  background:rgba(10,8,18,0.6);
+  flex-shrink:0;
+  gap:12px;
+}
+.algo-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.algo-pill{
+  padding:4px 11px;border-radius:20px;font-size:11px;
+  border:1px solid var(--border);background:transparent;
+  color:var(--muted);cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;
+}
+.algo-pill.on{
+  background:var(--accent-glow);border-color:var(--accent);
+  color:var(--accent2);font-weight:500;
+}
+.algo-pill i{font-size:10px;vertical-align:-1px;margin-right:3px}
+.topbar-right{display:flex;gap:6px}
+.icon-pill{
+  display:flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:20px;
+  border:1px solid var(--border);background:transparent;
+  color:var(--muted);cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;
+  transition:all .15s;
+}
+.icon-pill i{font-size:13px}
+.icon-pill:hover{border-color:var(--border2);color:var(--text)}
+.icon-pill.fav-active{border-color:var(--fav);color:var(--fav);background:var(--fav-glow)}
 
 /* Stage */
-.stage{flex:1;position:relative;background:#000;overflow:hidden;display:flex;align-items:center;justify-content:center}
-#ytp{width:100%;height:100%;display:none}
-.art-view{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.art-img{width:200px;height:200px;border-radius:18px;object-fit:cover;border:0.5px solid var(--glass-b)}
-.art-title{margin-top:22px;font-size:18px;font-weight:500;text-align:center;max-width:400px;line-height:1.3}
-.art-ch{margin-top:6px;font-size:13px;color:var(--muted)}
-.art-eq{display:flex;align-items:flex-end;gap:3px;height:20px;margin-top:14px}
-.eq-bar{width:3px;border-radius:2px;background:var(--accent);animation:eq .7s ease-in-out infinite alternate}
-.eq-bar:nth-child(2){animation-delay:.1s;height:60%}
-.eq-bar:nth-child(3){animation-delay:.2s;height:90%}
-.eq-bar:nth-child(4){animation-delay:.05s;height:40%}
-.eq-bar:nth-child(5){animation-delay:.15s;height:75%}
-@keyframes eq{from{transform:scaleY(0.3)}to{transform:scaleY(1)}}
-.eq-stopped .eq-bar{animation:none;transform:scaleY(0.3)}
-.vid-bottom{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(6,4,15,0.9));padding:28px 24px 0;pointer-events:none}
-.vid-title-overlay{font-size:16px;font-weight:500}
-.vid-ch-overlay{font-size:12px;color:var(--muted);margin-top:3px}
-.empty-hint{text-align:center}
-.empty-hint i{font-size:44px;color:var(--muted);opacity:0.35;display:block;margin-bottom:12px}
-.empty-hint p{font-size:13px;color:var(--muted)}
-.spinner{width:36px;height:36px;border:2px solid var(--accent-dim);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+.stage{
+  flex:1;position:relative;
+  background:#000;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  min-height:0;
+}
+#ytp{width:100%;height:100%;display:none;position:absolute;inset:0}
+
+/* Music art view */
+.art-view{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+  background:radial-gradient(ellipse at 30% 20%, rgba(139,92,246,0.08) 0%, transparent 60%),
+             radial-gradient(ellipse at 70% 80%, rgba(236,72,153,0.06) 0%, transparent 60%),
+             var(--bg);
+}
+.art-wrap{text-align:center;display:flex;flex-direction:column;align-items:center}
+.art-disc{
+  width:180px;height:180px;border-radius:50%;
+  position:relative;margin-bottom:24px;
+}
+.art-disc img{
+  width:100%;height:100%;border-radius:50%;object-fit:cover;
+  border:3px solid rgba(255,255,255,0.08);
+}
+.art-disc .vinyl-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.06);
+  animation:spin-slow 8s linear infinite;
+}
+.art-disc .vinyl-dot{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:16px;height:16px;border-radius:50%;
+  background:var(--bg);border:2px solid rgba(255,255,255,0.15);
+}
+@keyframes spin-slow{to{transform:rotate(360deg)}}
+.art-disc.paused .vinyl-ring{animation-play-state:paused}
+.art-title-main{font-size:17px;font-weight:600;letter-spacing:-0.02em;max-width:360px;line-height:1.3;margin-bottom:4px}
+.art-ch-main{font-size:12px;color:var(--muted2)}
+.art-eq{display:flex;align-items:flex-end;gap:3px;height:16px;margin-top:14px}
+.eq-b{width:3px;border-radius:2px;background:var(--accent2);animation:eqa .6s ease-in-out infinite alternate}
+.eq-b:nth-child(1){animation-delay:0s;height:40%}
+.eq-b:nth-child(2){animation-delay:.1s;height:70%}
+.eq-b:nth-child(3){animation-delay:.05s;height:100%}
+.eq-b:nth-child(4){animation-delay:.15s;height:55%}
+.eq-b:nth-child(5){animation-delay:.08s;height:80%}
+@keyframes eqa{from{transform:scaleY(0.3)}to{transform:scaleY(1)}}
+.eq-stopped .eq-b{animation:none;transform:scaleY(0.3)}
+
+/* Empty state */
+.empty-state{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+  background:var(--bg);
+}
+.empty-state i{font-size:40px;color:var(--muted);opacity:.2}
+.empty-state p{font-size:12.5px;color:var(--muted)}
+.spinner{
+  width:32px;height:32px;border-radius:50%;
+  border:2px solid var(--accent-glow);border-top-color:var(--accent);
+  animation:spin .7s linear infinite;
+}
 @keyframes spin{to{transform:rotate(360deg)}}
-.stage-fav{position:absolute;top:16px;right:16px;background:rgba(6,4,15,0.6);border:0.5px solid var(--glass-b);border-radius:50%;width:38px;height:38px;display:none;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:18px;transition:color .2s;z-index:10}
-.stage-fav.show{display:flex}
-.stage-fav.active{color:var(--fav)}
-.stage-fav:hover{color:var(--fav)}
 
-/* Player bar */
-.pbar{flex-shrink:0;padding:12px 22px 16px;background:rgba(6,4,15,0.8);border-top:0.5px solid var(--glass-b)}
-.prog-wrap{margin-bottom:11px;cursor:pointer;padding:4px 0}
-.prog-bg{height:3px;background:rgba(255,255,255,0.1);border-radius:2px;position:relative}
-.prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s linear;position:relative;min-width:0}
-.prog-fill::after{content:'';position:absolute;right:-5px;top:-4px;width:11px;height:11px;border-radius:50%;background:var(--accent)}
+/* Stage heart */
+.stage-heart{
+  position:absolute;top:14px;right:14px;z-index:10;
+  background:rgba(10,8,18,0.7);border:1px solid var(--border2);
+  border-radius:50%;width:34px;height:34px;
+  display:none;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;color:var(--muted);
+  transition:all .15s;
+}
+.stage-heart.show{display:flex}
+.stage-heart.on{color:var(--fav);border-color:var(--fav);background:var(--fav-glow)}
+.stage-heart:hover{color:var(--fav)}
+
+/* Video overlay */
+.vid-grad{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent 0%, rgba(0,0,0,0.75) 100%);
+  padding:32px 22px 0;pointer-events:none;display:none;
+}
+.vid-title{font-size:15px;font-weight:600;margin-bottom:2px}
+.vid-ch{font-size:11px;color:rgba(255,255,255,0.6)}
+.vid-spacer{height:70px}
+
+/* ── Player bar ── */
+.pbar{
+  height:var(--bar);flex-shrink:0;
+  display:flex;flex-direction:column;
+  padding:10px 20px 12px;
+  background:rgba(10,8,18,0.95);
+  border-top:1px solid var(--border);
+}
+.prog-track{cursor:pointer;padding:5px 0;margin-bottom:8px}
+.prog-bg{
+  height:2px;background:rgba(255,255,255,0.08);
+  border-radius:2px;position:relative;
+  transition:height .15s;
+}
+.prog-track:hover .prog-bg{height:3px}
+.prog-fill{
+  height:100%;background:var(--accent2);
+  border-radius:2px;position:relative;
+  transition:width .5s linear;
+}
+.prog-fill::after{
+  content:'';position:absolute;right:-5px;top:50%;transform:translateY(-50%);
+  width:10px;height:10px;border-radius:50%;background:var(--accent2);
+  opacity:0;transition:opacity .15s;
+}
+.prog-track:hover .prog-fill::after{opacity:1}
 .ctrl-row{display:flex;align-items:center;justify-content:space-between}
-.ctrl-center{display:flex;align-items:center;gap:14px}
-.c-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:19px;padding:4px;transition:color .15s;display:flex;align-items:center}
+.ctrl-left{display:flex;align-items:center;gap:6px;min-width:100px}
+.ctrl-center{display:flex;align-items:center;gap:12px}
+.ctrl-right{display:flex;align-items:center;gap:8px;min-width:100px;justify-content:flex-end}
+.c-btn{
+  background:none;border:none;color:var(--muted);
+  cursor:pointer;font-size:16px;padding:4px;
+  transition:color .12s;display:flex;align-items:center;
+}
 .c-btn:hover{color:var(--text)}
-.c-btn.active{color:var(--accent)}
-.play-btn{width:42px;height:42px;border-radius:50%;background:var(--accent);color:#fff;font-size:17px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .2s;flex-shrink:0}
-.play-btn:hover{opacity:0.82}
-.time-lbl{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);min-width:90px}
-.time-lbl.right{text-align:right}
-.vol-row{display:flex;align-items:center;gap:8px;min-width:130px;justify-content:flex-end}
-.vol-row i{color:var(--muted);font-size:15px}
-input[type=range].vol{width:76px;height:3px;accent-color:var(--accent);cursor:pointer}
+.c-btn.on{color:var(--accent2)}
+.c-btn.fav.on{color:var(--fav)}
+.play-btn{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--accent2);color:var(--bg);font-size:15px;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .1s,opacity .15s;
+}
+.play-btn:hover{opacity:.85}
+.play-btn:active{transform:scale(0.93)}
+.time-txt{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--muted);white-space:nowrap;
+}
+.vol-wrap{display:flex;align-items:center;gap:7px}
+.vol-wrap i{color:var(--muted);font-size:14px}
+input[type=range].vol-sl{
+  width:70px;height:2px;accent-color:var(--accent2);cursor:pointer;
+  border-radius:2px;background:rgba(255,255,255,0.1);
+}
 
-/* Toast */
-.toast{position:fixed;top:16px;right:18px;z-index:999;background:rgba(20,14,40,0.97);border:0.5px solid var(--glass-b);border-radius:10px;padding:9px 16px;font-size:12px;color:var(--text);animation:toastIn 2.8s forwards;pointer-events:none}
-@keyframes toastIn{0%{opacity:0;transform:translateY(-6px)}12%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0}}
-
-/* Modal */
-.modal-wrap{display:none;position:fixed;inset:0;z-index:200;background:rgba(6,4,15,0.85);align-items:center;justify-content:center}
-.modal-wrap.show{display:flex}
-.modal{background:rgba(18,12,36,0.98);border:0.5px solid var(--glass-b);border-radius:14px;padding:24px 22px;width:340px}
-.modal h3{font-size:14px;font-weight:500;margin-bottom:12px}
-.modal input{width:100%;background:var(--glass);border:0.5px solid var(--glass-b);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;margin-bottom:12px}
-.modal-btns{display:flex;gap:8px;justify-content:flex-end}
-.mbtn{padding:7px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer}
-.mbtn.cancel{border:0.5px solid var(--glass-b);background:transparent;color:var(--muted)}
-.mbtn.save{border:0.5px solid var(--accent-border);background:var(--accent-dim);color:var(--accent)}
-
-/* Fav panel */
-.fav-panel{display:none;position:fixed;right:0;top:0;bottom:0;width:300px;z-index:150;background:rgba(10,6,24,0.97);border-left:0.5px solid var(--glass-b);flex-direction:column;overflow:hidden}
-.fav-panel.show{display:flex}
-.fav-header{padding:18px 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--glass-b)}
-.fav-header h3{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px}
-.fav-close{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
-.fav-list{flex:1;overflow-y:auto;padding:8px}
+/* ── Fav panel ── */
+.fav-overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,0.5);
+}
+.fav-overlay.show{display:block}
+.fav-panel{
+  position:fixed;right:0;top:0;bottom:0;width:280px;z-index:101;
+  background:var(--bg2);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .2s ease;
+}
+.fav-panel.show{transform:translateX(0)}
+.fav-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 14px 10px;border-bottom:1px solid var(--border);
+}
+.fav-hdr h3{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px;color:var(--text)}
+.fav-hdr h3 i{color:var(--fav);font-size:15px}
+.fav-close{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;display:flex}
+.fav-list{flex:1;overflow-y:auto;padding:6px}
 .fav-list::-webkit-scrollbar{width:2px}
-.fav-list::-webkit-scrollbar-thumb{background:var(--glass-b);border-radius:2px}
+.fav-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 .fav-empty{padding:40px 16px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+
+/* ── Toast ── */
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+  z-index:999;background:rgba(20,16,38,0.97);
+  border:1px solid var(--border2);border-radius:20px;
+  padding:7px 16px;font-size:12px;color:var(--text);
+  white-space:nowrap;pointer-events:none;
+  animation:toastPop .25s ease,toastFade 2.5s forwards;
+}
+@keyframes toastPop{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes toastFade{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
 </style>
 </head>
 <body>
 
-<div class="orb o1"></div>
-<div class="orb o2"></div>
-<div class="orb o3"></div>
-
-<div class="layout">
+<div class="wrap">
 
   <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="logo"><span class="logo-mark">◈</span><span class="logo-name">Auris</span></div>
+  <aside>
+    <div class="logo">
+      <div class="logo-icon">A</div>
+      <span class="logo-text">Auris</span>
+      <span class="logo-sub">Player</span>
+    </div>
 
-    <div class="search-row">
-      <div class="sbox">
+    <div class="sb-search">
+      <div class="sb-sbox">
         <i class="ti ti-search" aria-hidden="true"></i>
-        <input id="si" type="text" placeholder="Search music or videos…" />
+        <input id="si" type="text" placeholder="Search…" />
       </div>
     </div>
 
-    <div class="mode-row">
-      <button class="mtab on" id="tm" onclick="setMode('music')">Music</button>
-      <button class="mtab" id="tv" onclick="setMode('video')">Video</button>
+    <div class="sb-modes">
+      <button class="sb-mode on" id="tm" onclick="setMode('music')">Music</button>
+      <button class="sb-mode" id="tv" onclick="setMode('video')">Video</button>
     </div>
 
-    <div class="section-label">
+    <div class="sb-sec">
       <span id="qlabel">Queue</span>
-      <span class="clr" onclick="clearQueue()">Clear</span>
+      <button onclick="clearQ()">Clear</button>
     </div>
+
     <div class="queue" id="queue">
-      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 0;gap:10px">
-        <i class="ti ti-music" style="font-size:32px;color:var(--muted);opacity:.3" aria-hidden="true"></i>
-        <span style="font-size:12px;color:var(--muted)">Search to discover music</span>
+      <div style="display:flex;flex-direction:column;align-items:center;padding:48px 0;gap:10px">
+        <i class="ti ti-music" style="font-size:28px;color:var(--muted);opacity:.25" aria-hidden="true"></i>
+        <span style="font-size:11.5px;color:var(--muted)">Search to get started</span>
       </div>
     </div>
-  </div>
+  </aside>
 
   <!-- Main -->
-  <div class="main">
+  <main>
 
+    <!-- Top bar -->
     <div class="topbar">
-      <div class="algo-pills" id="pills">
-        <span class="pill on" onclick="applyFilter(this,'')">All</span>
-        <span class="pill" onclick="applyFilter(this,'recent')">Recent</span>
-        <span class="pill" onclick="applyFilter(this,'discover')">Discover</span>
-        <span class="pill" onclick="applyFilter(this,'trending')">Trending</span>
-        <span class="pill" onclick="applyFilter(this,'favourites')"><i class="ti ti-heart" style="font-size:11px;vertical-align:-1px;margin-right:3px"></i>Favourites</span>
+      <div class="algo-row" id="pills">
+        <button class="algo-pill on" onclick="setFilter(this,'')">All</button>
+        <button class="algo-pill" onclick="setFilter(this,'recent')">Recent</button>
+        <button class="algo-pill" onclick="setFilter(this,'discover')">Discover</button>
+        <button class="algo-pill" onclick="setFilter(this,'trending')">Trending</button>
+        <button class="algo-pill" onclick="setFilter(this,'favourites')"><i class="ti ti-heart" aria-hidden="true"></i>Favourites</button>
       </div>
       <div class="topbar-right">
-        <button class="icon-btn" onclick="showFavPanel()" title="Favourites" aria-label="Favourites"><i class="ti ti-heart"></i></button>
-        <button class="icon-btn" onclick="showModal()" title="API key" aria-label="API key"><i class="ti ti-key"></i></button>
+        <button class="icon-pill" id="favPanelBtn" onclick="toggleFavPanel()">
+          <i class="ti ti-heart" aria-hidden="true"></i>
+          <span>Favourites</span>
+          <span id="favCount" style="display:none;background:var(--fav);color:#fff;border-radius:10px;padding:1px 5px;font-size:10px;margin-left:2px"></span>
+        </button>
       </div>
     </div>
 
+    <!-- Stage -->
     <div class="stage" id="stage">
+
       <div id="ytp"></div>
-      <div class="art-view" id="artView">
-        <div id="stateEl">
-          <div class="empty-hint">
-            <i class="ti ti-player-play" aria-hidden="true"></i>
-            <p>Search and pick a track to play</p>
+
+      <!-- Art view (music mode) -->
+      <div class="art-view" id="artView" style="display:none">
+        <div class="art-wrap">
+          <div class="art-disc paused" id="disc">
+            <img id="discImg" src="" alt="" />
+            <div class="vinyl-ring"></div>
+            <div class="vinyl-dot"></div>
+          </div>
+          <div class="art-title-main" id="artTitle">—</div>
+          <div class="art-ch-main" id="artCh">—</div>
+          <div class="art-eq eq-stopped" id="eq">
+            <div class="eq-b"></div><div class="eq-b"></div><div class="eq-b"></div>
+            <div class="eq-b"></div><div class="eq-b"></div>
           </div>
         </div>
       </div>
-      <div class="vid-bottom" id="vidBottom" style="display:none">
-        <div class="vid-title-overlay" id="vTitle"></div>
-        <div class="vid-ch-overlay" id="vCh"></div>
-        <div style="height:80px"></div>
+
+      <!-- Empty / loading -->
+      <div class="empty-state" id="emptyEl">
+        <div id="emptyIcon"><i class="ti ti-wavesaw-mono" aria-hidden="true"></i></div>
+        <p id="emptyTxt">Search and pick a track to play</p>
       </div>
-      <button class="stage-fav" id="stageFav" onclick="toggleFavCurrent()" aria-label="Favourite">
-        <i class="ti ti-heart" id="stageFavIco"></i>
+
+      <!-- Video overlay gradient -->
+      <div class="vid-grad" id="vidGrad">
+        <div class="vid-title" id="vTitle"></div>
+        <div class="vid-ch" id="vCh"></div>
+        <div class="vid-spacer"></div>
+      </div>
+
+      <!-- Stage heart -->
+      <button class="stage-heart" id="stageHeart" onclick="favCurrent()" aria-label="Favourite">
+        <i class="ti ti-heart" id="stageHeartIco"></i>
       </button>
+
     </div>
 
+    <!-- Player bar -->
     <div class="pbar">
-      <div class="prog-wrap" id="progWrap" onclick="seek(event)">
-        <div class="prog-bg"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div class="prog-track" onclick="seek(event)" id="progWrap">
+        <div class="prog-bg"><div class="prog-fill" id="prog" style="width:0%"></div></div>
       </div>
       <div class="ctrl-row">
-        <div class="time-lbl" id="tLeft">0:00</div>
+        <div class="ctrl-left">
+          <span class="time-txt" id="tL">0:00</span>
+          <span class="time-txt" style="color:var(--muted);opacity:.4">/</span>
+          <span class="time-txt" id="tR">0:00</span>
+        </div>
         <div class="ctrl-center">
-          <button class="c-btn" onclick="prev()" aria-label="Previous"><i class="ti ti-player-skip-back"></i></button>
+          <button class="c-btn" onclick="doPrev()" aria-label="Previous"><i class="ti ti-player-skip-back"></i></button>
           <button class="c-btn" onclick="doShuffle()" aria-label="Shuffle"><i class="ti ti-arrows-shuffle"></i></button>
           <button class="play-btn" id="playBtn" onclick="togglePlay()">
             <i class="ti ti-player-play" id="playIco"></i>
           </button>
-          <button class="c-btn" id="loopBtn" onclick="toggleLoop()" title="Loop current track"><i class="ti ti-repeat-once"></i></button>
-          <button class="c-btn" id="repBtn" onclick="toggleRepeat()" title="Repeat all"><i class="ti ti-repeat"></i></button>
-          <button class="c-btn" onclick="next()" aria-label="Next"><i class="ti ti-player-skip-forward"></i></button>
+          <button class="c-btn" id="loopBtn" onclick="toggleLoop()" title="Loop track"><i class="ti ti-repeat-once"></i></button>
+          <button class="c-btn" onclick="doNext()" aria-label="Next"><i class="ti ti-player-skip-forward"></i></button>
         </div>
-        <div class="vol-row">
-          <i class="ti ti-volume" aria-hidden="true"></i>
-          <input type="range" class="vol" id="vol" min="0" max="100" value="80" step="1" oninput="setVol(this.value)" />
-          <div class="time-lbl right" id="tRight">0:00</div>
+        <div class="ctrl-right">
+          <div class="vol-wrap">
+            <i class="ti ti-volume" aria-hidden="true"></i>
+            <input type="range" class="vol-sl" id="volSl" min="0" max="100" value="80" oninput="setVol(this.value)" />
+          </div>
         </div>
       </div>
     </div>
 
-  </div>
+  </main>
 </div>
 
-<!-- Fav panel -->
+<!-- Fav panel overlay -->
+<div class="fav-overlay" id="favOverlay" onclick="hideFavPanel()"></div>
 <div class="fav-panel" id="favPanel">
-  <div class="fav-header">
-    <h3><i class="ti ti-heart" style="color:var(--fav)" aria-hidden="true"></i>Favourites</h3>
+  <div class="fav-hdr">
+    <h3><i class="ti ti-heart" aria-hidden="true"></i>Favourites</h3>
     <button class="fav-close" onclick="hideFavPanel()" aria-label="Close"><i class="ti ti-x"></i></button>
   </div>
   <div class="fav-list" id="favList"></div>
 </div>
 
-<!-- Key modal -->
-<div class="modal-wrap" id="modal">
-  <div class="modal">
-    <h3>YouTube API key</h3>
-    <input id="ki" type="text" placeholder="AIza…" />
-    <div class="modal-btns">
-      <button class="mbtn cancel" onclick="closeModal()">Cancel</button>
-      <button class="mbtn save" onclick="saveKey()">Save</button>
-    </div>
-  </div>
-</div>
-
 <script>
-let API='AIzaSyDKe_ow-JDTqxhGUsYFeXSdCbtNWT8pR7E';
-let mode='music',tracks=[],idx=-1,player=null,ready=false,piv=null;
-let filter='',loopOn=false,repeatOn=false,playing=false;
-let history=[],terms=[],favs=[];
-try{history=JSON.parse(localStorage.getItem('auris_h')||'[]');}catch(e){}
-try{terms=JSON.parse(localStorage.getItem('auris_t')||'[]');}catch(e){}
-try{favs=JSON.parse(localStorage.getItem('auris_f')||'[]');}catch(e){}
+const API = 'AIzaSyDKe_ow-JDTqxhGUsYFeXSdCbtNWT8pR7E';
+let mode='music', tracks=[], idx=-1;
+let player=null, ytReady=false, piv=null;
+let filter='', loopOn=false, isPlaying=false;
+let history=[], terms=[], favs=[];
 
+try{history=JSON.parse(localStorage.getItem('auris_h')||'[]')}catch(e){}
+try{terms=JSON.parse(localStorage.getItem('auris_t')||'[]')}catch(e){}
+try{favs=JSON.parse(localStorage.getItem('auris_f')||'[]')}catch(e){}
+
+/* ── YouTube IFrame ── */
 window.onYouTubeIframeAPIReady=()=>{
   player=new YT.Player('ytp',{
     height:'100%',width:'100%',
-    playerVars:{autoplay:0,controls:0,modestbranding:1,rel:0,iv_load_policy:3,showinfo:0,fs:0,playsinline:1},
+    playerVars:{autoplay:0,controls:0,modestbranding:1,rel:0,iv_load_policy:3,fs:0,playsinline:1},
     events:{
-      onReady:()=>{ready=true;player.setVolume(80);},
-      onStateChange:(e)=>{
-        if(e.data===1){startProg();setPlayIco(true);playing=true;updateEq(true);}
-        if(e.data===2){stopProg();setPlayIco(false);playing=false;updateEq(false);}
-        if(e.data===0){
-          if(loopOn){player.seekTo(0);player.playVideo();}
-          else next();
-        }
+      onReady:e=>{ytReady=true;e.target.setVolume(80)},
+      onStateChange:e=>{
+        const s=e.data;
+        if(s===1){startProg();setIco(true);isPlaying=true;spin(true);eq(true)}
+        if(s===2){stopProg();setIco(false);isPlaying=false;spin(false);eq(false)}
+        if(s===0){loopOn?(player.seekTo(0),player.playVideo()):doNext()}
       }
     }
   });
 };
-(()=>{const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);})();
+(()=>{const s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s)})();
 
+/* ── Mode ── */
 function setMode(m){
   mode=m;
   document.getElementById('tm').classList.toggle('on',m==='music');
@@ -304,239 +536,273 @@ function setMode(m){
   if(q) doSearch(q);
 }
 
-function buildQ(base){
-  let q=base||'';
+/* ── Algorithm / search ── */
+function buildQ(raw){
+  let q=raw||'';
   if(!q){
     const pool=[...terms.slice(-6),...history.slice(-6).map(h=>h.ch)].filter(Boolean);
     q=pool.length?pool[Math.floor(Math.random()*pool.length)]:(mode==='music'?'top music 2024':'popular videos 2024');
   }
   if(mode==='music'&&!/music|song|official|audio/i.test(q)) q+=' music';
   if(filter==='trending') q+=' trending 2024';
-  if(filter==='discover') q+=' hidden gem underground';
+  if(filter==='discover') q+=' underground hidden gem';
   return q;
 }
 
-async function doSearch(base){
-  const raw=base||document.getElementById('si').value.trim();
-  const q=buildQ(raw);
-  if(raw&&!terms.includes(raw)){terms.push(raw);terms=terms.slice(-30);try{localStorage.setItem('auris_t',JSON.stringify(terms));}catch(e){}}
-  setStage('loading');
+async function doSearch(raw){
+  const q=buildQ(raw||document.getElementById('si').value.trim());
+  const r=raw||document.getElementById('si').value.trim();
+  if(r&&!terms.includes(r)){terms.push(r);terms=terms.slice(-30);save('auris_t',terms)}
+  showLoading();
   const cat=mode==='music'?'&videoCategoryId=10':'';
   try{
-    const r=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&type=video${cat}&maxResults=25&key=${API}`);
-    const d=await r.json();
-    if(d.error){toast('API: '+d.error.message);setStage('empty');return;}
-    tracks=(d.items||[]).filter(i=>i.id&&i.id.videoId).map(i=>({
-      id:i.id.videoId,title:i.snippet.title,ch:i.snippet.channelTitle,
-      thumb:i.snippet.thumbnails?.default?.url||''
+    const res=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&type=video${cat}&maxResults=25&key=${API}`);
+    const d=await res.json();
+    if(d.error){toast('API error: '+d.error.message);showEmpty();return}
+    tracks=(d.items||[]).filter(i=>i.id?.videoId).map(i=>({
+      id:i.id.videoId,title:i.snippet.title,
+      ch:i.snippet.channelTitle,thumb:i.snippet.thumbnails?.default?.url||''
     }));
     smartSort();renderQ();
-    if(idx<0) setStage('empty');
-  }catch(e){toast('Network error');setStage('empty');}
+    if(idx<0) showEmpty();
+  }catch(e){toast('Network error');showEmpty()}
 }
 
 function smartSort(){
   const hids=new Set(history.map(h=>h.id));
   const hchs=history.map(h=>h.ch);
   tracks.sort((a,b)=>{
-    let sa=hchs.filter(c=>c===a.ch).length+(hids.has(a.id)?0.5:0);
-    let sb=hchs.filter(c=>c===b.ch).length+(hids.has(b.id)?0.5:0);
+    const sa=hchs.filter(c=>c===a.ch).length+(hids.has(a.id)?.4:0);
+    const sb=hchs.filter(c=>c===b.ch).length+(hids.has(b.id)?.4:0);
     return sb-sa;
   });
 }
 
+/* ── Queue render ── */
 function renderQ(){
   const el=document.getElementById('queue');
-  if(!tracks.length){el.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;padding:40px 0;gap:8px"><i class="ti ti-mood-empty" style="font-size:28px;color:var(--muted);opacity:.3"></i><span style="font-size:12px;color:var(--muted)">No results</span></div>';return;}
+  if(!tracks.length){
+    el.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;padding:48px 0;gap:8px"><i class="ti ti-mood-empty" style="font-size:24px;color:var(--muted);opacity:.3"></i><span style="font-size:11.5px;color:var(--muted)">No results</span></div>';
+    return;
+  }
   el.innerHTML=tracks.map((t,i)=>`
     <div class="qi${i===idx?' on':''}" onclick="play(${i})">
-      <img src="${t.thumb}" alt="" onerror="this.style.display='none'"/>
+      <img class="qi-thumb" src="${t.thumb}" alt="" onerror="this.style.display='none'"/>
       <div class="qi-info">
         <div class="qi-title">${esc(t.title)}</div>
         <div class="qi-sub">${esc(t.ch)}</div>
       </div>
-      <div class="qi-actions" onclick="event.stopPropagation()">
-        <button class="qi-fav${isFav(t.id)?' active':''}" onclick="toggleFav(${i})" aria-label="Favourite"><i class="ti ti-heart"></i></button>
+      <div class="qi-end" onclick="event.stopPropagation()">
+        <button class="qi-heart${isFav(t.id)?' on':''}" onclick="toggleFav(${i})" aria-label="Favourite">
+          <i class="ti ti-heart"></i>
+        </button>
+        ${history.some(h=>h.id===t.id)?'<div class="qi-dot"></div>':''}
       </div>
-      ${history.some(h=>h.id===t.id)?'<div class="played-dot"></div>':''}
     </div>`).join('');
 }
 
+/* ── Playback ── */
 function play(i){
-  if(!ready){toast('Player loading…');return;}
-  idx=i;const t=tracks[i];
-  addHistory(t);renderQ();updateStageFav();
+  if(!ytReady){toast('Player loading…');return}
+  idx=i;
+  const t=tracks[i];
+  addHistory(t);
+
   if(mode==='video'){
+    /* Video mode: show iframe in stage */
     document.getElementById('ytp').style.display='block';
     document.getElementById('artView').style.display='none';
-    document.getElementById('vidBottom').style.display='block';
+    document.getElementById('emptyEl').style.display='none';
+    document.getElementById('vidGrad').style.display='block';
     document.getElementById('vTitle').textContent=t.title;
     document.getElementById('vCh').textContent=t.ch;
   } else {
+    /* Music mode: hide video, show art */
     document.getElementById('ytp').style.display='none';
-    document.getElementById('artView').style.display='flex';
-    document.getElementById('vidBottom').style.display='none';
-    setStage('art',t);
+    document.getElementById('emptyEl').style.display='none';
+    document.getElementById('vidGrad').style.display='none';
+    showArt(t);
   }
-  document.getElementById('stageFav').classList.add('show');
-  player.loadVideoById(t.id);player.playVideo();
+
+  const sh=document.getElementById('stageHeart');
+  sh.classList.add('show');
+  updateStageHeart();
+  renderQ();
+  player.loadVideoById(t.id);
+  player.playVideo();
 }
 
-function setStage(state,t){
+function showArt(t){
   const av=document.getElementById('artView');
-  const se=document.getElementById('stateEl');
   av.style.display='flex';
-  if(state==='loading'){se.innerHTML='<div class="spinner"></div>';}
-  else if(state==='empty'){se.innerHTML='<div class="empty-hint"><i class="ti ti-player-play"></i><p>Search and pick a track to play</p></div>';}
-  else if(state==='art'&&t){
-    se.innerHTML=`<div style="text-align:center">
-      <img src="${t.thumb.replace('default','hqdefault')}" class="art-img" alt="" onerror="this.style.display='none'"/>
-      <div class="art-title">${esc(t.title)}</div>
-      <div class="art-ch">${esc(t.ch)}</div>
-      <div class="art-eq" id="eq">
-        <div class="eq-bar" style="height:35%"></div>
-        <div class="eq-bar" style="height:60%"></div>
-        <div class="eq-bar" style="height:90%"></div>
-        <div class="eq-bar" style="height:40%"></div>
-        <div class="eq-bar" style="height:75%"></div>
-      </div></div>`;
-  }
+  document.getElementById('discImg').src=t.thumb.replace('default','hqdefault');
+  document.getElementById('artTitle').textContent=t.title;
+  document.getElementById('artCh').textContent=t.ch;
 }
 
-function updateEq(p){const eq=document.getElementById('eq');if(!eq)return;eq.classList.toggle('eq-stopped',!p);}
+function showLoading(){
+  document.getElementById('emptyEl').style.display='flex';
+  document.getElementById('emptyIcon').innerHTML='<div class="spinner"></div>';
+  document.getElementById('emptyTxt').textContent='Loading…';
+}
+function showEmpty(){
+  document.getElementById('emptyEl').style.display='flex';
+  document.getElementById('emptyIcon').innerHTML='<i class="ti ti-player-play" aria-hidden="true"></i>';
+  document.getElementById('emptyTxt').textContent='Search and pick a track to play';
+  document.getElementById('artView').style.display='none';
+  document.getElementById('vidGrad').style.display='none';
+  document.getElementById('ytp').style.display='none';
+}
+
+function spin(on){document.getElementById('disc').classList.toggle('paused',!on)}
+function eq(on){document.getElementById('eq').classList.toggle('eq-stopped',!on)}
 
 function addHistory(t){
   history=history.filter(h=>h.id!==t.id);history.push(t);history=history.slice(-60);
-  try{localStorage.setItem('auris_h',JSON.stringify(history));}catch(e){}
+  save('auris_h',history);
 }
 
-/* Favourites */
-function isFav(id){return favs.some(f=>f.id===id);}
+function togglePlay(){
+  if(!ytReady||idx<0) return;
+  player.getPlayerState()===1?player.pauseVideo():player.playVideo();
+}
+function doNext(){if(tracks.length) play((idx+1)%tracks.length)}
+function doPrev(){if(tracks.length) play((idx-1+tracks.length)%tracks.length)}
+function doShuffle(){if(tracks.length) play(Math.floor(Math.random()*tracks.length))}
+function toggleLoop(){
+  loopOn=!loopOn;
+  document.getElementById('loopBtn').classList.toggle('on',loopOn);
+  toast(loopOn?'Looping this track':'Loop off');
+}
+function setVol(v){if(ytReady) player.setVolume(+v)}
+
+function seek(e){
+  if(!ytReady||idx<0) return;
+  const r=e.currentTarget.getBoundingClientRect();
+  const p=(e.clientX-r.left)/r.width;
+  const d=player.getDuration();
+  if(d) player.seekTo(p*d,true);
+}
+
+function startProg(){
+  stopProg();
+  piv=setInterval(()=>{
+    if(!ytReady) return;
+    const c=player.getCurrentTime()||0,d=player.getDuration()||1;
+    document.getElementById('prog').style.width=(c/d*100)+'%';
+    document.getElementById('tL').textContent=fmt(c);
+    document.getElementById('tR').textContent=fmt(d);
+  },500);
+}
+function stopProg(){clearInterval(piv)}
+function fmt(s){s=Math.floor(s);return Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60}
+function setIco(p){document.getElementById('playIco').className=p?'ti ti-player-pause':'ti ti-player-play'}
+
+/* ── Filters ── */
+function setFilter(el,f){
+  filter=f;
+  document.querySelectorAll('.algo-pill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  if(f==='recent'&&history.length){tracks=[...history].reverse();renderQ();return}
+  if(f==='favourites'){tracks=[...favs];renderQ();return}
+  const q=document.getElementById('si').value.trim();
+  doSearch(q||null);
+}
+function clearQ(){tracks=[];idx=-1;renderQ();showEmpty();document.getElementById('stageHeart').classList.remove('show')}
+
+/* ── Favourites ── */
+function isFav(id){return favs.some(f=>f.id===id)}
 
 function toggleFav(i){
   const t=tracks[i];
-  if(isFav(t.id)){favs=favs.filter(f=>f.id!==t.id);toast('Removed from favourites');}
-  else{favs.push(t);toast('Added to favourites ♥');}
-  saveFavs();renderQ();updateStageFav();renderFavPanel();
+  if(isFav(t.id)){favs=favs.filter(f=>f.id!==t.id);toast('Removed from favourites')}
+  else{favs.push(t);toast('Added to favourites ♥')}
+  save('auris_f',favs);renderQ();updateStageHeart();renderFavPanel();updateFavCount();
 }
 
-function toggleFavCurrent(){if(idx>=0&&tracks[idx]) toggleFav(idx);}
+function favCurrent(){if(idx>=0&&tracks[idx]) toggleFav(idx)}
 
-function updateStageFav(){
-  if(idx<0||!tracks[idx])return;
-  const btn=document.getElementById('stageFav');
-  const active=isFav(tracks[idx].id);
-  btn.classList.toggle('active',active);
-  document.getElementById('stageFavIco').className=active?'ti ti-heart-filled':'ti ti-heart';
+function updateStageHeart(){
+  if(idx<0||!tracks[idx]) return;
+  const on=isFav(tracks[idx].id);
+  const btn=document.getElementById('stageHeart');
+  btn.classList.toggle('on',on);
+  document.getElementById('stageHeartIco').className=on?'ti ti-heart-filled':'ti ti-heart';
 }
 
-function saveFavs(){try{localStorage.setItem('auris_f',JSON.stringify(favs));}catch(e){}}
+function updateFavCount(){
+  const el=document.getElementById('favCount');
+  if(favs.length){el.style.display='inline';el.textContent=favs.length}
+  else el.style.display='none';
+  const btn=document.getElementById('favPanelBtn');
+  btn.classList.toggle('fav-active',favs.length>0);
+}
 
-function showFavPanel(){renderFavPanel();document.getElementById('favPanel').classList.add('show');}
-function hideFavPanel(){document.getElementById('favPanel').classList.remove('show');}
+function toggleFavPanel(){
+  const p=document.getElementById('favPanel');
+  if(p.classList.contains('show')) hideFavPanel();
+  else showFavPanel();
+}
+function showFavPanel(){
+  renderFavPanel();
+  document.getElementById('favPanel').classList.add('show');
+  document.getElementById('favOverlay').classList.add('show');
+}
+function hideFavPanel(){
+  document.getElementById('favPanel').classList.remove('show');
+  document.getElementById('favOverlay').classList.remove('show');
+}
 
 function renderFavPanel(){
   const el=document.getElementById('favList');
-  if(!favs.length){el.innerHTML='<div class="fav-empty">No favourites yet.<br>Tap ♥ on any track.</div>';return;}
+  if(!favs.length){el.innerHTML='<div class="fav-empty">No favourites yet.<br>Tap ♥ on any track to save it.</div>';return}
   el.innerHTML=favs.map((t,i)=>`
     <div class="qi" onclick="playFav(${i})">
-      <img src="${t.thumb}" alt="" onerror="this.style.display='none'"/>
+      <img class="qi-thumb" src="${t.thumb}" alt="" onerror="this.style.display='none'"/>
       <div class="qi-info">
         <div class="qi-title">${esc(t.title)}</div>
         <div class="qi-sub">${esc(t.ch)}</div>
       </div>
-      <div class="qi-actions" onclick="event.stopPropagation()">
-        <button class="qi-fav active" onclick="removeFav(${i})" aria-label="Remove"><i class="ti ti-heart"></i></button>
+      <div class="qi-end" onclick="event.stopPropagation()">
+        <button class="qi-heart on" onclick="removeFav(${i})" aria-label="Remove">
+          <i class="ti ti-heart"></i>
+        </button>
       </div>
     </div>`).join('');
 }
 
 function playFav(i){
   const t=favs[i];
-  const qi=tracks.findIndex(tr=>tr.id===t.id);
-  if(qi>=0){play(qi);hideFavPanel();return;}
-  tracks.unshift(t);renderQ();play(0);hideFavPanel();
+  let qi=tracks.findIndex(tr=>tr.id===t.id);
+  if(qi<0){tracks.unshift(t);qi=0;renderQ()}
+  play(qi);hideFavPanel();
 }
-
 function removeFav(i){
-  favs.splice(i,1);saveFavs();renderFavPanel();renderQ();updateStageFav();
+  favs.splice(i,1);save('auris_f',favs);
+  renderFavPanel();renderQ();updateStageHeart();updateFavCount();
   toast('Removed from favourites');
 }
 
-/* Playback */
-function togglePlay(){if(!ready||idx<0)return;const s=player.getPlayerState();if(s===1)player.pauseVideo();else player.playVideo();}
-function next(){if(tracks.length)play((idx+1)%tracks.length);}
-function prev(){if(tracks.length)play((idx-1+tracks.length)%tracks.length);}
-function doShuffle(){if(tracks.length)play(Math.floor(Math.random()*tracks.length));}
-
-function toggleLoop(){
-  loopOn=!loopOn;if(loopOn)repeatOn=false;
-  document.getElementById('loopBtn').classList.toggle('active',loopOn);
-  document.getElementById('repBtn').classList.toggle('active',false);
-  toast(loopOn?'Loop on: repeating current track':'Loop off');
-}
-
-function toggleRepeat(){
-  repeatOn=!repeatOn;if(repeatOn)loopOn=false;
-  document.getElementById('repBtn').classList.toggle('active',repeatOn);
-  document.getElementById('loopBtn').classList.toggle('active',false);
-  toast(repeatOn?'Repeat all on':'Repeat all off');
-}
-
-function setVol(v){if(ready)player.setVolume(parseInt(v));}
-
-function seek(e){
-  if(!ready||idx<0)return;
-  const r=e.currentTarget.getBoundingClientRect();
-  const p=(e.clientX-r.left)/r.width;
-  const d=player.getDuration();if(d)player.seekTo(p*d,true);
-}
-
-function startProg(){
-  stopProg();
-  piv=setInterval(()=>{
-    if(!ready)return;
-    const c=player.getCurrentTime()||0,d=player.getDuration()||1;
-    document.getElementById('progFill').style.width=(c/d*100)+'%';
-    document.getElementById('tLeft').textContent=fmt(c);
-    document.getElementById('tRight').textContent=fmt(d);
-  },500);
-}
-function stopProg(){clearInterval(piv);}
-function fmt(s){s=Math.floor(s);return Math.floor(s/60)+':'+(s%60<10?'0':'')+s%60;}
-function setPlayIco(p){document.getElementById('playIco').className=p?'ti ti-player-pause':'ti ti-player-play';}
-
-function applyFilter(el,f){
-  filter=f;
-  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('on'));
-  el.classList.add('on');
-  if(f==='recent'&&history.length){tracks=[...history].reverse();renderQ();return;}
-  if(f==='favourites'){tracks=[...favs];renderQ();return;}
-  const q=document.getElementById('si').value.trim();
-  doSearch(q||null);
-}
-
-function clearQueue(){tracks=[];idx=-1;renderQ();setStage('empty');document.getElementById('stageFav').classList.remove('show');}
-
-function showModal(){document.getElementById('ki').value=API;document.getElementById('modal').classList.add('show');}
-function closeModal(){document.getElementById('modal').classList.remove('show');}
-function saveKey(){API=document.getElementById('ki').value.trim();closeModal();toast('API key saved');}
-
+/* ── Utils ── */
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function toast(msg){
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
   const t=document.createElement('div');t.className='toast';t.textContent=msg;
-  document.body.appendChild(t);setTimeout(()=>t.remove(),3000);
+  document.body.appendChild(t);setTimeout(()=>t.remove(),2800);
 }
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
-document.getElementById('si').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+/* ── Init ── */
+document.getElementById('si').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch()});
 document.addEventListener('keydown',e=>{
-  if(e.target.tagName==='INPUT')return;
-  if(e.code==='Space'){e.preventDefault();togglePlay();}
-  if(e.code==='ArrowRight')next();
-  if(e.code==='ArrowLeft')prev();
+  if(e.target.tagName==='INPUT') return;
+  if(e.code==='Space'){e.preventDefault();togglePlay()}
+  if(e.code==='ArrowRight') doNext();
+  if(e.code==='ArrowLeft') doPrev();
 });
 
-setTimeout(()=>{if(history.length||terms.length)doSearch();},700);
+updateFavCount();
+setTimeout(()=>{if(history.length||terms.length) doSearch()},600);
 </script>
 </body>
 </html>
