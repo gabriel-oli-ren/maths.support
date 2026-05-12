@@ -627,18 +627,17 @@ textarea{
 
 <script>
 
-const API_KEY = "PASTE_YOUR_OPENROUTER_KEY_HERE";
+const API_KEY = "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";
 
 const MODELS = [
 
-  "openai/gpt-4.1-mini",
+  "deepseek/deepseek-chat-v3-0324:free",
 
-  "google/gemini-2.5-flash-preview",
+  "google/gemma-3-27b-it:free",
 
-  "deepseek/deepseek-chat-v3-0324"
+  "meta-llama/llama-4-scout:free"
 
 ];
-
 const chatEl = document.getElementById("chat");
 const input = document.getElementById("input");
 const sendBtn = document.getElementById("sendBtn");
