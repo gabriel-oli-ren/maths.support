@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 <title>ARIA AI</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
@@ -17,11 +16,9 @@
   --s3:#1e1e2a;
   --border:#252535;
   --a:#6f5ff6;
-  --a2:#9c8cff;
   --text:#eceaf8;
-  --dim:#9b97b3;
+  --dim:#9490aa;
   --green:#3ddc84;
-  --red:#ff5f74;
 }
 
 *{
@@ -33,49 +30,18 @@
 body{
   background:var(--bg);
   color:var(--text);
-  font-family:'DM Mono',monospace;
+  font-family:'DM Mono', monospace;
   height:100vh;
   overflow:hidden;
   display:flex;
 }
 
-/* BACKGROUND */
-
-body::before,
-body::after{
-  content:'';
-  position:fixed;
-  border-radius:50%;
-  filter:blur(120px);
-  opacity:.08;
-  pointer-events:none;
-}
-
-body::before{
-  width:500px;
-  height:500px;
-  background:var(--a);
-  top:-200px;
-  left:-200px;
-}
-
-body::after{
-  width:500px;
-  height:500px;
-  background:#9b5cff;
-  bottom:-200px;
-  right:-200px;
-}
-
-/* SIDEBAR */
-
 .sidebar{
-  width:270px;
-  background:rgba(10,10,16,.97);
+  width:260px;
   border-right:1px solid var(--border);
+  background:rgba(10,10,16,.96);
   display:flex;
   flex-direction:column;
-  z-index:10;
 }
 
 .sidebar-top{
@@ -85,8 +51,8 @@ body::after{
 
 .logo-wrap{
   display:flex;
-  align-items:center;
   gap:12px;
+  align-items:center;
   margin-bottom:16px;
 }
 
@@ -94,54 +60,40 @@ body::after{
   width:42px;
   height:42px;
   border-radius:14px;
-  background:linear-gradient(135deg,var(--a),#9b5cff);
+  background:linear-gradient(135deg,var(--a),#a855f7);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-family:'Syne',sans-serif;
+  font-family:'Syne', sans-serif;
   font-weight:800;
-  box-shadow:0 0 35px rgba(111,95,246,.4);
+  box-shadow:0 0 40px rgba(111,95,246,.35);
 }
 
 .logo-info h1{
   font-size:15px;
-  font-family:'Syne',sans-serif;
+  font-family:'Syne', sans-serif;
 }
 
 .status{
-  margin-top:3px;
   font-size:10px;
   color:var(--green);
+  margin-top:3px;
 }
 
 .new-chat{
   width:100%;
   border:none;
   border-radius:14px;
-  padding:13px;
-  cursor:pointer;
-  background:linear-gradient(135deg,var(--a),#9b5cff);
+  padding:12px;
+  background:linear-gradient(135deg,var(--a),#a855f7);
   color:white;
-  font-family:'DM Mono',monospace;
-  font-size:12px;
-  transition:.2s;
-}
-
-.new-chat:hover{
-  transform:translateY(-1px);
+  cursor:pointer;
+  font-family:'DM Mono', monospace;
 }
 
 .chat-list{
-  flex:1;
   overflow-y:auto;
-}
-
-.chat-list::-webkit-scrollbar{
-  width:4px;
-}
-
-.chat-list::-webkit-scrollbar-thumb{
-  background:var(--border);
+  flex:1;
 }
 
 .chat-item{
@@ -156,17 +108,8 @@ body::after{
 }
 
 .chat-item.active{
-  background:rgba(111,95,246,.13);
+  background:rgba(111,95,246,.14);
 }
-
-.chat-title{
-  font-size:12px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-/* MAIN */
 
 .main{
   flex:1;
@@ -174,40 +117,34 @@ body::after{
   flex-direction:column;
 }
 
-/* HEADER */
-
 header{
   height:72px;
   border-bottom:1px solid var(--border);
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   padding:0 24px;
-  background:rgba(7,7,13,.92);
-  backdrop-filter:blur(20px);
 }
 
-.head-left h2{
-  font-size:15px;
-  font-family:'Syne',sans-serif;
+header h2{
+  font-family:'Syne', sans-serif;
+  font-size:16px;
 }
 
-.head-left p{
-  font-size:11px;
+header p{
   color:var(--dim);
-  margin-top:4px;
+  font-size:11px;
+  margin-top:3px;
 }
 
-.model-tag{
-  padding:7px 12px;
-  border-radius:999px;
+.model{
   border:1px solid var(--border);
   background:var(--s2);
+  padding:7px 12px;
+  border-radius:999px;
   font-size:11px;
   color:var(--dim);
 }
-
-/* CHAT */
 
 .chat{
   flex:1;
@@ -218,37 +155,29 @@ header{
   gap:18px;
 }
 
-.chat::-webkit-scrollbar{
-  width:4px;
-}
-
-.chat::-webkit-scrollbar-thumb{
-  background:var(--border);
-}
-
 .welcome{
   margin:auto;
-  max-width:600px;
   text-align:center;
+  max-width:600px;
 }
 
 .welcome-icon{
-  width:82px;
-  height:82px;
+  width:80px;
+  height:80px;
   margin:0 auto 24px;
   border-radius:24px;
-  background:linear-gradient(135deg,var(--a),#9b5cff);
+  background:linear-gradient(135deg,var(--a),#a855f7);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:34px;
+  font-size:32px;
   box-shadow:0 0 70px rgba(111,95,246,.35);
 }
 
 .welcome h1{
-  font-family:'Syne',sans-serif;
   font-size:34px;
-  margin-bottom:12px;
+  font-family:'Syne', sans-serif;
+  margin-bottom:10px;
 }
 
 .welcome p{
@@ -257,36 +186,10 @@ header{
   font-size:13px;
 }
 
-.chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  justify-content:center;
-  margin-top:26px;
-}
-
-.chip{
-  padding:10px 16px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background:var(--s2);
-  font-size:11px;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.chip:hover{
-  border-color:var(--a);
-  color:var(--a2);
-}
-
-/* MESSAGE */
-
 .msg{
   display:flex;
   gap:12px;
   max-width:900px;
-  animation:fade .2s ease;
 }
 
 .msg.user{
@@ -298,24 +201,24 @@ header{
   width:38px;
   height:38px;
   border-radius:12px;
-  flex-shrink:0;
   display:flex;
   align-items:center;
   justify-content:center;
+  flex-shrink:0;
 }
 
 .user .avatar{
-  background:linear-gradient(135deg,#ff7a5a,#ff9f43);
+  background:linear-gradient(135deg,#ff7b5b,#ff9f43);
 }
 
 .ai .avatar{
-  background:linear-gradient(135deg,var(--a),#9b5cff);
+  background:linear-gradient(135deg,var(--a),#a855f7);
 }
 
 .bubble{
   background:var(--s1);
   border:1px solid var(--border);
-  padding:15px 17px;
+  padding:15px 18px;
   border-radius:18px;
   line-height:1.8;
   font-size:13px;
@@ -325,17 +228,6 @@ header{
 
 .user .bubble{
   background:var(--s3);
-  border-top-right-radius:7px;
-}
-
-.ai .bubble{
-  border-top-left-radius:7px;
-}
-
-.bubble img{
-  max-width:260px;
-  border-radius:12px;
-  margin-bottom:10px;
 }
 
 .bubble pre{
@@ -347,105 +239,53 @@ header{
 }
 
 .bubble code{
-  font-family:'DM Mono',monospace;
+  font-family:'DM Mono', monospace;
 }
-
-.bubble strong{
-  color:white;
-}
-
-.bubble a{
-  color:#9b8cff;
-}
-
-/* INPUT */
 
 .input-wrap{
   padding:20px;
   border-top:1px solid var(--border);
-  background:rgba(7,7,13,.96);
-}
-
-.previews{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:12px;
-}
-
-.preview{
-  position:relative;
-}
-
-.preview img{
-  width:70px;
-  height:70px;
-  border-radius:14px;
-  object-fit:cover;
-  border:2px solid var(--a);
-}
-
-.preview button{
-  position:absolute;
-  top:-5px;
-  right:-5px;
-  width:20px;
-  height:20px;
-  border:none;
-  border-radius:50%;
-  background:var(--red);
-  color:white;
-  cursor:pointer;
 }
 
 .input-box{
   display:flex;
-  gap:12px;
   align-items:flex-end;
+  gap:12px;
   background:var(--s2);
   border:1px solid var(--border);
   border-radius:18px;
   padding:12px;
 }
 
-.input-box:focus-within{
-  border-color:var(--a);
-}
-
 textarea{
   flex:1;
-  background:none;
-  border:none;
-  outline:none;
   resize:none;
+  border:none;
+  background:none;
+  outline:none;
   color:white;
-  font-family:'DM Mono',monospace;
+  font-family:'DM Mono', monospace;
   font-size:13px;
   max-height:180px;
 }
 
-.input-actions{
+.actions{
   display:flex;
   gap:8px;
 }
 
-.icon-btn{
+.btn{
   width:42px;
   height:42px;
   border:none;
   border-radius:13px;
-  cursor:pointer;
   background:var(--s1);
   color:var(--dim);
-  transition:.2s;
+  cursor:pointer;
 }
 
-.icon-btn:hover{
-  color:white;
-}
-
-.send-btn{
-  background:linear-gradient(135deg,var(--a),#9b5cff);
+.send{
+  background:linear-gradient(135deg,var(--a),#a855f7);
   color:white;
 }
 
@@ -475,55 +315,36 @@ textarea{
     transform:translateY(0);
     opacity:.4;
   }
-
   50%{
     transform:translateY(-5px);
     opacity:1;
   }
 }
 
-@keyframes fade{
-  from{
-    opacity:0;
-    transform:translateY(8px);
-  }
-
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
 @media(max-width:900px){
-
   .sidebar{
     display:none;
   }
-
 }
 
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-
 <div class="sidebar">
 
   <div class="sidebar-top">
 
     <div class="logo-wrap">
-
       <div class="logo">AR</div>
 
       <div class="logo-info">
         <h1>ARIA AI</h1>
         <div class="status">● ONLINE</div>
       </div>
-
     </div>
 
-    <button class="new-chat" id="newChatBtn">
+    <button class="new-chat" onclick="newChat()">
       + New Chat
     </button>
 
@@ -533,19 +354,17 @@ textarea{
 
 </div>
 
-<!-- MAIN -->
-
 <div class="main">
 
 <header>
 
-  <div class="head-left">
+  <div>
     <h2>ARIA Assistant</h2>
-    <p>Realtime streaming AI responses</p>
+    <p>Realtime streaming AI</p>
   </div>
 
-  <div class="model-tag" id="modelTag">
-    waiting...
+  <div class="model">
+    gemma-3-27b-it
   </div>
 
 </header>
@@ -553,43 +372,18 @@ textarea{
 <div class="chat" id="chat">
 
   <div class="welcome">
-
     <div class="welcome-icon">✦</div>
 
     <h1>Hello, I'm ARIA</h1>
 
     <p>
-      Modern AI assistant with realtime streaming,
-      local chat saving and image support.
+      Streaming AI assistant with local chat saving.
     </p>
-
-    <div class="chips">
-
-      <div class="chip" onclick="quickPrompt('Explain quantum computing simply')">
-        Quantum Computing
-      </div>
-
-      <div class="chip" onclick="quickPrompt('Write a Python Discord bot')">
-        Python Bot
-      </div>
-
-      <div class="chip" onclick="quickPrompt('Explain APIs simply')">
-        APIs
-      </div>
-
-      <div class="chip" onclick="quickPrompt('Design a futuristic dashboard UI')">
-        Dashboard UI
-      </div>
-
-    </div>
-
   </div>
 
 </div>
 
 <div class="input-wrap">
-
-  <div class="previews" id="previews"></div>
 
   <div class="input-box">
 
@@ -599,21 +393,9 @@ textarea{
       placeholder="Message ARIA..."
     ></textarea>
 
-    <div class="input-actions">
+    <div class="actions">
 
-      <button class="icon-btn" onclick="fileInput.click()">
-        📎
-      </button>
-
-      <input
-        hidden
-        multiple
-        type="file"
-        id="fileInput"
-        accept="image/*"
-      >
-
-      <button class="icon-btn send-btn" id="sendBtn">
+      <button class="btn send" id="sendBtn">
         ➤
       </button>
 
@@ -629,130 +411,88 @@ textarea{
 
 const API_KEY = "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";
 
-const MODELS = [
+const MODEL = "google/gemma-3-27b-it:free";
 
-  "deepseek/deepseek-chat-v3-0324:free",
-
-  "google/gemma-3-27b-it:free",
-
-  "meta-llama/llama-4-scout:free"
-
-];
-const chatEl = document.getElementById("chat");
 const input = document.getElementById("input");
 const sendBtn = document.getElementById("sendBtn");
-const previewsEl = document.getElementById("previews");
-const modelTag = document.getElementById("modelTag");
-const fileInput = document.getElementById("fileInput");
+const chatEl = document.getElementById("chat");
 const chatList = document.getElementById("chatList");
 
 let chats =
-  JSON.parse(
-    localStorage.getItem("aria_chats") || "[]"
-  );
+  JSON.parse(localStorage.getItem("aria_chats") || "[]");
 
-let currentChatId = null;
-
-let pendingImages = [];
-
-let busy = false;
-
-/* CHAT STORAGE */
+let currentChat = null;
 
 function saveChats(){
-
   localStorage.setItem(
     "aria_chats",
     JSON.stringify(chats)
   );
-
 }
 
-function createChat(){
+function newChat(){
 
-  const id = Date.now().toString();
-
-  chats.unshift({
-    id,
+  const chat = {
+    id:Date.now(),
     title:"New Chat",
     messages:[]
-  });
+  };
 
-  currentChatId = id;
+  chats.unshift(chat);
+
+  currentChat = chat;
 
   saveChats();
 
-  renderChatList();
+  renderChats();
 
   renderMessages();
 }
 
-function getCurrentChat(){
-
-  return chats.find(
-    c => c.id === currentChatId
-  );
-
-}
-
-function renderChatList(){
+function renderChats(){
 
   chatList.innerHTML = "";
 
   chats.forEach(chat => {
 
-    const div =
-      document.createElement("div");
+    const div = document.createElement("div");
 
     div.className =
       "chat-item" +
-      (
-        chat.id === currentChatId
-          ? " active"
-          : ""
-      );
+      (currentChat?.id === chat.id
+      ? " active"
+      : "");
 
-    div.innerHTML = `
-      <div class="chat-title">
-        ${escapeHtml(chat.title)}
-      </div>
-    `;
+    div.innerHTML = chat.title;
 
     div.onclick = () => {
 
-      currentChatId = chat.id;
+      currentChat = chat;
 
-      renderChatList();
+      renderChats();
 
       renderMessages();
-
     };
 
     chatList.appendChild(div);
-
   });
-
 }
 
 function renderMessages(){
 
-  const chat = getCurrentChat();
-
   chatEl.innerHTML = "";
 
-  if(!chat.messages.length){
+  if(!currentChat.messages.length){
 
     chatEl.innerHTML = `
       <div class="welcome">
 
-        <div class="welcome-icon">
-          ✦
-        </div>
+        <div class="welcome-icon">✦</div>
 
         <h1>Hello, I'm ARIA</h1>
 
         <p>
-          Modern AI assistant with realtime streaming.
+          Streaming AI assistant with local chat saving.
         </p>
 
       </div>
@@ -761,27 +501,20 @@ function renderMessages(){
     return;
   }
 
-  chat.messages.forEach(msg => {
+  currentChat.messages.forEach(msg => {
 
     if(msg.role === "user"){
-      appendUserMessage(
-        msg.content,
-        msg.images || []
-      );
+      addUserMessage(msg.content);
     }else{
-      appendAIMessage(msg.content);
+      addAIMessage(msg.content);
     }
 
   });
-
 }
 
-/* MESSAGE UI */
+function addUserMessage(text){
 
-function appendUserMessage(text, images=[]){
-
-  const div =
-    document.createElement("div");
+  const div = document.createElement("div");
 
   div.className = "msg user";
 
@@ -789,15 +522,7 @@ function appendUserMessage(text, images=[]){
     <div class="avatar">U</div>
 
     <div class="bubble">
-
-      ${
-        images.map(img =>
-          `<img src="${img}">`
-        ).join("")
-      }
-
       ${escapeHtml(text).replace(/\n/g,"<br>")}
-
     </div>
   `;
 
@@ -806,10 +531,9 @@ function appendUserMessage(text, images=[]){
   scrollBottom();
 }
 
-function appendAIMessage(text){
+function addAIMessage(text){
 
-  const div =
-    document.createElement("div");
+  const div = document.createElement("div");
 
   div.className = "msg ai";
 
@@ -828,8 +552,7 @@ function appendAIMessage(text){
 
 function createStreamingBubble(){
 
-  const div =
-    document.createElement("div");
+  const div = document.createElement("div");
 
   div.className = "msg ai";
 
@@ -837,11 +560,13 @@ function createStreamingBubble(){
     <div class="avatar">✦</div>
 
     <div class="bubble">
+
       <div class="typing">
         <span></span>
         <span></span>
         <span></span>
       </div>
+
     </div>
   `;
 
@@ -852,380 +577,152 @@ function createStreamingBubble(){
   return div.querySelector(".bubble");
 }
 
-function scrollBottom(){
-
-  requestAnimationFrame(() => {
-
-    chatEl.scrollTop =
-      chatEl.scrollHeight;
-
-  });
-
-}
-
-/* SEND */
-
 async function sendMessage(){
 
-  if(busy) return;
+  const text = input.value.trim();
 
-  const text =
-    input.value.trim();
+  if(!text) return;
 
-  if(
-    !text &&
-    !pendingImages.length
-  ) return;
+  addUserMessage(text);
 
-  busy = true;
-
-  sendBtn.disabled = true;
-
-  const chat =
-    getCurrentChat();
-
-  const imagePreviews =
-    pendingImages.map(i => i.preview);
-
-  appendUserMessage(
-    text,
-    imagePreviews
-  );
-
-  chat.messages.push({
+  currentChat.messages.push({
     role:"user",
-    content:text,
-    images:imagePreviews
+    content:text
   });
 
-  if(chat.messages.length === 1){
-
-    chat.title =
-      text.slice(0,30) ||
-      "Image Chat";
-
+  if(currentChat.messages.length === 1){
+    currentChat.title = text.slice(0,25);
   }
 
-  renderChatList();
+  renderChats();
 
   saveChats();
 
   input.value = "";
 
-  input.style.height = "auto";
-
-  const aiBubble =
-    createStreamingBubble();
+  const bubble = createStreamingBubble();
 
   try{
 
-    let success = false;
+    const response = await fetch(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        method:"POST",
 
-    for(const model of MODELS){
+        headers:{
+          "Authorization":`Bearer ${API_KEY}`,
+          "Content-Type":"application/json",
+          "HTTP-Referer":"http://localhost:3000",
+          "X-Title":"ARIA AI"
+        },
 
-      try{
+        body:JSON.stringify({
 
-        modelTag.textContent = model;
+          model:MODEL,
 
-        const response =
-          await fetch(
-            "https://openrouter.ai/api/v1/chat/completions",
+          stream:true,
+
+          messages:[
             {
+              role:"system",
+              content:"You are ARIA, a futuristic AI assistant."
+            },
 
-              method:"POST",
+            ...currentChat.messages
+          ]
+        })
+      }
+    );
 
-              headers:{
-                "Authorization":
-                  `Bearer ${API_KEY}`,
+    if(!response.ok){
 
-                "Content-Type":
-                  "application/json",
+      const err = await response.text();
 
-                "HTTP-Referer":
-                  location.href,
+      bubble.innerHTML =
+        `<span style="color:red">${err}</span>`;
 
-                "X-Title":
-                  "ARIA AI"
-              },
+      console.error(err);
 
-              body: JSON.stringify({
+      return;
+    }
 
-                model,
+    bubble.innerHTML = "";
 
-                stream:true,
+    const reader =
+      response.body.getReader();
 
-                temperature:0.7,
+    const decoder =
+      new TextDecoder();
 
-                max_tokens:3000,
+    let finalText = "";
 
-                messages:[
+    while(true){
 
-                  {
-                    role:"system",
+      const {done, value} =
+        await reader.read();
 
-                    content:
-                      "You are ARIA, a futuristic AI assistant."
-                  },
+      if(done) break;
 
-                  ...chat.messages.map(m => ({
-                    role:m.role,
-                    content:m.content
-                  }))
+      const chunk =
+        decoder.decode(value);
 
-                ]
+      const lines =
+        chunk.split("\n");
 
-              })
+      for(const line of lines){
 
-            }
-          );
+        if(!line.startsWith("data:")) continue;
 
-        if(!response.ok){
+        const data =
+          line.replace("data: ","");
 
-          const err =
-            await response.text();
+        if(data === "[DONE]") continue;
 
-          console.error(err);
+        try{
 
-          continue;
-        }
+          const json =
+            JSON.parse(data);
 
-        aiBubble.innerHTML = "";
+          const token =
+            json.choices?.[0]?.delta?.content;
 
-        const reader =
-          response.body.getReader();
+          if(token){
 
-        const decoder =
-          new TextDecoder();
+            finalText += token;
 
-        let finalText = "";
+            bubble.innerHTML =
+              renderMarkdown(finalText);
 
-        while(true){
-
-          const {
-            done,
-            value
-          } = await reader.read();
-
-          if(done) break;
-
-          const chunk =
-            decoder.decode(value);
-
-          const lines =
-            chunk.split("\n");
-
-          for(const line of lines){
-
-            if(
-              !line.startsWith("data:")
-            ) continue;
-
-            const data =
-              line.replace("data: ","");
-
-            if(
-              data === "[DONE]"
-            ) continue;
-
-            try{
-
-              const json =
-                JSON.parse(data);
-
-              const token =
-                json.choices?.[0]
-                ?.delta?.content;
-
-              if(token){
-
-                finalText += token;
-
-                aiBubble.innerHTML =
-                  renderMarkdown(finalText);
-
-                scrollBottom();
-
-              }
-
-            }catch{}
-
+            scrollBottom();
           }
 
-        }
-
-        chat.messages.push({
-          role:"assistant",
-          content:finalText
-        });
-
-        saveChats();
-
-        success = true;
-
-        break;
-
-      }catch(err){
-
-        console.error(err);
-
+        }catch{}
       }
-
     }
 
-    if(!success){
+    currentChat.messages.push({
+      role:"assistant",
+      content:finalText
+    });
 
-      aiBubble.innerHTML = `
-        <span style="color:var(--red)">
-          Failed generating response.
-          Check API key or model availability.
-        </span>
-      `;
-
-    }
+    saveChats();
 
   }catch(err){
 
-    aiBubble.innerHTML = `
-      <span style="color:var(--red)">
-        ${escapeHtml(err.message)}
-      </span>
-    `;
+    bubble.innerHTML =
+      `<span style="color:red">${err.message}</span>`;
 
+    console.error(err);
   }
-
-  pendingImages = [];
-
-  renderPreviews();
-
-  busy = false;
-
-  sendBtn.disabled = false;
 }
 
-/* FILES */
+function scrollBottom(){
 
-fileInput.addEventListener(
-  "change",
-  e => {
-
-    [...e.target.files]
-      .forEach(readFile);
-
-  }
-);
-
-function readFile(file){
-
-  const reader =
-    new FileReader();
-
-  reader.onload = e => {
-
-    const result =
-      e.target.result;
-
-    pendingImages.push({
-
-      preview:result,
-
-      base64:
-        result.split(",")[1],
-
-      mime:file.type
-
-    });
-
-    renderPreviews();
-
-  };
-
-  reader.readAsDataURL(file);
-}
-
-function renderPreviews(){
-
-  previewsEl.innerHTML = "";
-
-  pendingImages.forEach((img,i) => {
-
-    const div =
-      document.createElement("div");
-
-    div.className =
-      "preview";
-
-    div.innerHTML = `
-      <img src="${img.preview}">
-
-      <button onclick="removeImage(${i})">
-        ×
-      </button>
-    `;
-
-    previewsEl.appendChild(div);
-
+  requestAnimationFrame(() => {
+    chatEl.scrollTop =
+      chatEl.scrollHeight;
   });
-
 }
-
-function removeImage(i){
-
-  pendingImages.splice(i,1);
-
-  renderPreviews();
-}
-
-/* INPUT */
-
-input.addEventListener(
-  "keydown",
-  e => {
-
-    if(
-      e.key === "Enter" &&
-      !e.shiftKey
-    ){
-
-      e.preventDefault();
-
-      sendMessage();
-
-    }
-
-  }
-);
-
-input.addEventListener(
-  "input",
-  () => {
-
-    input.style.height =
-      "auto";
-
-    input.style.height =
-      Math.min(
-        input.scrollHeight,
-        180
-      ) + "px";
-
-  }
-);
-
-sendBtn.onclick =
-  sendMessage;
-
-document
-.getElementById("newChatBtn")
-.onclick = createChat;
-
-function quickPrompt(text){
-
-  input.value = text;
-
-  sendMessage();
-}
-
-/* MARKDOWN */
 
 function renderMarkdown(text){
 
@@ -1233,22 +730,17 @@ function renderMarkdown(text){
 
   text = text.replace(
     /```([\s\S]*?)```/g,
-    '<pre><code>$1</code></pre>'
+    "<pre><code>$1</code></pre>"
   );
 
   text = text.replace(
     /`([^`]+)`/g,
-    '<code>$1</code>'
+    "<code>$1</code>"
   );
 
   text = text.replace(
     /\*\*(.*?)\*\*/g,
-    '<strong>$1</strong>'
-  );
-
-  text = text.replace(
-    /\*(.*?)\*/g,
-    '<em>$1</em>'
+    "<strong>$1</strong>"
   );
 
   text = text.replace(
@@ -1262,31 +754,24 @@ function renderMarkdown(text){
 function escapeHtml(text){
 
   return String(text)
-
     .replace(/&/g,"&amp;")
-
     .replace(/</g,"&lt;")
-
     .replace(/>/g,"&gt;");
-
 }
 
-/* START */
+input.addEventListener("keydown", e => {
 
-if(!chats.length){
+  if(e.key === "Enter" && !e.shiftKey){
 
-  createChat();
+    e.preventDefault();
 
-}else{
+    sendMessage();
+  }
+});
 
-  currentChatId =
-    chats[0].id;
+sendBtn.onclick = sendMessage;
 
-  renderChatList();
-
-  renderMessages();
-
-}
+newChat();
 
 </script>
 
