@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 <title>ARIA AI</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -39,9 +42,15 @@ body{
 .sidebar{
   width:260px;
   border-right:1px solid var(--border);
-  background:rgba(10,10,16,.96);
+  background:#0b0b12;
   display:flex;
   flex-direction:column;
+  transition:.3s;
+}
+
+.sidebar.hidden{
+  width:0;
+  overflow:hidden;
 }
 
 .sidebar-top{
@@ -51,8 +60,8 @@ body{
 
 .logo-wrap{
   display:flex;
-  gap:12px;
   align-items:center;
+  gap:12px;
   margin-bottom:16px;
 }
 
@@ -66,7 +75,6 @@ body{
   justify-content:center;
   font-family:'Syne', sans-serif;
   font-weight:800;
-  box-shadow:0 0 40px rgba(111,95,246,.35);
 }
 
 .logo-info h1{
@@ -77,14 +85,13 @@ body{
 .status{
   font-size:10px;
   color:var(--green);
-  margin-top:3px;
 }
 
 .new-chat{
   width:100%;
   border:none;
-  border-radius:14px;
   padding:12px;
+  border-radius:14px;
   background:linear-gradient(135deg,var(--a),#a855f7);
   color:white;
   cursor:pointer;
@@ -92,15 +99,17 @@ body{
 }
 
 .chat-list{
-  overflow-y:auto;
   flex:1;
+  overflow-y:auto;
 }
 
 .chat-item{
   padding:15px 18px;
   border-bottom:1px solid rgba(255,255,255,.03);
   cursor:pointer;
-  transition:.2s;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
 .chat-item:hover{
@@ -109,6 +118,13 @@ body{
 
 .chat-item.active{
   background:rgba(111,95,246,.14);
+}
+
+.delete-btn{
+  background:none;
+  border:none;
+  color:#ff6b6b;
+  cursor:pointer;
 }
 
 .main{
@@ -121,8 +137,8 @@ header{
   height:72px;
   border-bottom:1px solid var(--border);
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   padding:0 24px;
 }
 
@@ -134,16 +150,20 @@ header h2{
 header p{
   color:var(--dim);
   font-size:11px;
-  margin-top:3px;
 }
 
-.model{
-  border:1px solid var(--border);
+.top-actions{
+  display:flex;
+  gap:10px;
+}
+
+.top-btn{
+  border:none;
   background:var(--s2);
-  padding:7px 12px;
-  border-radius:999px;
-  font-size:11px;
-  color:var(--dim);
+  color:white;
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
 }
 
 .chat{
@@ -158,32 +178,28 @@ header p{
 .welcome{
   margin:auto;
   text-align:center;
-  max-width:600px;
 }
 
 .welcome-icon{
   width:80px;
   height:80px;
-  margin:0 auto 24px;
   border-radius:24px;
+  margin:0 auto 24px;
   background:linear-gradient(135deg,var(--a),#a855f7);
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:32px;
-  box-shadow:0 0 70px rgba(111,95,246,.35);
 }
 
 .welcome h1{
   font-size:34px;
   font-family:'Syne', sans-serif;
-  margin-bottom:10px;
 }
 
 .welcome p{
   color:var(--dim);
-  line-height:1.8;
-  font-size:13px;
+  margin-top:10px;
 }
 
 .msg{
@@ -204,15 +220,14 @@ header p{
   display:flex;
   align-items:center;
   justify-content:center;
-  flex-shrink:0;
 }
 
 .user .avatar{
-  background:linear-gradient(135deg,#ff7b5b,#ff9f43);
+  background:#ff7b5b;
 }
 
 .ai .avatar{
-  background:linear-gradient(135deg,var(--a),#a855f7);
+  background:var(--a);
 }
 
 .bubble{
@@ -222,24 +237,10 @@ header p{
   border-radius:18px;
   line-height:1.8;
   font-size:13px;
-  overflow:hidden;
-  word-break:break-word;
 }
 
 .user .bubble{
   background:var(--s3);
-}
-
-.bubble pre{
-  background:black;
-  padding:12px;
-  border-radius:12px;
-  overflow:auto;
-  margin:10px 0;
-}
-
-.bubble code{
-  font-family:'DM Mono', monospace;
 }
 
 .input-wrap{
@@ -249,7 +250,6 @@ header p{
 
 .input-box{
   display:flex;
-  align-items:flex-end;
   gap:12px;
   background:var(--s2);
   border:1px solid var(--border);
@@ -261,32 +261,21 @@ textarea{
   flex:1;
   resize:none;
   border:none;
-  background:none;
   outline:none;
+  background:none;
   color:white;
   font-family:'DM Mono', monospace;
   font-size:13px;
-  max-height:180px;
 }
 
-.actions{
-  display:flex;
-  gap:8px;
-}
-
-.btn{
+.send{
   width:42px;
   height:42px;
   border:none;
   border-radius:13px;
-  background:var(--s1);
-  color:var(--dim);
-  cursor:pointer;
-}
-
-.send{
   background:linear-gradient(135deg,var(--a),#a855f7);
   color:white;
+  cursor:pointer;
 }
 
 .typing{
@@ -321,17 +310,11 @@ textarea{
   }
 }
 
-@media(max-width:900px){
-  .sidebar{
-    display:none;
-  }
-}
-
 </style>
 </head>
 <body>
 
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
 
   <div class="sidebar-top">
 
@@ -358,56 +341,62 @@ textarea{
 
 <header>
 
-  <div>
-    <h2>ARIA Assistant</h2>
-    <p>Realtime streaming AI</p>
-  </div>
+<div>
+  <h2>ARIA Assistant</h2>
+  <p>Streaming AI assistant</p>
+</div>
 
-  <div class="model">
-    gemma-3-27b-it
-  </div>
+<div class="top-actions">
+  <button class="top-btn" onclick="toggleSidebar()">
+    Hide
+  </button>
+</div>
 
 </header>
 
 <div class="chat" id="chat">
 
-  <div class="welcome">
-    <div class="welcome-icon">✦</div>
-
-    <h1>Hello, I'm ARIA</h1>
-
-    <p>
-      Streaming AI assistant with local chat saving.
-    </p>
-  </div>
+<div class="welcome">
+  <div class="welcome-icon">✦</div>
+  <h1>Hello, I'm ARIA</h1>
+  <p>Streaming AI assistant with Supabase saving.</p>
+</div>
 
 </div>
 
 <div class="input-wrap">
 
-  <div class="input-box">
+<div class="input-box">
 
-    <textarea
-      id="input"
-      rows="1"
-      placeholder="Message ARIA..."
-    ></textarea>
+<textarea
+id="input"
+rows="1"
+placeholder="Message ARIA..."
+></textarea>
 
-    <div class="actions">
+<button class="send" id="sendBtn">
+➤
+</button>
 
-      <button class="btn send" id="sendBtn">
-        ➤
-      </button>
-
-    </div>
-
-  </div>
+</div>
 
 </div>
 
 </div>
 
 <script>
+
+const SUPABASE_URL =
+"https://hsmfjpetvcsgkpkwpdjr.supabase.co";
+
+const SUPABASE_KEY =
+"YOUR_SUPABASE_KEY";
+
+const supabase =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 const API_KEY = "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";
 
@@ -418,34 +407,86 @@ const sendBtn = document.getElementById("sendBtn");
 const chatEl = document.getElementById("chat");
 const chatList = document.getElementById("chatList");
 
-let chats =
-  JSON.parse(localStorage.getItem("aria_chats") || "[]");
-
+let chats = [];
 let currentChat = null;
 
-function saveChats(){
-  localStorage.setItem(
-    "aria_chats",
-    JSON.stringify(chats)
-  );
+async function loadChats(){
+
+  const {data} =
+    await supabase
+      .from("chats")
+      .select("*")
+      .order("id",{ascending:false});
+
+  chats = data || [];
+
+  if(chats.length){
+    currentChat = chats[0];
+  }
+
+  renderChats();
+  renderMessages();
+}
+
+async function saveChat(chat){
+
+  if(chat.id){
+
+    await supabase
+      .from("chats")
+      .update({
+        title:chat.title,
+        messages:chat.messages
+      })
+      .eq("id",chat.id);
+
+  }else{
+
+    const {data} =
+      await supabase
+        .from("chats")
+        .insert({
+          title:chat.title,
+          messages:chat.messages
+        })
+        .select()
+        .single();
+
+    chat.id = data.id;
+  }
+}
+
+function toggleSidebar(){
+  document
+    .getElementById("sidebar")
+    .classList.toggle("hidden");
+}
+
+async function deleteChat(id){
+
+  await supabase
+    .from("chats")
+    .delete()
+    .eq("id",id);
+
+  chats = chats.filter(c => c.id !== id);
+
+  currentChat = chats[0] || null;
+
+  renderChats();
+  renderMessages();
 }
 
 function newChat(){
 
-  const chat = {
-    id:Date.now(),
+  currentChat = {
     title:"New Chat",
     messages:[]
   };
 
-  chats.unshift(chat);
-
-  currentChat = chat;
-
-  saveChats();
+  chats.unshift(currentChat);
 
   renderChats();
-
   renderMessages();
 }
 
@@ -459,22 +500,29 @@ function renderChats(){
 
     div.className =
       "chat-item" +
-      (currentChat?.id === chat.id
+      (currentChat === chat
       ? " active"
       : "");
 
-    div.innerHTML = chat.title;
+    div.innerHTML = `
+      <span>${chat.title}</span>
+
+      <button
+        class="delete-btn"
+        onclick="event.stopPropagation(); deleteChat(${chat.id})"
+      >
+        ✕
+      </button>
+    `;
 
     div.onclick = () => {
-
       currentChat = chat;
-
       renderChats();
-
       renderMessages();
     };
 
     chatList.appendChild(div);
+
   });
 }
 
@@ -482,19 +530,12 @@ function renderMessages(){
 
   chatEl.innerHTML = "";
 
-  if(!currentChat.messages.length){
+  if(!currentChat || !currentChat.messages.length){
 
     chatEl.innerHTML = `
       <div class="welcome">
-
         <div class="welcome-icon">✦</div>
-
         <h1>Hello, I'm ARIA</h1>
-
-        <p>
-          Streaming AI assistant with local chat saving.
-        </p>
-
       </div>
     `;
 
@@ -503,78 +544,29 @@ function renderMessages(){
 
   currentChat.messages.forEach(msg => {
 
-    if(msg.role === "user"){
-      addUserMessage(msg.content);
-    }else{
-      addAIMessage(msg.content);
-    }
+    const div = document.createElement("div");
 
-  });
-}
+    div.className =
+      "msg " +
+      (msg.role === "user"
+      ? "user"
+      : "ai");
 
-function addUserMessage(text){
-
-  const div = document.createElement("div");
-
-  div.className = "msg user";
-
-  div.innerHTML = `
-    <div class="avatar">U</div>
-
-    <div class="bubble">
-      ${escapeHtml(text).replace(/\n/g,"<br>")}
-    </div>
-  `;
-
-  chatEl.appendChild(div);
-
-  scrollBottom();
-}
-
-function addAIMessage(text){
-
-  const div = document.createElement("div");
-
-  div.className = "msg ai";
-
-  div.innerHTML = `
-    <div class="avatar">✦</div>
-
-    <div class="bubble">
-      ${renderMarkdown(text)}
-    </div>
-  `;
-
-  chatEl.appendChild(div);
-
-  scrollBottom();
-}
-
-function createStreamingBubble(){
-
-  const div = document.createElement("div");
-
-  div.className = "msg ai";
-
-  div.innerHTML = `
-    <div class="avatar">✦</div>
-
-    <div class="bubble">
-
-      <div class="typing">
-        <span></span>
-        <span></span>
-        <span></span>
+    div.innerHTML = `
+      <div class="avatar">
+        ${msg.role === "user" ? "U" : "✦"}
       </div>
 
-    </div>
-  `;
+      <div class="bubble">
+        ${msg.content}
+      </div>
+    `;
 
-  chatEl.appendChild(div);
+    chatEl.appendChild(div);
+
+  });
 
   scrollBottom();
-
-  return div.querySelector(".bubble");
 }
 
 async function sendMessage(){
@@ -583,24 +575,41 @@ async function sendMessage(){
 
   if(!text) return;
 
-  addUserMessage(text);
-
   currentChat.messages.push({
     role:"user",
     content:text
   });
 
-  if(currentChat.messages.length === 1){
+  if(currentChat.title === "New Chat"){
     currentChat.title = text.slice(0,25);
   }
 
+  renderMessages();
   renderChats();
-
-  saveChats();
 
   input.value = "";
 
-  const bubble = createStreamingBubble();
+  await saveChat(currentChat);
+
+  const typing = document.createElement("div");
+
+  typing.className = "msg ai";
+
+  typing.innerHTML = `
+    <div class="avatar">✦</div>
+
+    <div class="bubble">
+      <div class="typing">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  `;
+
+  chatEl.appendChild(typing);
+
+  scrollBottom();
 
   try{
 
@@ -610,153 +619,44 @@ async function sendMessage(){
         method:"POST",
 
         headers:{
-          "Authorization":`Bearer ${API_KEY}`,
-          "Content-Type":"application/json",
-          "HTTP-Referer":"http://localhost:3000",
-          "X-Title":"ARIA AI"
+          "Authorization":"Bearer " + API_KEY,
+          "Content-Type":"application/json"
         },
 
         body:JSON.stringify({
-
           model:MODEL,
-
-          stream:true,
-
-          messages:[
-            {
-              role:"system",
-              content:"You are ARIA, a futuristic AI assistant."
-            },
-
-            ...currentChat.messages
-          ]
+          messages:currentChat.messages
         })
       }
     );
 
-    if(!response.ok){
+    const data = await response.json();
 
-      const err = await response.text();
+    typing.remove();
 
-      bubble.innerHTML =
-        `<span style="color:red">${err}</span>`;
-
-      console.error(err);
-
-      return;
-    }
-
-    bubble.innerHTML = "";
-
-    const reader =
-      response.body.getReader();
-
-    const decoder =
-      new TextDecoder();
-
-    let finalText = "";
-
-    while(true){
-
-      const {done, value} =
-        await reader.read();
-
-      if(done) break;
-
-      const chunk =
-        decoder.decode(value);
-
-      const lines =
-        chunk.split("\n");
-
-      for(const line of lines){
-
-        if(!line.startsWith("data:")) continue;
-
-        const data =
-          line.replace("data: ","");
-
-        if(data === "[DONE]") continue;
-
-        try{
-
-          const json =
-            JSON.parse(data);
-
-          const token =
-            json.choices?.[0]?.delta?.content;
-
-          if(token){
-
-            finalText += token;
-
-            bubble.innerHTML =
-              renderMarkdown(finalText);
-
-            scrollBottom();
-          }
-
-        }catch{}
-      }
-    }
+    const reply =
+      data.choices?.[0]?.message?.content
+      || "Error";
 
     currentChat.messages.push({
       role:"assistant",
-      content:finalText
+      content:reply
     });
 
-    saveChats();
+    await saveChat(currentChat);
+
+    renderMessages();
 
   }catch(err){
 
-    bubble.innerHTML =
-      `<span style="color:red">${err.message}</span>`;
-
     console.error(err);
+
   }
 }
 
 function scrollBottom(){
-
-  requestAnimationFrame(() => {
-    chatEl.scrollTop =
-      chatEl.scrollHeight;
-  });
-}
-
-function renderMarkdown(text){
-
-  text = escapeHtml(text);
-
-  text = text.replace(
-    /```([\s\S]*?)```/g,
-    "<pre><code>$1</code></pre>"
-  );
-
-  text = text.replace(
-    /`([^`]+)`/g,
-    "<code>$1</code>"
-  );
-
-  text = text.replace(
-    /\*\*(.*?)\*\*/g,
-    "<strong>$1</strong>"
-  );
-
-  text = text.replace(
-    /\n/g,
-    "<br>"
-  );
-
-  return text;
-}
-
-function escapeHtml(text){
-
-  return String(text)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;");
+  chatEl.scrollTop =
+    chatEl.scrollHeight;
 }
 
 input.addEventListener("keydown", e => {
@@ -771,7 +671,7 @@ input.addEventListener("keydown", e => {
 
 sendBtn.onclick = sendMessage;
 
-newChat();
+loadChats();
 
 </script>
 
