@@ -31,9 +31,14 @@ const FIREBASE_CONFIG = {
   appId:             "1:610405941042:web:d93ea67de825214a5f612b"
 };
 
-  const OPENROUTER_API_KEY = "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";
+  const OPENROUTER_API_KEY = "sk-or-v1-f5e089d75d8d485d567b82896b9b6f996c952ecfcf5f1c33de9e63f9706223e";
   // Vision-capable model (can handle images + text)
-  const MODEL = "google/gemini-2.0-flash-exp:free"; // change if desired
+  // Vision-capable models via OpenRouter (pick one):
+  // "google/gemini-2.0-flash-001"          — Gemini 2.0 Flash (fast + vision)
+  // "anthropic/claude-sonnet-4-5"          — Claude Sonnet (smart + vision)
+  // "openai/gpt-4o-mini"                   — GPT-4o Mini (cheap + vision)
+  // "meta-llama/llama-3.2-11b-vision-instruct:free" — Free llama vision
+  const MODEL = "google/gemini-2.0-flash-001";
 
   // ─────────────────────────────────────────────
   // Init Firebase
@@ -1017,7 +1022,7 @@ body::after {
     <div class="topbar">
       <button class="btn-menu" onclick="toggleSidebar()">☰</button>
       <div class="topbar-brand"><span>✦</span> ARIA</div>
-      <div class="topbar-model" id="model-badge">gemini-2.0-flash</div>
+      <div class="topbar-model" id="model-badge">gemini-2.0-flash-001</div>
     </div>
 
     <!-- Welcome (outside messages so innerHTML reset can't destroy it) -->
