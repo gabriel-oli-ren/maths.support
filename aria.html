@@ -72,16 +72,20 @@ const FIREBASE_CONFIG = {
   onAuthStateChanged(auth, async user => {
     if (user) {
       currentUser = user;
-      await setDoc(doc(db, "users", user.uid), {
-        displayName: user.displayName,
-        email:       user.email,
-        photoURL:    user.photoURL,
-        lastSeen:    serverTimestamp()
-      }, { merge: true });
+      try {
+        await setDoc(doc(db, "users", user.uid), {
+          displayName: user.displayName,
+          email:       user.email,
+          photoURL:    user.photoURL,
+          lastSeen:    serverTimestamp()
+        }, { merge: true });
+      } catch (e) { console.warn("Could not update user profile:", e); }
       showApp();
       loadSidebar();
-      newChat();
+      // Delay so sidebar listener settles; only create chat if none loaded yet
+      setTimeout(() => { if (!currentChatId) newChat(); }, 500);
     } else {
+      currentUser = null;
       showAuth();
     }
   });
@@ -140,14 +144,22 @@ const FIREBASE_CONFIG = {
   // Chat CRUD
   // ─────────────────────────────────────────────
   window.newChat = async () => {
-    if (!currentUser) return;
-    const ref = await addDoc(collection(db, "users", currentUser.uid, "chats"), {
-      title:     "New chat",
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    });
-    loadChat(ref.id);
-    closeSidebar();
+    if (!currentUser) {
+      showToast("Not signed in — please refresh and sign in again", "error");
+      showAuth();
+      return;
+    }
+    try {
+      const ref = await addDoc(collection(db, "users", currentUser.uid, "chats"), {
+        title:     "New chat",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp()
+      });
+      loadChat(ref.id);
+      closeSidebar();
+    } catch (e) {
+      showToast("Could not create chat: " + e.message, "error");
+    }
   };
 
   async function loadChat(chatId) {
@@ -203,37 +215,53 @@ const FIREBASE_CONFIG = {
   // Send message
   // ─────────────────────────────────────────────
   window.sendMessage = async () => {
+    // ── Auth guard ──────────────────────────────
+    if (!currentUser) {
+      showToast("Please sign in first", "error");
+      showAuth();
+      return;
+    }
+
     const input = document.getElementById("msg-input");
     const text  = input.value.trim();
     if (!text && !pendingImage) return;
-    if (!currentChatId) await window.newChat();
-    input.value = "";
-    autoResize(input);
 
-    // Save user message
-    const userMsg = {
-      role:      "user",
-      content:   text,
-      imageUrl:  pendingImage ? pendingImage.base64DataUrl : null,
-      imageMime: pendingImage ? pendingImage.mime : null,
-      createdAt: serverTimestamp()
-    };
-    await addDoc(
-      collection(db, "users", currentUser.uid, "chats", currentChatId, "messages"),
-      userMsg
-    );
-
-    // Build OpenRouter payload
-    const userContent = buildContextContent(text, pendingImage ? pendingImage.base64DataUrl : null, pendingImage ? pendingImage.mime : null);
-    chatHistory.push({ role: "user", content: userContent });
-
-    clearImagePreview();
-    showTyping(true);
+    // Disable send button while processing
+    const sendBtn = document.querySelector(".btn-send");
+    if (sendBtn) sendBtn.disabled = true;
 
     try {
+      if (!currentChatId) await window.newChat();
+      // Re-check after newChat (async) in case auth changed
+      if (!currentUser) { showToast("Session expired — please sign in again", "error"); showAuth(); return; }
+
+      input.value = "";
+      autoResize(input);
+
+      // Save user message
+      const userMsg = {
+        role:      "user",
+        content:   text,
+        imageUrl:  pendingImage ? pendingImage.base64DataUrl : null,
+        imageMime: pendingImage ? pendingImage.mime : null,
+        createdAt: serverTimestamp()
+      };
+      await addDoc(
+        collection(db, "users", currentUser.uid, "chats", currentChatId, "messages"),
+        userMsg
+      );
+
+      // Build OpenRouter payload
+      const userContent = buildContextContent(text, pendingImage ? pendingImage.base64DataUrl : null, pendingImage ? pendingImage.mime : null);
+      chatHistory.push({ role: "user", content: userContent });
+
+      clearImagePreview();
+      showTyping(true);
+
       const reply = await callOpenRouter(chatHistory);
       showTyping(false);
       chatHistory.push({ role: "assistant", content: reply });
+
       await addDoc(
         collection(db, "users", currentUser.uid, "chats", currentChatId, "messages"),
         { role: "assistant", content: reply, createdAt: serverTimestamp() }
@@ -256,7 +284,21 @@ const FIREBASE_CONFIG = {
       }
     } catch (e) {
       showTyping(false);
-      showToast("Error: " + e.message, "error");
+      // Friendly error messages
+      const msg = e.message || "";
+      if (msg.includes("401") || msg.includes("403") || msg.includes("api key") || msg.includes("Authentication")) {
+        showToast("❌ Invalid OpenRouter API key — check your config", "error");
+      } else if (msg.includes("402") || msg.includes("credit") || msg.includes("balance")) {
+        showToast("❌ OpenRouter account has no credits", "error");
+      } else if (msg.includes("429") || msg.includes("rate limit")) {
+        showToast("⏳ Rate limit hit — wait a moment and retry", "error");
+      } else if (msg.includes("Failed to fetch") || msg.includes("NetworkError")) {
+        showToast("❌ Network error — check your internet connection", "error");
+      } else {
+        showToast("❌ " + msg, "error");
+      }
+    } finally {
+      if (sendBtn) sendBtn.disabled = false;
     }
   };
 
