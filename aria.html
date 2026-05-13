@@ -31,14 +31,11 @@ const FIREBASE_CONFIG = {
   appId:             "1:610405941042:web:d93ea67de825214a5f612b"
 };
 
-  const OPENROUTER_API_KEY = "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";
+  // API key — loaded from localStorage (set via the settings panel in the UI)
+  let OPENROUTER_API_KEY = localStorage.getItem("aria_or_key") || "";
   // Vision-capable model (can handle images + text)
-  // Vision-capable models via OpenRouter (pick one):
-  // "google/gemini-2.0-flash-001"          — Gemini 2.0 Flash (fast + vision)
-  // "anthropic/claude-sonnet-4-5"          — Claude Sonnet (smart + vision)
-  // "openai/gpt-4o-mini"                   — GPT-4o Mini (cheap + vision)
-  // "meta-llama/llama-3.2-11b-vision-instruct:free" — Free llama vision
-  const MODEL = "google/gemini-2.0-flash-001";
+  // Model — loaded from localStorage or falls back to this default
+  const MODEL = "google/gemini-2.5-flash-preview";
 
   // ─────────────────────────────────────────────
   // Init Firebase
@@ -322,16 +319,19 @@ const FIREBASE_CONFIG = {
   // OpenRouter API call
   // ─────────────────────────────────────────────
   async function callOpenRouter(messages) {
+    const activeKey   = localStorage.getItem("aria_or_key") || OPENROUTER_API_KEY;
+    const activeModel = localStorage.getItem("aria_model")  || MODEL;
+    if (!activeKey) throw new Error("No API key set — click ⚙️ Settings and paste your OpenRouter key");
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+        "Authorization": `Bearer ${activeKey}`,
         "Content-Type":  "application/json",
         "HTTP-Referer":  window.location.href,
         "X-Title":       "ARIA Chatbot"
       },
       body: JSON.stringify({
-        model: MODEL,
+        model: activeModel,
         messages: [
           {
             role:    "system",
@@ -488,6 +488,53 @@ const FIREBASE_CONFIG = {
   window.closeSidebar = () => {
     document.getElementById("sidebar").classList.remove("open");
   };
+
+  // Settings modal
+  window.openSettings = () => {
+    const keyInput = document.getElementById("key-input");
+    const modelSel = document.getElementById("model-select");
+    keyInput.value = localStorage.getItem("aria_or_key") || "";
+    const savedModel = localStorage.getItem("aria_model") || MODEL;
+    // Set select to saved model, or add custom option
+    const exists = [...modelSel.options].some(o => o.value === savedModel);
+    if (!exists) {
+      const opt = document.createElement("option");
+      opt.value = savedModel; opt.textContent = savedModel + " (custom)";
+      modelSel.appendChild(opt);
+    }
+    modelSel.value = savedModel;
+    document.getElementById("settings-modal").style.display = "flex";
+  };
+  window.closeSettings = () => {
+    document.getElementById("settings-modal").style.display = "none";
+  };
+  window.saveSettings = () => {
+    const key   = document.getElementById("key-input").value.trim();
+    const model = document.getElementById("model-select").value;
+    if (key) {
+      localStorage.setItem("aria_or_key", key);
+      OPENROUTER_API_KEY = key;
+    }
+    localStorage.setItem("aria_model", model);
+    document.getElementById("model-badge").textContent = model.split("/").pop();
+    closeSettings();
+    showToast("✅ Settings saved!", "info");
+  };
+  window.toggleKeyVisibility = () => {
+    const inp = document.getElementById("key-input");
+    inp.type = inp.type === "password" ? "text" : "password";
+  };
+
+  // Load saved model on start
+  const savedModel = localStorage.getItem("aria_model");
+  if (savedModel) {
+    // MODEL is const so we use a mutable ref via the API call
+    window._ariaModel = savedModel;
+    document.addEventListener("DOMContentLoaded", () => {
+      const badge = document.getElementById("model-badge");
+      if (badge) badge.textContent = savedModel.split("/").pop();
+    });
+  }
 </script>
 
 <style>
@@ -949,6 +996,82 @@ body::after {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; }
 
+/* ───── Settings Modal ───── */
+#settings-modal {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+}
+.modal-card {
+  position: relative; z-index: 1;
+  background: rgba(12,18,32,0.92);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  width: 90%; max-width: 440px;
+  box-shadow: 0 32px 64px rgba(0,0,0,0.5);
+  animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--glass-border);
+  font-weight: 600; font-size: 1rem;
+}
+.modal-close {
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; font-size: 1rem; padding: 4px 8px;
+  border-radius: 6px; transition: all 0.15s;
+}
+.modal-close:hover { color: var(--danger); background: rgba(255,107,107,0.1); }
+.modal-body { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 8px; }
+.modal-label { font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase; }
+.modal-input-row { display: flex; gap: 8px; }
+.modal-input-row input, #model-select {
+  flex: 1; background: rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-mono); font-size: 0.82rem;
+  padding: 10px 12px; outline: none;
+  transition: border-color 0.2s;
+}
+#model-select { font-family: var(--font-main); font-size: 0.88rem; cursor: pointer; }
+#model-select option { background: #0c1220; }
+.modal-input-row input:focus, #model-select:focus { border-color: rgba(125,249,208,0.4); }
+#key-toggle {
+  background: rgba(255,255,255,0.06); border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm); padding: 8px 12px;
+  cursor: pointer; font-size: 1rem; transition: all 0.15s;
+}
+#key-toggle:hover { background: var(--glass-hover); }
+.modal-hint { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; }
+.modal-hint a { color: var(--accent); text-decoration: none; }
+.modal-hint a:hover { text-decoration: underline; }
+.btn-save-settings {
+  margin-top: 8px; padding: 12px;
+  background: linear-gradient(135deg, rgba(125,249,208,0.2), rgba(167,139,250,0.2));
+  border: 1px solid rgba(125,249,208,0.3);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary); font-family: var(--font-main);
+  font-size: 0.95rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-save-settings:hover {
+  background: linear-gradient(135deg, rgba(125,249,208,0.3), rgba(167,139,250,0.3));
+  border-color: rgba(125,249,208,0.5);
+}
+.btn-settings {
+  background: none; border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm); padding: 5px 8px;
+  cursor: pointer; font-size: 0.9rem; transition: all 0.15s;
+}
+.btn-settings:hover { background: var(--glass-hover); border-color: var(--accent); }
+
 /* ───── Mobile ───── */
 @media (max-width: 680px) {
   #sidebar {
@@ -1012,6 +1135,7 @@ body::after {
         <div id="user-name">—</div>
         <div id="user-email">—</div>
       </div>
+      <button class="btn-settings" onclick="openSettings()" title="Settings">⚙️</button>
       <button class="btn-signout" onclick="signOutUser()">Sign out</button>
     </div>
   </aside>
@@ -1063,6 +1187,39 @@ body::after {
         <button class="btn-send" onclick="sendMessage()" title="Send">➤</button>
       </div>
       <div class="input-hint">ARIA can make mistakes. Verify important information.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settings-modal" style="display:none">
+  <div class="modal-backdrop" onclick="closeSettings()"></div>
+  <div class="modal-card">
+    <div class="modal-header">
+      <span>⚙️ Settings</span>
+      <button class="modal-close" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="modal-label">OpenRouter API Key</label>
+      <div class="modal-input-row">
+        <input type="password" id="key-input" placeholder="sk-or-v1-..." autocomplete="off" />
+        <button id="key-toggle" onclick="toggleKeyVisibility()" title="Show/hide">👁</button>
+      </div>
+      <p class="modal-hint">Get your key at <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a> — it's stored only in your browser.</p>
+
+      <label class="modal-label" style="margin-top:18px">Model</label>
+      <select id="model-select">
+        <option value="google/gemini-2.5-flash-preview">Gemini 2.5 Flash Preview (vision ✓)</option>
+        <option value="google/gemini-2.0-flash-001">Gemini 2.0 Flash (vision ✓)</option>
+        <option value="openai/gpt-4o-mini">GPT-4o Mini (vision ✓)</option>
+        <option value="anthropic/claude-sonnet-4-5">Claude Sonnet 4.5 (vision ✓)</option>
+        <option value="meta-llama/llama-3.2-11b-vision-instruct:free">Llama 3.2 Vision 11B (free)</option>
+        <option value="google/gemma-3-27b-it:free">Gemma 3 27B (free)</option>
+        <option value="mistralai/mistral-small-3.1-24b-instruct:free">Mistral Small 3.1 (free)</option>
+      </select>
+      <p class="modal-hint">Free models have rate limits (200 req/day). Paid models need credits.</p>
+
+      <button class="btn-save-settings" onclick="saveSettings()">Save & Close</button>
     </div>
   </div>
 </div>
