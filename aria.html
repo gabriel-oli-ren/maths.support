@@ -186,7 +186,7 @@ const FIREBASE_CONFIG = {
         chatHistory.push({ role: data.role, content: buildContextContent(data.content, data.imageUrl) });
       });
       if (snap.empty) showWelcomeIfEmpty();
-      else document.getElementById("welcome-msg").style.display = "none";
+      else { const w = document.getElementById("welcome-msg"); if (w) w.style.display = "none"; }
       scrollBottom();
     });
   }
@@ -200,7 +200,8 @@ const FIREBASE_CONFIG = {
     if (currentChatId === chatId) {
       currentChatId = null;
       chatHistory   = [];
-      document.getElementById("messages").innerHTML = "";
+      const msgs2 = document.getElementById("messages");
+      if (msgs2) msgs2.innerHTML = "";
       showWelcomeIfEmpty();
     }
     showToast("Chat deleted", "info");
@@ -339,6 +340,9 @@ const FIREBASE_CONFIG = {
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
+      if (res.status === 401) throw new Error("Invalid OpenRouter API key (401) — generate a new key at openrouter.ai/keys and update the OPENROUTER_API_KEY in the file");
+      if (res.status === 402) throw new Error("OpenRouter account has no credits — add credits at openrouter.ai");
+      if (res.status === 429) throw new Error("Rate limit reached — wait a moment and try again");
       throw new Error(err.error?.message || `HTTP ${res.status}`);
     }
     const data = await res.json();
@@ -745,17 +749,21 @@ body::after {
   padding: 24px 20px;
   display: flex; flex-direction: column; gap: 16px;
   scroll-behavior: smooth;
+  position: relative; z-index: 2;
 }
 #messages::-webkit-scrollbar { width: 6px; }
 #messages::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; }
 
 /* Welcome */
 #welcome-msg {
-  flex: 1; display: flex; flex-direction: column;
+  position: absolute; inset: 56px 0 80px 0;
+  display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   text-align: center; padding: 40px 20px;
   animation: fadeIn 0.4s ease;
+  z-index: 1; pointer-events: none;
 }
+#welcome-msg .chip { pointer-events: auto; }
 .welcome-icon { font-size: 4rem; margin-bottom: 16px; filter: drop-shadow(0 0 20px rgba(125,249,208,0.4)); }
 .welcome-title {
   font-size: 2rem; font-weight: 700; letter-spacing: -0.5px;
@@ -1012,22 +1020,23 @@ body::after {
       <div class="topbar-model" id="model-badge">gemini-2.0-flash</div>
     </div>
 
-    <!-- Messages -->
-    <div id="messages">
-      <div id="welcome-msg">
-        <div class="welcome-icon">✦</div>
-        <div class="welcome-title">Hello, I'm ARIA</div>
-        <p class="welcome-sub">Ask me anything, share an image for analysis, or pick a suggestion below to get started.</p>
-        <div class="welcome-chips">
-          <div class="chip" onclick="useChip(this)">📸 Analyze an image for me</div>
-          <div class="chip" onclick="useChip(this)">💡 Explain a complex topic simply</div>
-          <div class="chip" onclick="useChip(this)">✍️ Help me write something</div>
-          <div class="chip" onclick="useChip(this)">🔍 Research a subject</div>
-          <div class="chip" onclick="useChip(this)">🧮 Solve a math problem</div>
-          <div class="chip" onclick="useChip(this)">💻 Help me with code</div>
-        </div>
+    <!-- Welcome (outside messages so innerHTML reset can't destroy it) -->
+    <div id="welcome-msg">
+      <div class="welcome-icon">✦</div>
+      <div class="welcome-title">Hello, I'm ARIA</div>
+      <p class="welcome-sub">Ask me anything, share an image for analysis, or pick a suggestion below to get started.</p>
+      <div class="welcome-chips">
+        <div class="chip" onclick="useChip(this)">📸 Analyze an image for me</div>
+        <div class="chip" onclick="useChip(this)">💡 Explain a complex topic simply</div>
+        <div class="chip" onclick="useChip(this)">✍️ Help me write something</div>
+        <div class="chip" onclick="useChip(this)">🔍 Research a subject</div>
+        <div class="chip" onclick="useChip(this)">🧮 Solve a math problem</div>
+        <div class="chip" onclick="useChip(this)">💻 Help me with code</div>
       </div>
     </div>
+
+    <!-- Messages -->
+    <div id="messages"></div>
 
     <!-- Input -->
     <div class="input-area">
