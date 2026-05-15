@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1127,7 +1126,7 @@ body {
     <p class="auth-sub">Sign in to access the hub</p>
     <div class="auth-tabs">
       <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
-      <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Sign Up</button>
+      <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Request Access</button>
     </div>
     <div id="loginForm">
       <div class="auth-saved-badge" id="authSavedBadge" style="display:none"><div class="auth-saved-badge-avatar" id="authSavedAvatar">?</div><div class="auth-saved-badge-text"><div class="auth-saved-badge-name" id="authSavedName">User</div><div class="auth-saved-badge-sub">Continue as this user</div></div><button class="auth-saved-badge-clear" onclick="clearSavedUser(event)" title="Forget">x</button></div>
@@ -1137,10 +1136,10 @@ body {
       <div class="auth-error" id="loginError"></div>
     </div>
     <div id="registerForm" style="display:none">
-      <input type="text" class="auth-field" id="regUsername" placeholder="Username (e.g. mathswizard99)" maxlength="20" autocomplete="off" spellcheck="false">
-      <input type="password" class="auth-field" id="regPassword" placeholder="Password (min 6 characters)">
-      <input type="password" class="auth-field" id="regPasswordConfirm" placeholder="Confirm password">
-      <button class="auth-submit" id="registerBtn" onclick="doRegister()">Create Account →</button>
+      <input type="text" class="auth-field" id="regUsername" placeholder="Choose a username" maxlength="20" autocomplete="off" spellcheck="false">
+      <input type="password" class="auth-field" id="regPassword" placeholder="Choose a password (min 6 characters)">
+      <input type="text" class="auth-field" id="regEmail" placeholder="School email (must end in @kcpupils.org)" autocomplete="email" spellcheck="false">
+      <button class="auth-submit" id="registerBtn" onclick="doRequestAccess()">Send Request →</button>
       <div class="auth-error" id="registerError"></div>
       <div class="auth-success" id="registerSuccess"></div>
     </div>
@@ -1765,28 +1764,32 @@ async function doLogin(){
   await onSignedIn(data);
 }
 
-async function doRegister(){
+async function doRequestAccess(){
   const rawUsername=document.getElementById('regUsername').value.trim().replace(/[^\p{L}\p{N}_]/gu,'');
   const username=rawUsername;
   const password=document.getElementById('regPassword').value.trim();
-  const confirm=document.getElementById('regPasswordConfirm').value.trim();
+  const email=document.getElementById('regEmail').value.trim().toLowerCase();
   const errEl=document.getElementById('registerError'), okEl=document.getElementById('registerSuccess'), btn=document.getElementById('registerBtn');
   errEl.classList.remove('show');okEl.classList.remove('show');
-  if(!username||!password||!confirm){errEl.textContent='Please fill in all fields.';errEl.classList.add('show');return;}
+  if(!username||!password||!email){errEl.textContent='Please fill in all fields.';errEl.classList.add('show');return;}
   if(username.length<3){errEl.textContent='Username must be at least 3 characters.';errEl.classList.add('show');return;}
   if(password.length<6){errEl.textContent='Password must be at least 6 characters.';errEl.classList.add('show');return;}
-  if(password!==confirm){errEl.textContent='Passwords do not match.';errEl.classList.add('show');return;}
-  const{data:existing}=await sb.from('users').select('id').ilike('username',username).maybeSingle();
-  if(existing){errEl.textContent='That username is already taken.';errEl.classList.add('show');return;}
-  btn.disabled=true;btn.textContent='Creating account...';
-  const fc=genCode();
-  const{data,error}=await sb.from('users').insert({username,display_name:username,password,friend_code:fc,role:null,is_admin:false}).select().single();
-  btn.disabled=false;btn.textContent='Create Account →';
-  if(error||!data){errEl.textContent='Error: '+(error?.message||'unknown');errEl.classList.add('show');return;}
-  okEl.textContent='✅ Account created! Signing you in…';okEl.classList.add('show');
-  localStorage.setItem(AUTH_SESSION_KEY,data.id);
-  localStorage.setItem('ms_saved_username',data.username);
-  setTimeout(()=>onSignedIn(data),700);
+  if(!email.endsWith('@kcpupils.org')){errEl.textContent='Email must end in @kcpupils.org.';errEl.classList.add('show');return;}
+  const{data:existingUser}=await sb.from('users').select('id').ilike('username',username).maybeSingle();
+  if(existingUser){errEl.textContent='That username is already taken.';errEl.classList.add('show');return;}
+  const{data:existingReq}=await sb.from('account_requests').select('id,status').ilike('username',username).maybeSingle();
+  if(existingReq){
+    if(existingReq.status==='pending'){errEl.textContent='A request with that username is already pending approval.';errEl.classList.add('show');return;}
+    if(existingReq.status==='rejected'){errEl.textContent='A request with that username was previously rejected. Please contact an admin.';errEl.classList.add('show');return;}
+  }
+  btn.disabled=true;btn.textContent='Sending request...';
+  const{error}=await sb.from('account_requests').insert({username,password,email,status:'pending',requested_at:new Date().toISOString()});
+  btn.disabled=false;btn.textContent='Send Request →';
+  if(error){errEl.textContent='Error submitting request: '+(error.message||'unknown');errEl.classList.add('show');return;}
+  okEl.textContent='✅ Request sent! An admin will review and approve your account.';okEl.classList.add('show');
+  document.getElementById('regUsername').value='';
+  document.getElementById('regPassword').value='';
+  document.getElementById('regEmail').value='';
 }
 
 async function doSignOut(e){
